@@ -1,0 +1,20 @@
+name: main_ci
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+      - run: pnpm install
+      
+      - run: pnpm exec nx affected --target=lint --parallel=3
+      - run: pnpm exec nx affected --target=test --parallel=3 --ci --code-coverage
+      - run: pnpm exec nx affected --target=build --parallel=3
