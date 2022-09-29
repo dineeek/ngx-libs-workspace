@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout commit
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -41,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        
+
       - run: pnpm affected:lint:ci
       - run: pnpm affected:test:ci
       - run: pnpm affected:build:ci
