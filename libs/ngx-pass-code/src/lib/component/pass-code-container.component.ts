@@ -14,7 +14,7 @@ import {
   Validator,
   ValidatorFn,
 } from '@angular/forms';
-import { map, startWith, Subject, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, startWith, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngx-pass-code',
@@ -91,10 +91,13 @@ export class PassCodeContainerComponent
       .filter(error => error !== null);
   }
 
+  focusNext(e: Event) {
+    console.log('EVENT', e);
+  }
+
   private setSyncValidatorsFromParent(): void {
     const parentValidators = this.controlDirective.control?.validator;
 
-    console.log('PARENT VALIDATORS', parentValidators);
     if (!parentValidators) {
       return;
     }
@@ -145,6 +148,7 @@ export class PassCodeContainerComponent
 
           return this.passType === 'text' ? code : parseInt(code);
         }),
+        distinctUntilChanged(),
         takeUntil(this.unsubscribe$)
       )
       .subscribe((value: string | number | null) => this.onChange(value));

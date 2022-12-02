@@ -13,8 +13,6 @@ export class AppComponent {
   passCode2 = new FormControl('');
 
   constructor() {
-    this.passCode.valueChanges.subscribe(v =>
-      console.log('PARENT', this.passCode)
-    );
+    this.passCode.valueChanges.subscribe(v => console.log('PARENT VALUE', v));
   }
 }

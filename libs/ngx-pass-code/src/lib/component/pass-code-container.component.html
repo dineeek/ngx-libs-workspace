@@ -4,7 +4,8 @@
       [formControl]="control"
       [type]="passType"
       (blur)="onTouched()"
-      onkeypress="this.value=this.value.substring(0, 0)"
+      maxlength="1"
+      focusNextPreviousInput
     />
   </ng-container>
 </div>
