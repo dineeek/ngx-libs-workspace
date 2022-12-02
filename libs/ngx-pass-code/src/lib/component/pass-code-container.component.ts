@@ -12,8 +12,9 @@ import {
   NgControl,
   ValidationErrors,
   Validator,
+  ValidatorFn,
 } from '@angular/forms';
-import { map, Subject, takeUntil } from 'rxjs';
+import { map, startWith, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngx-pass-code',
@@ -42,10 +43,21 @@ export class PassCodeContainerComponent
   }
 
   ngOnInit(): void {
+    // TODO - move to next input after first is written
+    // TODO - styling
+    // TODO - validation styling
+    // TODO - async validation
+
+    if (!this.length) {
+      return;
+    }
+
     this.passCodes = new FormArray(
       [...new Array(this.length)].map(() => new FormControl(''))
     );
 
+    this.setSyncValidatorsFromParent();
+    this.updateParentValidation();
     this.propagateValueChanges();
   }
 
@@ -57,7 +69,7 @@ export class PassCodeContainerComponent
   writeValue(value: string): void {
     // issue - https://github.com/angular/angular/issues/29218
     setTimeout(() => {
-      value?.toString() ? this.setValue(value) : this.resetValue();
+      value?.toString().trim() ? this.setValue(value) : this.resetValue();
     });
   }
 
@@ -74,22 +86,47 @@ export class PassCodeContainerComponent
   }
 
   validate(): ValidationErrors | null {
-    return this.passCodes.errors;
+    return this.passCodes.controls
+      .map(control => control.errors)
+      .filter(error => error !== null);
+  }
+
+  private setSyncValidatorsFromParent(): void {
+    const parentValidators = this.controlDirective.control?.validator;
+
+    console.log('PARENT VALIDATORS', parentValidators);
+    if (!parentValidators) {
+      return;
+    }
+
+    this.passCodes.controls.forEach(control => {
+      control.setValidators(parentValidators);
+    });
+    this.passCodes.updateValueAndValidity({ emitEvent: false });
+  }
+
+  private updateParentValidation(): void {
+    const parentControl = this.controlDirective.control;
+
+    if (!parentControl) {
+      return;
+    }
+
+    parentControl.setValidators(this.validate.bind(this));
+    parentControl.updateValueAndValidity({ emitEvent: false });
   }
 
   private setValue(value: string): void {
-    const splitted = value.split('');
-    this.passCodes.controls.forEach((control, i) =>
-      control.setValue(splitted[i], { emitEvent: false })
-    );
-    this.passCodes.updateValueAndValidity();
+    const splittedValue = value.split('');
+    this.passCodes.setValue(splittedValue, { emitEvent: false });
+    this.passCodes.updateValueAndValidity({ emitEvent: false });
   }
 
   private resetValue(): void {
     this.passCodes.controls.forEach((control, i) =>
       control.setValue(null, { emitEvent: false })
     );
-    this.passCodes.updateValueAndValidity();
+    this.passCodes.updateValueAndValidity({ emitEvent: false });
   }
 
   private propagateValueChanges(): void {
@@ -99,6 +136,10 @@ export class PassCodeContainerComponent
           const code = codes.join('');
 
           if (!code) {
+            return null;
+          }
+
+          if (this.passCodes.invalid) {
             return null;
           }
 

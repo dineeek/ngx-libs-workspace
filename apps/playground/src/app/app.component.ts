@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ngx-libs-workspace-root',
@@ -9,10 +9,12 @@ import { FormControl } from '@angular/forms';
 export class AppComponent {
   title = 'playground';
 
-  passCode = new FormControl('54321');
+  passCode = new FormControl('54321', { validators: [Validators.required] });
   passCode2 = new FormControl('');
 
   constructor() {
-    this.passCode.valueChanges.subscribe(v => console.log('PARENT', v));
+    this.passCode.valueChanges.subscribe(v =>
+      console.log('PARENT', this.passCode)
+    );
   }
 }
