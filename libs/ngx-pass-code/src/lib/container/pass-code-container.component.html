@@ -1,5 +1,5 @@
-<ngx-pass-code-input></ngx-pass-code-input>
-<ngx-pass-code-input></ngx-pass-code-input>
-<ngx-pass-code-input></ngx-pass-code-input>
-<ngx-pass-code-input></ngx-pass-code-input>
-<ngx-pass-code-input></ngx-pass-code-input>
+<div class="container">
+  <ng-container *ngFor="let control of passCodes.controls; index as i">
+    <input [formControl]="control" />
+  </ng-container>
+</div>
