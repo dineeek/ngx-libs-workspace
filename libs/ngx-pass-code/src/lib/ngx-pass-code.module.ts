@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PassCodeContainerComponent } from './component/pass-code-container.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FocusNextInputDirective } from './directives/focus-next-input.directive';
+import { FocusNextPreviousInputDirective } from './directives/focus-next-previous-input.directive';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
-  declarations: [PassCodeContainerComponent, FocusNextInputDirective],
+  declarations: [PassCodeContainerComponent, FocusNextPreviousInputDirective],
   exports: [PassCodeContainerComponent],
 })
 export class NgxPassCodeModule {}

@@ -44,7 +44,7 @@ export class PassCodeContainerComponent
 
   ngOnInit(): void {
     // TODO - move to next input after first is written
-    // TODO - styling
+    // TODO - styling - glow on click
     // TODO - validation styling
     // TODO - async validation
 
