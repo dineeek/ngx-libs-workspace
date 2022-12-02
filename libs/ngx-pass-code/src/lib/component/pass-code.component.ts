@@ -12,17 +12,16 @@ import {
   NgControl,
   ValidationErrors,
   Validator,
-  ValidatorFn,
 } from '@angular/forms';
-import { distinctUntilChanged, map, startWith, Subject, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngx-pass-code',
-  templateUrl: './pass-code-container.component.html',
-  styleUrls: ['./pass-code-container.component.scss'],
+  templateUrl: './pass-code.component.html',
+  styleUrls: ['./pass-code.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PassCodeContainerComponent
+export class PassCodeComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
   @Input() length = 0;
