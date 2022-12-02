@@ -1,0 +1,43 @@
+{
+  "name": "ngx-pass-code",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ngx-pass-code/src",
+  "prefix": "ngx",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/ngx-pass-code"],
+      "options": {
+        "project": "libs/ngx-pass-code/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ngx-pass-code/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/ngx-pass-code/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ngx-pass-code"],
+      "options": {
+        "jestConfig": "libs/ngx-pass-code/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ngx-pass-code/**/*.ts",
+          "libs/ngx-pass-code/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
