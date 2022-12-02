@@ -1,5 +1,10 @@
 <div class="container">
   <ng-container *ngFor="let control of passCodes.controls; index as i">
-    <input [formControl]="control" />
+    <input
+      [formControl]="control"
+      [type]="passType"
+      (blur)="onTouched()"
+      onkeypress="this.value=this.value.substring(0, 0)"
+    />
   </ng-container>
 </div>

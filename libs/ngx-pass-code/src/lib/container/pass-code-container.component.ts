@@ -13,7 +13,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { map, Subject, takeUntil, tap } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ngx-pass-code',
@@ -24,14 +24,15 @@ import { map, Subject, takeUntil, tap } from 'rxjs';
 export class PassCodeContainerComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
-  @Input() passCodeLength = 0;
+  @Input() length = 0;
+  @Input() passType: 'text' | 'number' = 'text';
 
   passCodes!: FormArray<FormControl>;
 
   private unsubscribe$ = new Subject<void>();
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (value: string) => {};
+  onChange = (value: string | number | null) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
@@ -42,7 +43,7 @@ export class PassCodeContainerComponent
 
   ngOnInit(): void {
     this.passCodes = new FormArray(
-      [...new Array(this.passCodeLength)].map(() => new FormControl(''))
+      [...new Array(this.length)].map(() => new FormControl(''))
     );
 
     this.propagateValueChanges();
@@ -54,7 +55,10 @@ export class PassCodeContainerComponent
   }
 
   writeValue(value: string): void {
-    // TODO - split by char and assign value
+    // issue - https://github.com/angular/angular/issues/29218
+    setTimeout(() => {
+      value?.toString() ? this.setValue(value) : this.resetValue();
+    });
   }
 
   registerOnChange(fn: any): void {
@@ -73,12 +77,35 @@ export class PassCodeContainerComponent
     return this.passCodes.errors;
   }
 
+  private setValue(value: string): void {
+    const splitted = value.split('');
+    this.passCodes.controls.forEach((control, i) =>
+      control.setValue(splitted[i], { emitEvent: false })
+    );
+    this.passCodes.updateValueAndValidity();
+  }
+
+  private resetValue(): void {
+    this.passCodes.controls.forEach((control, i) =>
+      control.setValue(null, { emitEvent: false })
+    );
+    this.passCodes.updateValueAndValidity();
+  }
+
   private propagateValueChanges(): void {
     this.passCodes.valueChanges
       .pipe(
-        map(codes => codes.join('')),
+        map(codes => {
+          const code = codes.join('');
+
+          if (!code) {
+            return null;
+          }
+
+          return this.passType === 'text' ? code : parseInt(code);
+        }),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe((value: string) => this.onChange(value));
+      .subscribe((value: string | number | null) => this.onChange(value));
   }
 }

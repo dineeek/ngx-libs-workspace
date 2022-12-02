@@ -1,5 +1,15 @@
 <h2>NGX-PASS-CODE</h2>
-<ngx-pass-code [passCodeLength]="5" [formControl]="passCode"></ngx-pass-code>
-<ngx-pass-code [passCodeLength]="5" [formControl]="passCode2"></ngx-pass-code>
+<ngx-pass-code
+  [length]="5"
+  passType="text"
+  [formControl]="passCode"
+></ngx-pass-code>
+<br />
+<ngx-pass-code
+  [length]="5"
+  passType="number"
+  [formControl]="passCode2"
+></ngx-pass-code>
 
 {{ passCode.valueChanges | async | json }}
+{{ passCode2.valueChanges | async | json }}
