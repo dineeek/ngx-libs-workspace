@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[transformUppercaseValue]',
+  selector: '[transformInputValue]',
 })
-export class TransformUppercaseDirective implements OnChanges {
+export class TransformInputValueDirective implements OnChanges {
   @Input() uppercase = false;
 
   constructor(private el: ElementRef) {}

@@ -9,8 +9,9 @@ import { FormControl, Validators } from '@angular/forms';
 export class AppComponent {
   title = 'playground';
 
-  passCode = new FormControl('54321', { validators: [Validators.required] });
+  passCode = new FormControl('541', { validators: [Validators.required] });
   passCode2 = new FormControl('');
+  passCode3 = new FormControl('as');
 
   constructor() {
     this.passCode.valueChanges.subscribe(v => console.log('PARENT VALUE', v));

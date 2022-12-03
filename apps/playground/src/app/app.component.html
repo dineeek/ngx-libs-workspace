@@ -17,3 +17,13 @@
 
 {{ passCode2.valueChanges | async | json }}
 {{ passCode2.value | json }}
+
+<br />
+<ngx-pass-code
+  [length]="6"
+  passType="password"
+  [formControl]="passCode3"
+></ngx-pass-code>
+
+{{ passCode3.valueChanges | async | json }}
+{{ passCode3.value | json }}

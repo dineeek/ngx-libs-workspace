@@ -25,7 +25,7 @@ export class PassCodeComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
   @Input() length = 0;
-  @Input() passType: 'text' | 'number' = 'text';
+  @Input() passType: 'text' | 'number' | 'password' = 'text';
   @Input() uppercase = false;
 
   passCodes!: FormArray<FormControl>;
@@ -43,8 +43,6 @@ export class PassCodeComponent
   }
 
   ngOnInit(): void {
-    // TODO - styling - glow on click
-    // TODO - styling input - hide passwords with bullets
     // TODO - validation styling
     // TODO - async validation
 
@@ -121,7 +119,7 @@ export class PassCodeComponent
 
   private setValue(value: string): void {
     const splittedValue = value.split('');
-    this.passCodes.setValue(splittedValue, { emitEvent: false });
+    this.passCodes.patchValue(splittedValue, { emitEvent: false });
     this.passCodes.updateValueAndValidity({ emitEvent: false });
   }
 
