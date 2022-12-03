@@ -80,7 +80,9 @@ export class PassCodeComponent
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.passCodes.disable() : this.passCodes.enable();
+    isDisabled
+      ? this.passCodes.disable({ emitEvent: false })
+      : this.passCodes.enable({ emitEvent: false });
   }
 
   validate(): ValidationErrors | null {
