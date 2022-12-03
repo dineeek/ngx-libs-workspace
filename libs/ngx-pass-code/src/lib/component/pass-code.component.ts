@@ -43,8 +43,8 @@ export class PassCodeComponent
   }
 
   ngOnInit(): void {
-    // TODO - move to next input after first is written
     // TODO - styling - glow on click
+    // TODO - styling input - hide passwords with bullets
     // TODO - validation styling
     // TODO - async validation
 
