@@ -1,33 +1,62 @@
 <h2>NGX-PASS-CODE</h2>
-<ngx-pass-code
-  [length]="5"
-  passType="text"
-  [uppercase]="true"
-  [formControl]="passCode"
-></ngx-pass-code>
 
-<button (click)="passCode.reset()">Reset</button>
-{{ passCode.valueChanges | async | json }}
-{{ passCode.value | json }}
-{{ passCode.valid }}
-{{ passCode.touched }}
+<form [formGroup]="form" class="demo">
+  <div class="demo__case">
+    <span class="demo__case__title">Text code - required + upercase</span>
+    <ngx-pass-code
+      [length]="5"
+      passType="text"
+      [uppercase]="true"
+      formControlName="textCode"
+    ></ngx-pass-code>
 
-<br />
-<ngx-pass-code
-  [length]="5"
-  passType="number"
-  [formControl]="passCode2"
-></ngx-pass-code>
+    <div class="demo__case__values">
+      <span>Current value: {{ textCode.value | json }}</span>
+      <span>Value changes: {{ textCode.valueChanges | async | json }}</span>
+      <span>Valid: {{ textCode.valid }}</span>
+    </div>
 
-{{ passCode2.valueChanges | async | json }}
-{{ passCode2.value | json }}
+    <div class="demo__case__actions">
+      <button (click)="textCode.reset()">Reset</button>
+    </div>
+  </div>
 
-<br />
-<ngx-pass-code
-  [length]="6"
-  passType="password"
-  [formControl]="passCode3"
-></ngx-pass-code>
+  <div class="demo__case">
+    <span class="demo__case__title">Numbers code</span>
+    <ngx-pass-code
+      [length]="5"
+      passType="number"
+      formControlName="numberCode"
+    ></ngx-pass-code>
 
-{{ passCode3.valueChanges | async | json }}
-{{ passCode3.value | json }}
+    <div class="demo__case__values">
+      <span>Current value: {{ numberCode.value | json }}</span>
+      <span>Value changes: {{ numberCode.valueChanges | async | json }}</span>
+      <span>Valid: {{ numberCode.valid }}</span>
+    </div>
+
+    <div class="demo__case__actions">
+      <button (click)="numberCode.reset()">Reset</button>
+    </div>
+  </div>
+
+  <div class="demo__case">
+    <span class="demo__case__title">Password (hidden) code</span>
+
+    <ngx-pass-code
+      [length]="6"
+      passType="password"
+      formControlName="passwordCode"
+    ></ngx-pass-code>
+
+    <div class="demo__case__values">
+      <span>Current value: {{ passwordCode.value | json }}</span>
+      <span>Value changes: {{ passwordCode.valueChanges | async | json }}</span>
+      <span>Valid: {{ passwordCode.valid }}</span>
+    </div>
+
+    <div class="demo__case__actions">
+      <button (click)="passwordCode.reset()">Reset</button>
+    </div>
+  </div>
+</form>

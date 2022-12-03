@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ngx-libs-workspace-pass-code-demo',
@@ -8,13 +8,13 @@ import { FormControl, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PassCodeDemoComponent {
-  passCode = new FormControl('541', { validators: [Validators.required] });
-  passCode2 = new FormControl('');
-  passCode3 = new FormControl('as');
+  form = new FormGroup({
+    textCode: new FormControl('76', { validators: [Validators.required] }),
+    numberCode: new FormControl(''),
+    passwordCode: new FormControl('as'),
+  });
 
-  constructor() {
-    this.passCode.valueChanges.subscribe(v => console.log('PASS CODE 1', v));
-    this.passCode2.valueChanges.subscribe(v => console.log('PASS CODE 2', v));
-    this.passCode3.valueChanges.subscribe(v => console.log('PASS CODE 3', v));
-  }
+  textCode = this.form.get('textCode') as FormControl;
+  numberCode = this.form.get('numberCode') as FormControl;
+  passwordCode = this.form.get('passwordCode') as FormControl;
 }

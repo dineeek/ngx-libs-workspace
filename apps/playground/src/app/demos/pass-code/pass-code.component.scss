@@ -1,0 +1,74 @@
+@mixin flexJustifyAndAlign {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:host {
+  @include flexJustifyAndAlign;
+  flex-flow: column wrap;
+
+  .demo {
+    @include flexJustifyAndAlign;
+    padding: 20px 0;
+
+    &__case {
+      display: flex;
+      flex-direction: column;
+      padding: 0 34px;
+
+      &__title {
+        padding-bottom: 4px;
+        font-weight: 600;
+      }
+
+      &__values {
+        display: flex;
+        flex-flow: column wrap;
+        row-gap: 4px;
+        padding: 10px 0;
+      }
+
+      &__actions {
+        padding: 5px 0;
+      }
+    }
+
+    &__case:not(:last-child) {
+      border-right: 1px solid #d5d9d9;
+    }
+  }
+
+  button {
+    background-color: #fff;
+    border: 1px solid #d5d9d9;
+    border-radius: 8px;
+    box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
+    box-sizing: border-box;
+    color: #0f1111;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Amazon Ember', sans-serif;
+    font-size: 13px;
+    line-height: 29px;
+    padding: 0 10px 0 11px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    width: 100px;
+  }
+
+  button:hover {
+    background-color: #f7fafa;
+  }
+
+  button:focus {
+    border-color: #008296;
+    box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
+    outline: 0;
+  }
+}
