@@ -5,6 +5,8 @@
   [uppercase]="true"
   [formControl]="passCode"
 ></ngx-pass-code>
+
+<button (click)="passCode.reset()">Reset</button>
 {{ passCode.valueChanges | async | json }}
 {{ passCode.value | json }}
 

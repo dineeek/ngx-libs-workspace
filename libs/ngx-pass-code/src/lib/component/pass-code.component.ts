@@ -89,10 +89,6 @@ export class PassCodeComponent
       .filter(error => error !== null);
   }
 
-  focusNext(e: Event) {
-    console.log('EVENT', e);
-  }
-
   private setSyncValidatorsFromParent(): void {
     const parentValidators = this.controlDirective.control?.validator;
 
@@ -120,14 +116,11 @@ export class PassCodeComponent
   private setValue(value: string): void {
     const splittedValue = value.split('');
     this.passCodes.patchValue(splittedValue, { emitEvent: false });
-    this.passCodes.updateValueAndValidity({ emitEvent: false });
   }
 
   private resetValue(): void {
-    this.passCodes.controls.forEach((control, i) =>
-      control.setValue(null, { emitEvent: false })
-    );
-    this.passCodes.updateValueAndValidity({ emitEvent: false });
+    const nullValues = Array(this.length).fill(null);
+    this.passCodes.patchValue(nullValues, { emitEvent: false });
   }
 
   private propagateValueChanges(): void {
@@ -136,19 +129,15 @@ export class PassCodeComponent
         map(codes => {
           const code = codes.join('');
 
-          if (!code) {
+          if (this.passCodes.invalid || !code) {
             return null;
           }
 
-          if (this.passCodes.invalid) {
-            return null;
+          if (this.passType === 'number') {
+            return parseInt(code);
           }
 
-          if (this.uppercase) {
-            return code.toUpperCase();
-          }
-
-          return this.passType === 'text' ? code : parseInt(code);
+          return this.uppercase ? code.toUpperCase() : code;
         }),
         distinctUntilChanged(),
         takeUntil(this.unsubscribe$)
