@@ -13,51 +13,55 @@ export class FocusNextPreviousInputDirective {
 
   constructor(private elementRef: ElementRef) {}
 
-  @HostListener('keydown', ['$event']) onKeyDown(e: any) {
-    if (e.keyCode == this.SPACE_KEY) {
-      e.preventDefault();
-    }
+  @HostListener('keyup', ['$event']) onKeyUp(e: any) {
+    e.preventDefault();
 
     if (
-      e.srcElement.type === 'number' &&
-      e.which !== this.DELETE_KEY &&
-      e.which !== this.BACKSPACE_KEY
+      e.keyCode === this.LEFT_ARROW_KEY ||
+      e.keyCode === this.DELETE_KEY ||
+      e.keyCode === this.BACKSPACE_KEY
     ) {
-      e.srcElement.value = e.srcElement.value.substring(0, 0);
+      this.goPrevious(e);
       return;
+    }
+
+    if (e.srcElement.maxLength === e.srcElement.value.length) {
+      this.goNext(e);
     }
   }
 
-  @HostListener('keyup', ['$event']) onKeyUp(e: any) {
-    if (e.srcElement.maxLength === e.srcElement.value.length) {
+  private goPrevious(e: any): void {
+    const previousControl = e.srcElement.previousElementSibling;
+
+    if (previousControl) {
+      previousControl.focus();
+      previousControl.select();
+    }
+  }
+
+  private goNext(e: any): void {
+    const nextControl = e.srcElement.nextElementSibling;
+
+    if (nextControl) {
+      nextControl.focus();
+      nextControl.select();
+    }
+  }
+
+  @HostListener('keydown', ['$event']) onKeyDown(e: any) {
+    // prevent whitespace & jumping across
+    if (e.keyCode === this.SPACE_KEY || e.keyCode === this.TAB_KEY) {
       e.preventDefault();
-
-      const nextControl = e.srcElement.nextElementSibling;
-
-      if (!nextControl) {
-        return;
-      }
-
-      if (
-        e.which !== this.BACKSPACE_KEY &&
-        e.which !== this.TAB_KEY &&
-        e.which !== this.DELETE_KEY &&
-        e.which !== this.LEFT_ARROW_KEY
-      ) {
-        nextControl.focus();
-        nextControl.select();
-      }
     }
 
-    if (e.which === this.DELETE_KEY || e.which === this.BACKSPACE_KEY) {
-      e.preventDefault();
-
-      const previousControl = e.srcElement.previousElementSibling;
-
-      if (previousControl) {
-        previousControl.focus();
-        previousControl.select();
-      }
+    // assure only one number
+    if (
+      e.srcElement.type === 'number' &&
+      e.keyCode !== this.DELETE_KEY &&
+      e.keyCode !== this.BACKSPACE_KEY
+    ) {
+      e.srcElement.value = e.srcElement.value.substring(0, 0);
+      return;
     }
   }
 }
