@@ -12,7 +12,17 @@ export class FocusNextPreviousInputDirective {
 
   constructor(private elementRef: ElementRef) {}
 
-  @HostListener('keyup', ['$event']) onKeyDown(e: any) {
+  @HostListener('keydown', ['$event']) onKeyDown(e: any) {
+    if (
+      e.srcElement.type === 'number' &&
+      e.which !== this.DELETE_KEY &&
+      e.which !== this.BACKSPACE_KEY
+    ) {
+      e.srcElement.value = e.srcElement.value.substring(0, 0);
+    }
+  }
+
+  @HostListener('keyup', ['$event']) onKeyUp(e: any) {
     if (e.srcElement.maxLength === e.srcElement.value.length) {
       e.preventDefault();
 
@@ -38,7 +48,6 @@ export class FocusNextPreviousInputDirective {
 
       const previousControl = e.srcElement.previousElementSibling;
 
-      console.log('LEFT', previousControl);
       if (previousControl) {
         previousControl.focus();
         previousControl.select();
