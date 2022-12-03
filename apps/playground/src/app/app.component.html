@@ -2,6 +2,7 @@
 <ngx-pass-code
   [length]="5"
   passType="text"
+  [uppercase]="true"
   [formControl]="passCode"
 ></ngx-pass-code>
 {{ passCode.valueChanges | async | json }}

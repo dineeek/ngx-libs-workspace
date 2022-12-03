@@ -26,6 +26,7 @@ export class PassCodeComponent
 {
   @Input() length = 0;
   @Input() passType: 'text' | 'number' = 'text';
+  @Input() uppercase = false;
 
   passCodes!: FormArray<FormControl>;
 
@@ -143,6 +144,10 @@ export class PassCodeComponent
 
           if (this.passCodes.invalid) {
             return null;
+          }
+
+          if (this.uppercase) {
+            return code.toUpperCase();
           }
 
           return this.passType === 'text' ? code : parseInt(code);

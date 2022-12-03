@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -19,6 +19,7 @@ export class FocusNextPreviousInputDirective {
       e.which !== this.BACKSPACE_KEY
     ) {
       e.srcElement.value = e.srcElement.value.substring(0, 0);
+      return;
     }
   }
 
