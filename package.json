@@ -30,7 +30,7 @@
     "@angular/forms": "~14.2.0",
     "@angular/platform-browser": "~14.2.0",
     "@angular/platform-browser-dynamic": "~14.2.0",
-    "@angular/router": "~14.2.0",
+    "@angular/router": "~14.2.3",
     "@nrwl/angular": "14.8.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

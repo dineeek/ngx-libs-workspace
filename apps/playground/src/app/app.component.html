@@ -1,32 +1,19 @@
-<h2>NGX-PASS-CODE</h2>
-<ngx-pass-code
-  [length]="5"
-  passType="text"
-  [uppercase]="true"
-  [formControl]="passCode"
-></ngx-pass-code>
+<h1>NGX-LIBS-WORKSPACE</h1>
 
-<button (click)="passCode.reset()">Reset</button>
-{{ passCode.valueChanges | async | json }}
-{{ passCode.value | json }}
-{{ passCode.valid }}
+<div class="demos">
+  <span
+    class="demos__card"
+    [routerLink]="['demos/ngx-pass-code']"
+    routerLinkActive="active-link"
+  >
+    ngx-pass-code
+  </span>
 
-<br />
-<ngx-pass-code
-  [length]="5"
-  passType="number"
-  [formControl]="passCode2"
-></ngx-pass-code>
+  <span class="demos__card"> TODO </span>
 
-{{ passCode2.valueChanges | async | json }}
-{{ passCode2.value | json }}
+  <span class="demos__card"> TODO </span>
 
-<br />
-<ngx-pass-code
-  [length]="6"
-  passType="password"
-  [formControl]="passCode3"
-></ngx-pass-code>
+  <span class="demos__card"> TODO </span>
+</div>
 
-{{ passCode3.valueChanges | async | json }}
-{{ passCode3.value | json }}
+<router-outlet></router-outlet>

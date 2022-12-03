@@ -1,0 +1,33 @@
+<h2>NGX-PASS-CODE</h2>
+<ngx-pass-code
+  [length]="5"
+  passType="text"
+  [uppercase]="true"
+  [formControl]="passCode"
+></ngx-pass-code>
+
+<button (click)="passCode.reset()">Reset</button>
+{{ passCode.valueChanges | async | json }}
+{{ passCode.value | json }}
+{{ passCode.valid }}
+{{ passCode.touched }}
+
+<br />
+<ngx-pass-code
+  [length]="5"
+  passType="number"
+  [formControl]="passCode2"
+></ngx-pass-code>
+
+{{ passCode2.valueChanges | async | json }}
+{{ passCode2.value | json }}
+
+<br />
+<ngx-pass-code
+  [length]="6"
+  passType="password"
+  [formControl]="passCode3"
+></ngx-pass-code>
+
+{{ passCode3.valueChanges | async | json }}
+{{ passCode3.value | json }}

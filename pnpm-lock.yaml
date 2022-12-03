@@ -15,7 +15,7 @@ specifiers:
   '@angular/language-service': ~14.2.0
   '@angular/platform-browser': ~14.2.0
   '@angular/platform-browser-dynamic': ~14.2.0
-  '@angular/router': ~14.2.0
+  '@angular/router': ~14.2.3
   '@nrwl/angular': 14.8.0
   '@nrwl/cli': 14.8.0
   '@nrwl/cypress': 14.8.0
