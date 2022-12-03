@@ -9,10 +9,15 @@ export class FocusNextPreviousInputDirective {
   private TAB_KEY = 9;
   private DELETE_KEY = 46;
   private LEFT_ARROW_KEY = 37;
+  private SPACE_KEY = 32;
 
   constructor(private elementRef: ElementRef) {}
 
   @HostListener('keydown', ['$event']) onKeyDown(e: any) {
+    if (e.keyCode == this.SPACE_KEY) {
+      e.preventDefault();
+    }
+
     if (
       e.srcElement.type === 'number' &&
       e.which !== this.DELETE_KEY &&

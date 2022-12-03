@@ -43,9 +43,6 @@ export class PassCodeComponent
   }
 
   ngOnInit(): void {
-    // TODO - validation styling
-    // TODO - async validation
-
     if (!this.length) {
       return;
     }
@@ -131,7 +128,7 @@ export class PassCodeComponent
         map(codes => {
           const code = codes.join('');
 
-          if (this.passCodes.invalid || !code) {
+          if (this.passCodes.invalid) {
             return null;
           }
 
