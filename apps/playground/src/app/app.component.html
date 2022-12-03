@@ -9,6 +9,7 @@
 <button (click)="passCode.reset()">Reset</button>
 {{ passCode.valueChanges | async | json }}
 {{ passCode.value | json }}
+{{ passCode.valid }}
 
 <br />
 <ngx-pass-code

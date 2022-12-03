@@ -9,6 +9,7 @@ export class FocusNextPreviousInputDirective {
   private TAB_KEY = 9;
   private DELETE_KEY = 46;
   private LEFT_ARROW_KEY = 37;
+  private RIGHT_ARROW_KEY = 39;
   private SPACE_KEY = 32;
 
   constructor(private elementRef: ElementRef) {}
@@ -22,6 +23,12 @@ export class FocusNextPreviousInputDirective {
       e.keyCode === this.BACKSPACE_KEY
     ) {
       this.goPrevious(e);
+      return;
+    }
+
+    // allow jumping across
+    if (e.keyCode === this.RIGHT_ARROW_KEY || e.keyCode === this.TAB_KEY) {
+      this.goNext(e);
       return;
     }
 
@@ -49,8 +56,8 @@ export class FocusNextPreviousInputDirective {
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(e: any) {
-    // prevent whitespace & jumping across
-    if (e.keyCode === this.SPACE_KEY || e.keyCode === this.TAB_KEY) {
+    // prevent whitespace
+    if (e.keyCode === this.SPACE_KEY) {
       e.preventDefault();
     }
 

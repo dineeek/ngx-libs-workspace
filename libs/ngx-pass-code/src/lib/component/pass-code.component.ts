@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -13,7 +14,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { distinctUntilChanged, map, Subject, takeUntil } from 'rxjs';
+import { distinctUntilChanged, map, Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'ngx-pass-code',
@@ -29,6 +30,7 @@ export class PassCodeComponent
   @Input() uppercase = false;
 
   passCodes!: FormArray<FormControl>;
+  isInvalidCode = false; // currently validation is triggered only if all controls are invalid
 
   private unsubscribe$ = new Subject<void>();
 
@@ -83,9 +85,11 @@ export class PassCodeComponent
   }
 
   validate(): ValidationErrors | null {
-    return this.passCodes.controls
+    const errors = this.passCodes.controls
       .map(control => control.errors)
       .filter(error => error !== null);
+
+    return errors.length ? errors : null;
   }
 
   private setSyncValidatorsFromParent(): void {
@@ -115,20 +119,25 @@ export class PassCodeComponent
   private setValue(value: string): void {
     const splittedValue = value.split('');
     this.passCodes.patchValue(splittedValue, { emitEvent: false });
+    this.passCodes.updateValueAndValidity();
   }
 
   private resetValue(): void {
     const nullValues = Array(this.length).fill(null);
     this.passCodes.patchValue(nullValues, { emitEvent: false });
+    this.passCodes.updateValueAndValidity();
   }
 
   private propagateValueChanges(): void {
     this.passCodes.valueChanges
       .pipe(
+        tap(() => {
+          this.isInvalidCode = this.validate()?.['length'] === this.length;
+        }),
         map(codes => {
           const code = codes.join('');
 
-          if (this.passCodes.invalid) {
+          if (this.passCodes.invalid || !code) {
             return null;
           }
 
