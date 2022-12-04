@@ -65,7 +65,12 @@ export class PassCodeComponent
   writeValue(value: string): void {
     // issue - https://github.com/angular/angular/issues/29218
     setTimeout(() => {
-      value?.toString().trim() ? this.setValue(value) : this.resetValue();
+      const stringifyTrimValue = value?.toString().trim();
+
+      stringifyTrimValue
+        ? this.setValue(stringifyTrimValue)
+        : this.resetValue();
+      this.controlDirective.control?.updateValueAndValidity(); // update validity of parent because late write value
     });
   }
 
@@ -118,21 +123,20 @@ export class PassCodeComponent
   private setValue(value: string): void {
     const splittedValue = value.split('');
     this.passCodes.patchValue(splittedValue, { emitEvent: false });
-    this.passCodes.updateValueAndValidity();
   }
 
   private resetValue(): void {
     const nullValues = Array(this.length).fill(null);
     this.passCodes.patchValue(nullValues, { emitEvent: false });
-    this.passCodes.updateValueAndValidity();
   }
 
   private propagateValueChanges(): void {
     this.passCodes.valueChanges
       .pipe(
-        tap(() => {
-          this.isInvalidCode = this.validate()?.['length'] === this.length;
-        }),
+        tap(
+          () =>
+            (this.isInvalidCode = this.validate()?.['length'] === this.length)
+        ),
         map(codes => {
           const code = codes.join('');
 
