@@ -136,8 +136,13 @@ describe('PassCodeComponent - type text + validation', () => {
 
     // clearing value in ui
     hostComponent.passCodeComponent.passCodes.setValue([
-      ...new Array(codeLength).fill(null),
+      ...new Array(codeLength).fill(null).map(() => null),
     ]);
+    // mark every control dirty
+    hostComponent.passCodeComponent.passCodes.controls.forEach(c =>
+      c.markAsDirty()
+    );
+    hostComponent.passCodeComponent.passCodes.updateValueAndValidity();
 
     hostFixture.detectChanges();
 
