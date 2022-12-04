@@ -1,11 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPassCodeModule } from '../ngx-pass-code.module';
 
@@ -43,7 +37,7 @@ describe('PassCodeComponent', () => {
   });
 
   beforeEach(waitForAsync(() => {
-    // async as initial value is set in setTimeout
+    // async as initial value is set in timeout
     hostFixture.whenStable().then(() => {
       hostFixture.detectChanges();
     });
@@ -97,13 +91,22 @@ describe('PassCodeComponent', () => {
     const value = 'dogsareawesome';
     hostComponent.control.patchValue(value);
 
+    // it will only take how much is needed by length property
     expect(hostComponent.passCodeComponent.passCodes.value).toStrictEqual([
       ...value.substring(0, codeLength),
     ]);
   });
 
-  it('should send a new value to paren when view changes value', () => {
+  it('should send a new value to parent when view value changes', () => {
     const value = 'newvals';
     hostComponent.passCodeComponent.passCodes.patchValue([...value]);
+
+    expect(hostComponent.control.value).toStrictEqual(value);
   });
+
+  it('should send a touch event when input is blured', () => {
+    expect(hostComponent.control.touched).toBe(false);
+  });
+
+  it('should set invalid class when field is required and send null value', () => {});
 });
