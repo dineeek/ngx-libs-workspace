@@ -26,6 +26,12 @@ describe('PassCodeComponent - type text + validation', () => {
   let hostFixture: ComponentFixture<HostComponent>;
   const codeLength = 7;
 
+  const getAllInputs = (): HTMLInputElement[] => {
+    const compiled = hostFixture.debugElement.nativeElement;
+    const component = compiled.querySelector('ngx-pass-code');
+    return component.querySelectorAll('input');
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgxPassCodeModule],
@@ -51,11 +57,7 @@ describe('PassCodeComponent - type text + validation', () => {
   it('should create', () => {
     expect(hostComponent).toBeTruthy();
     expect(hostComponent.passCodeComponent).toBeTruthy();
-
-    const compiled = hostFixture.debugElement.nativeElement;
-    const component = compiled.querySelector('ngx-pass-code');
-    const inputs = component.querySelectorAll('input');
-    expect(inputs.length).toStrictEqual(codeLength);
+    expect(getAllInputs().length).toStrictEqual(codeLength);
   });
 
   it('should set the initial value in the ui', () => {
@@ -181,6 +183,12 @@ describe('PassCodeComponent - type numbers', () => {
   let hostFixture: ComponentFixture<Host2Component>;
   const codeLength = 5;
 
+  const getAllInputs = (): HTMLInputElement[] => {
+    const compiled = hostFixture.debugElement.nativeElement;
+    const component = compiled.querySelector('ngx-pass-code');
+    return component.querySelectorAll('input');
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgxPassCodeModule],
@@ -206,11 +214,7 @@ describe('PassCodeComponent - type numbers', () => {
   it('should create', () => {
     expect(hostComponent).toBeTruthy();
     expect(hostComponent.passCodeComponent).toBeTruthy();
-
-    const compiled = hostFixture.debugElement.nativeElement;
-    const component = compiled.querySelector('ngx-pass-code');
-    const inputs = component.querySelectorAll('input');
-    expect(inputs.length).toStrictEqual(codeLength);
+    expect(getAllInputs().length).toStrictEqual(codeLength);
   });
 
   it('should set the initial value in the ui', () => {
@@ -279,12 +283,10 @@ describe('PassCodeComponent - type numbers', () => {
   });
 
   it('should move to previous input element', () => {
-    const compiled = hostFixture.debugElement.nativeElement;
-    const component = compiled.querySelector('ngx-pass-code');
-    const inputs = component.querySelectorAll('input');
+    const inputs = getAllInputs();
 
-    const firstInput = inputs[0] as HTMLInputElement;
-    const secondInput = inputs[1] as HTMLInputElement;
+    const firstInput = inputs[0];
+    const secondInput = inputs[1];
 
     const firstInputSpy = spyOn(firstInput, 'focus');
     const secondInputSpy = spyOn(secondInput, 'focus');
@@ -301,12 +303,10 @@ describe('PassCodeComponent - type numbers', () => {
   });
 
   it('should move to next input element', () => {
-    const compiled = hostFixture.debugElement.nativeElement;
-    const component = compiled.querySelector('ngx-pass-code');
-    const inputs = component.querySelectorAll('input');
+    const inputs = getAllInputs();
 
-    const firstInput = inputs[0] as HTMLInputElement;
-    const secondInput = inputs[1] as HTMLInputElement;
+    const firstInput = inputs[0];
+    const secondInput = inputs[1];
 
     const firstInputSpy = spyOn(firstInput, 'focus');
     const secondInputSpy = spyOn(secondInput, 'focus');
@@ -323,12 +323,10 @@ describe('PassCodeComponent - type numbers', () => {
   });
 
   it('should not move to next input element if previous input is empty', () => {
-    const compiled = hostFixture.debugElement.nativeElement;
-    const component = compiled.querySelector('ngx-pass-code');
-    const inputs = component.querySelectorAll('input');
+    const inputs = getAllInputs();
 
-    const firstInput = inputs[0] as HTMLInputElement;
-    const secondInput = inputs[1] as HTMLInputElement;
+    const firstInput = inputs[0];
+    const secondInput = inputs[1];
 
     const firstInputSpy = spyOn(firstInput, 'focus');
     const secondInputSpy = spyOn(secondInput, 'focus');
@@ -347,9 +345,7 @@ describe('PassCodeComponent - type numbers', () => {
   });
 
   it('should move to next input element if input is not empty', () => {
-    const compiled = hostFixture.debugElement.nativeElement;
-    const component = compiled.querySelector('ngx-pass-code');
-    const inputs = component.querySelectorAll('input');
+    const inputs = getAllInputs();
 
     const firstInput = inputs[0] as HTMLInputElement;
     const secondInput = inputs[1] as HTMLInputElement;
