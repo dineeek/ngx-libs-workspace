@@ -1,5 +1,5 @@
-# 0.0.1
+# 0.0.1 - 04.12.2022.
 
-Prerelease testing version.
+Beta version.
 
-# 1.0.0
+# 1.0.0 - TBD

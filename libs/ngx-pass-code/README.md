@@ -2,7 +2,7 @@
 
 This library was generated with [Nx](https://nx.dev).
 
-Angular custom control component for inserting code or password. Supports
+Angular custom control component for inserting code (OTP) or password. Supports
 Angular version 12+.
 
 ![Numeric range form field](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.gif)
@@ -29,7 +29,7 @@ Angular version 12+.
 # Install
 
 ```shell
-npm install ngx-pass-code
+npm install ngx-pass-code@latest
 ```
 
 # Usage
@@ -54,21 +54,21 @@ export class FeatureModule {}
 ></ngx-pass-code>
 ```
 
-The component has several input decorators:
+#### Input property decorators:
 
-### length
+- ##### length
 
-Represents needed length of code.Defaulted to 0.
+  Represents needed length of code.Defaulted to 0.
 
-### type
+- ##### type
 
-Represents input type - 'text', 'number', 'password'. Type 'password' is hiding
-inserted values. Defined type is also used for casting out form value. Defaulted
-to 'text'.
+  Represents input type - 'text', 'number', 'password'. Type 'password' is
+  hiding inserted values. Defined type is also used for casting out form value.
+  Defaulted to 'text'.
 
-### uppercase
-
-Represent the property to transform user input to uppercase. Defaulted to false.
+- ##### uppercase
+  Represent the property to transform user input to uppercase. Defaulted to
+  false.
 
 # License
 
