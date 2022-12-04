@@ -5,9 +5,9 @@ language: node_js
 node_js:
   - 17
 before_script:
-  - npm install -g pnpm
+  - npm install pnpm
   - pnpm setup
-  - pnpm install -g @angular/cli
+  - pnpm install @angular/cli
   - pnpm install --legacy-peer-deps
   - pnpm install --save-dev @types/jest
 script:
