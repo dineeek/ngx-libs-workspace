@@ -29,7 +29,7 @@ export class PassCodeComponent
   @Input() uppercase = false;
 
   passCodes!: FormArray<FormControl>;
-  isInvalidCode = false; // currently validation is triggered only if all controls are invalid
+  isInvalidCode = false; // validation is triggered only if all controls are invalid
 
   private unsubscribe$ = new Subject<void>();
 
@@ -63,14 +63,14 @@ export class PassCodeComponent
   }
 
   writeValue(value: string): void {
-    // issue - https://github.com/angular/angular/issues/29218
+    // issue - https://github.com/angular/angular/issues/29218 - have to know length of code before writing any value
     setTimeout(() => {
       const stringifyTrimValue = value?.toString().trim();
 
       stringifyTrimValue
-        ? this.setValue(stringifyTrimValue)
+        ? this.setValue(stringifyTrimValue.substring(0, this.length)) // remove chars after specified length
         : this.resetValue();
-      this.controlDirective.control?.updateValueAndValidity(); // update validity of parent because late write value
+      this.passCodes.updateValueAndValidity(); // update validity for parent because of late write value
     });
   }
 

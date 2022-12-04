@@ -17,7 +17,9 @@
     </div>
 
     <div class="demo__case__actions">
-      <button (click)="textCode.reset()">Reset</button>
+      <button (click)="textCode.reset(); textCode.enable()">Reset</button>
+      <button (click)="textCode.disable()">Disable</button>
+      <button (click)="textCode.patchValue('ACAB7')">Patch</button>
     </div>
   </div>
 
@@ -37,6 +39,8 @@
 
     <div class="demo__case__actions">
       <button (click)="numberCode.reset()">Reset</button>
+      <button (click)="numberCode.disable()">Disable</button>
+      <button (click)="numberCode.patchValue('216582')">Patch</button>
     </div>
   </div>
 
@@ -57,6 +61,8 @@
 
     <div class="demo__case__actions">
       <button (click)="passwordCode.reset()">Reset</button>
+      <button (click)="passwordCode.disable()">Disable</button>
+      <button (click)="passwordCode.patchValue('mypass')">Patch</button>
     </div>
   </div>
 </form>
