@@ -180,7 +180,11 @@ export class PassCodeComponent
   }
 
   private updateCodeValidity(): void {
-    this.isInvalidCode = this.validate()?.['length'] === this.length;
+    const allControlsAreInvalid = this.validate()?.['length'] === this.length;
+    const allControlsAreDirty = this.passCodes.controls.every(
+      control => control.dirty
+    );
+    this.isInvalidCode = allControlsAreInvalid && allControlsAreDirty;
     this.cdRef.detectChanges();
   }
 }
