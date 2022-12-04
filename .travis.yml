@@ -2,6 +2,7 @@ sudo: required
 addons:
   chrome: stable
 language: node_js
+dist: trusty
 node_js:
   - 17
 before_script:
@@ -12,3 +13,11 @@ script:
   - npm run lint:ci
   - npm run test:ci
   - npm run build:ci
+  - ng build --prod --base-href https://github.com/dineeek/ngx-libs-workspace.git
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/apps/playground/
+  on:
+    branch: main
