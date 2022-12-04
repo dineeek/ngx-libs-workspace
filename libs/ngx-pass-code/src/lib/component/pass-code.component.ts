@@ -64,17 +64,16 @@ export class PassCodeComponent
   }
 
   writeValue(value: string): void {
-    const stringifyTrimValue = value?.toString().trim();
+    const stringifyTrimmedValue = value?.toString().trim();
 
     if (!this.initialized) {
       // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
       setTimeout(() => {
         this.initialized = true;
-        this.updateView(stringifyTrimValue);
-        this.passCodes.updateValueAndValidity(); // update validity for parent because of late write value
+        this.updateView(stringifyTrimmedValue);
       });
     } else {
-      this.updateView(stringifyTrimValue);
+      this.updateView(stringifyTrimmedValue);
     }
   }
 
@@ -132,10 +131,17 @@ export class PassCodeComponent
 
   private updateView(value: string): void {
     value ? this.setValue(value) : this.resetValue();
+    this.passCodes.updateValueAndValidity();
     this.updateCodeValidity();
   }
 
   private setValue(value: string): void {
+    if (this.type === 'number' && isNaN(parseInt(value))) {
+      throw new TypeError(
+        'Provided value does not match provided type property number!'
+      );
+    }
+
     const splittedValue = value.substring(0, this.length).split(''); // remove chars after specified length and split
 
     if (splittedValue.length < this.length) {

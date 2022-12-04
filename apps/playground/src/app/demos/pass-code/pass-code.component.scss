@@ -31,7 +31,7 @@
 
       &__actions {
         display: flex;
-        justify-content: space-between;
+        column-gap: 6px;
         padding: 5px 0;
       }
     }

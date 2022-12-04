@@ -244,6 +244,10 @@ describe('PassCodeComponent - type numbers', () => {
     ]);
   });
 
+  it('should throw error if value type does not match provided type property', () => {
+    expect(() => hostComponent.control.patchValue('ADSD5')).toThrow(TypeError);
+  });
+
   it('should update value based on bigger set/patched formControl value', () => {
     const value = 6351232;
     hostComponent.control.patchValue(value);
