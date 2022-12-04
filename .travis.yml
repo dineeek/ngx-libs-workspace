@@ -1,0 +1,14 @@
+sudo: required
+addons:
+  chrome: stable
+language: node_js
+node_js:
+  - node
+before_script:
+  - npm install -g @angular/cli
+  - npm install --legacy-peer-deps
+  - npm install --save-dev @types/jest
+script:
+  - npm lint:ci
+  - npm test:ci
+  - npm build:ci
