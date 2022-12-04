@@ -5,7 +5,7 @@ This library was generated with [Nx](https://nx.dev).
 Angular custom control component for inserting code or password. Supports
 Angular version 12+.
 
-![Numeric range form field](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.png)
+![Numeric range form field](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.gif)
 
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-numeric-range-form-field.svg?style=flat-square"></a>
