@@ -31,6 +31,7 @@ export class PassCodeComponent
   passCodes!: FormArray<FormControl>;
   isInvalidCode = false; // validation is triggered only if all controls are invalid
 
+  private initialized = false;
   private unsubscribe$ = new Subject<void>();
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -50,7 +51,7 @@ export class PassCodeComponent
 
     this.setSyncValidatorsFromParent();
     this.updateParentValidation();
-    this.propagateValueChanges();
+    this.propagateViewToModel();
   }
 
   ngOnDestroy(): void {
@@ -59,15 +60,18 @@ export class PassCodeComponent
   }
 
   writeValue(value: string): void {
-    // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
-    setTimeout(() => {
-      const stringifyTrimValue = value?.toString().trim();
+    const stringifyTrimValue = value?.toString().trim();
 
-      stringifyTrimValue
-        ? this.setValue(stringifyTrimValue)
-        : this.resetValue();
-      this.passCodes.updateValueAndValidity(); // update validity for parent because of late write value
-    });
+    if (!this.initialized) {
+      // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
+      setTimeout(() => {
+        this.initialized = true;
+        this.updateView(stringifyTrimValue);
+        this.passCodes.updateValueAndValidity(); // update validity for parent because of late write value
+      });
+    } else {
+      this.updateView(stringifyTrimValue);
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -82,6 +86,8 @@ export class PassCodeComponent
     isDisabled
       ? this.passCodes.disable({ emitEvent: false })
       : this.passCodes.enable({ emitEvent: false });
+
+    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false });
   }
 
   validate(): ValidationErrors | null {
@@ -120,6 +126,10 @@ export class PassCodeComponent
     parentControl.updateValueAndValidity({ emitEvent: false });
   }
 
+  private updateView(value: string): void {
+    value ? this.setValue(value) : this.resetValue();
+  }
+
   private setValue(value: string): void {
     const splittedValue = value.substring(0, this.length).split(''); // remove chars after specified length and split
 
@@ -135,7 +145,7 @@ export class PassCodeComponent
     this.passCodes.patchValue(nullValues, { emitEvent: false });
   }
 
-  private propagateValueChanges(): void {
+  private propagateViewToModel(): void {
     this.passCodes.valueChanges
       .pipe(
         tap(

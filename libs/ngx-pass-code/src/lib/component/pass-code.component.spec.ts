@@ -39,7 +39,7 @@ describe('PassCodeComponent', () => {
   });
 
   beforeEach(waitForAsync(() => {
-    // async as value is set in setTimeout
+    // async as initial value is set in setTimeout
     hostFixture.whenStable().then(() => {
       hostFixture.detectChanges();
     });
@@ -66,10 +66,9 @@ describe('PassCodeComponent', () => {
     ]);
   });
 
-  it('should update value based on same size set/patched formControl value', fakeAsync(() => {
+  it('should update value based on same size set/patched formControl value', () => {
     hostComponent.control.patchValue('test123');
 
-    tick();
     expect(hostComponent.passCodeComponent.passCodes.value).toStrictEqual([
       't',
       'e',
@@ -79,12 +78,11 @@ describe('PassCodeComponent', () => {
       '2',
       '3',
     ]);
-  }));
+  });
 
-  it('should update value based on smaller set/patched formControl value', fakeAsync(() => {
+  it('should update value based on smaller set/patched formControl value', () => {
     hostComponent.control.patchValue('cat');
 
-    tick();
     expect(hostComponent.passCodeComponent.passCodes.value).toStrictEqual([
       'c',
       'a',
@@ -94,12 +92,11 @@ describe('PassCodeComponent', () => {
       null,
       null,
     ]);
-  }));
+  });
 
-  it('should update value based on bigger set/patched formControl value', fakeAsync(() => {
+  it('should update value based on bigger set/patched formControl value', () => {
     hostComponent.control.patchValue('dogsareawesome');
 
-    tick();
     expect(hostComponent.passCodeComponent.passCodes.value).toStrictEqual([
       'd',
       'o',
@@ -109,5 +106,5 @@ describe('PassCodeComponent', () => {
       'r',
       'e',
     ]);
-  }));
+  });
 });
