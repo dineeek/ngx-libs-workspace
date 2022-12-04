@@ -2,7 +2,8 @@
 
 This library was generated with [Nx](https://nx.dev).
 
-Angular custom control component for inserting code or password.
+Angular custom control component for inserting code or password. Supports
+Angular version 12+.
 
 ![Numeric range form field](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.png)
 
@@ -18,6 +19,7 @@ Angular custom control component for inserting code or password.
 # Feature
 
 - Individual character input box.
+- Reactive on input change.
 - Plug & play by providing form control.
 - Supports sync validation.
 - No dependencies.
