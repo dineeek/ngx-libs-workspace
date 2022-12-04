@@ -26,6 +26,12 @@
     "password",
     "input",
     "pass",
+    "otp",
+    "one time password",
+    "otp input",
+    "otp angular",
+    "ng otp",
+    "ngx otp",
     "input box",
     "validation",
     "password box",
@@ -39,7 +45,7 @@
     "no dependencies"
   ],
   "license": "Apache",
-  "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/README.md",
+  "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/README.md",
   "bugs": {
     "url": "https://github.com/dineeek/ngx-libs-workspace/issues"
   }

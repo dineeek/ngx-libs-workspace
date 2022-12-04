@@ -32,6 +32,17 @@ npm install ngx-pass-code
 
 # Usage
 
+```typescript
+@NgModule({
+  ...,
+  imports: [
+    ...,
+    NgxPassCodeModule
+  ],
+})
+export class FeatureModule {}
+```
+
 ```html
 <ngx-pass-code
   formControlName="passCodeControl"
