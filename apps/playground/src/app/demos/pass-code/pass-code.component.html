@@ -5,7 +5,7 @@
     <span class="demo__case__title">Text code - required + upercase</span>
     <ngx-pass-code
       [length]="5"
-      passType="text"
+      type="text"
       [uppercase]="true"
       formControlName="textCode"
     ></ngx-pass-code>
@@ -27,7 +27,7 @@
     <span class="demo__case__title">Numbers code</span>
     <ngx-pass-code
       [length]="5"
-      passType="number"
+      type="number"
       formControlName="numberCode"
     ></ngx-pass-code>
 
@@ -48,8 +48,8 @@
     <span class="demo__case__title">Password (hidden) code</span>
 
     <ngx-pass-code
-      [length]="6"
-      passType="password"
+      [length]="7"
+      type="text"
       formControlName="passwordCode"
     ></ngx-pass-code>
 
@@ -62,7 +62,7 @@
     <div class="demo__case__actions">
       <button (click)="passwordCode.reset()">Reset</button>
       <button (click)="passwordCode.disable()">Disable</button>
-      <button (click)="passwordCode.patchValue('mypass')">Patch</button>
+      <button (click)="passwordCode.patchValue('my')">Patch</button>
     </div>
   </div>
 </form>

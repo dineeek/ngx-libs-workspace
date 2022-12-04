@@ -2,7 +2,7 @@
   <input
     *ngFor="let control of passCodes.controls; index as i"
     [formControl]="control"
-    [type]="passType"
+    [type]="type"
     (blur)="onTouched()"
     onclick="select()"
     maxlength="1"

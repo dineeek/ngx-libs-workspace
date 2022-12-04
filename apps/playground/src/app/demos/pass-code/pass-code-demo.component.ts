@@ -11,7 +11,7 @@ export class PassCodeDemoComponent {
   form = new FormGroup({
     textCode: new FormControl('76', { validators: [Validators.required] }),
     numberCode: new FormControl(''),
-    passwordCode: new FormControl('as'),
+    passwordCode: new FormControl('mypass1'),
   });
 
   textCode = this.form.get('textCode') as FormControl;

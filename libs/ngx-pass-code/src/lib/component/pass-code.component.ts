@@ -26,7 +26,7 @@ export class PassCodeComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
   @Input() length = 0;
-  @Input() passType: 'text' | 'number' | 'password' = 'text';
+  @Input() type: 'text' | 'number' | 'password' = 'text';
   @Input() uppercase = false;
 
   passCodes!: FormArray<FormControl>;
@@ -161,7 +161,7 @@ export class PassCodeComponent
             return null;
           }
 
-          if (this.passType === 'number') {
+          if (this.type === 'number') {
             return parseInt(code);
           }
 

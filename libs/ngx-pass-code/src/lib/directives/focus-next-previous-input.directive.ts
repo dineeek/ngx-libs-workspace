@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -11,8 +11,6 @@ export class FocusNextPreviousInputDirective {
   private LEFT_ARROW_KEY = 37;
   private RIGHT_ARROW_KEY = 39;
   private SPACE_KEY = 32;
-
-  constructor(private elementRef: ElementRef) {}
 
   @HostListener('keyup', ['$event']) onKeyUp(e: any) {
     e.preventDefault();
