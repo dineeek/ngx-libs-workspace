@@ -37,6 +37,13 @@
           "libs/ngx-pass-code/**/*.html"
         ]
       }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production"
+      }
     }
   },
   "tags": []
