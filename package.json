@@ -12,8 +12,8 @@
     "affected:lint": "nx affected:lint",
     "affected:test": "nx affected:test",
     "lint:ci": "nx lint --target=lint --parallel=3",
-    "test:ci": "nx affected --target=test --parallel=3 --ci --code-coverage",
-    "build:ci": "nx affected --target=build --parallel=3",
+    "test:ci": "nx test --target=test --parallel=3 --ci --code-coverage",
+    "build:ci": "nx build --target=build --parallel=3",
     "affected:lint:ci": "nx affected --target=lint --parallel=3",
     "affected:test:ci": "nx affected --target=test --parallel=3 --ci --code-coverage",
     "affected:build:ci": "nx affected --target=build --parallel=3",
@@ -24,8 +24,7 @@
     "prepare": "husky install",
     "deploy-page": "ng build --prod --base-href https://github.com/dineeek/ngx-libs-workspace.git",
     "generate-publish": "pnpm nx generate ngx-deploy-npm:install",
-    "ngx-pass-code-publish": "pnpm nx deploy ngx-pass-code --dry-run",
-    "publish-lib": "pnpm run generate-publish && pnpm run publish-lib"
+    "publish-lib-ngx-pass-code": "pnpm run generate-publish && pnpm nx deploy ngx-pass-code"
   },
   "private": true,
   "dependencies": {
