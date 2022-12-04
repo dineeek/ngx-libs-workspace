@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -40,7 +41,10 @@ export class PassCodeComponent
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
 
-  constructor(private controlDirective: NgControl) {
+  constructor(
+    private controlDirective: NgControl,
+    private cdRef: ChangeDetectorRef
+  ) {
     this.controlDirective.valueAccessor = this;
   }
 
@@ -128,6 +132,7 @@ export class PassCodeComponent
 
   private updateView(value: string): void {
     value ? this.setValue(value) : this.resetValue();
+    this.updateCodeValidity();
   }
 
   private setValue(value: string): void {
@@ -148,10 +153,7 @@ export class PassCodeComponent
   private propagateViewToModel(): void {
     this.passCodes.valueChanges
       .pipe(
-        tap(
-          () =>
-            (this.isInvalidCode = this.validate()?.['length'] === this.length)
-        ),
+        tap(() => this.updateCodeValidity()),
         map(codes => {
           const code = codes.join('');
 
@@ -169,5 +171,10 @@ export class PassCodeComponent
         takeUntil(this.unsubscribe$)
       )
       .subscribe((value: string | number | null) => this.onChange(value));
+  }
+
+  private updateCodeValidity(): void {
+    this.isInvalidCode = this.validate()?.['length'] === this.length;
+    this.cdRef.detectChanges();
   }
 }

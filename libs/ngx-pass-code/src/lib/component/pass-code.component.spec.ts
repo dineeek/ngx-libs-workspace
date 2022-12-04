@@ -11,6 +11,9 @@ import { NgxPassCodeModule } from '../ngx-pass-code.module';
 
 import { PassCodeComponent } from './pass-code.component';
 
+// model to view - parent control to cva - writeValue
+// view to model - cva to parent control - registerOnChange
+
 @Component({
   template: `<ngx-pass-code
     [length]="7"
@@ -26,6 +29,7 @@ class HostComponent {
 describe('PassCodeComponent', () => {
   let hostComponent: HostComponent;
   let hostFixture: ComponentFixture<HostComponent>;
+  const codeLength = 7;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -67,16 +71,11 @@ describe('PassCodeComponent', () => {
   });
 
   it('should update value based on same size set/patched formControl value', () => {
-    hostComponent.control.patchValue('test123');
+    const value = 'test123';
+    hostComponent.control.patchValue(value);
 
     expect(hostComponent.passCodeComponent.passCodes.value).toStrictEqual([
-      't',
-      'e',
-      's',
-      't',
-      '1',
-      '2',
-      '3',
+      ...value,
     ]);
   });
 
@@ -95,16 +94,16 @@ describe('PassCodeComponent', () => {
   });
 
   it('should update value based on bigger set/patched formControl value', () => {
-    hostComponent.control.patchValue('dogsareawesome');
+    const value = 'dogsareawesome';
+    hostComponent.control.patchValue(value);
 
     expect(hostComponent.passCodeComponent.passCodes.value).toStrictEqual([
-      'd',
-      'o',
-      'g',
-      's',
-      'a',
-      'r',
-      'e',
+      ...value.substring(0, codeLength),
     ]);
+  });
+
+  it('should send a new value to paren when view changes value', () => {
+    const value = 'newvals';
+    hostComponent.passCodeComponent.passCodes.patchValue([...value]);
   });
 });
