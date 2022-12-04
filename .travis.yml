@@ -5,12 +5,10 @@ language: node_js
 node_js:
   - 17
 before_script:
-  - npm install pnpm
-  - pnpm setup
-  - pnpm install @angular/cli
-  - pnpm install --legacy-peer-deps
-  - pnpm install --save-dev @types/jest
+  - npm install @angular/cli
+  - npm install --legacy-peer-deps
+  - npm install --save-dev @types/jest
 script:
-  - pnpm lint:ci
-  - pnpm test:ci
-  - pnpm build:ci
+  - npm lint:ci
+  - npm test:ci
+  - npm build:ci
