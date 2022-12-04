@@ -44,10 +44,6 @@ export class PassCodeComponent
   }
 
   ngOnInit(): void {
-    if (!this.length) {
-      return;
-    }
-
     this.passCodes = new FormArray(
       [...new Array(this.length)].map(() => new FormControl(''))
     );
@@ -63,12 +59,12 @@ export class PassCodeComponent
   }
 
   writeValue(value: string): void {
-    // issue - https://github.com/angular/angular/issues/29218 - have to know length of code before writing any value
+    // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
     setTimeout(() => {
       const stringifyTrimValue = value?.toString().trim();
 
       stringifyTrimValue
-        ? this.setValue(stringifyTrimValue.substring(0, this.length)) // remove chars after specified length
+        ? this.setValue(stringifyTrimValue)
         : this.resetValue();
       this.passCodes.updateValueAndValidity(); // update validity for parent because of late write value
     });
@@ -89,6 +85,10 @@ export class PassCodeComponent
   }
 
   validate(): ValidationErrors | null {
+    if (this.passCodes.valid) {
+      return null;
+    }
+
     const errors = this.passCodes.controls
       .map(control => control.errors)
       .filter(error => error !== null);
@@ -121,7 +121,12 @@ export class PassCodeComponent
   }
 
   private setValue(value: string): void {
-    const splittedValue = value.split('');
+    const splittedValue = value.substring(0, this.length).split(''); // remove chars after specified length and split
+
+    if (splittedValue.length < this.length) {
+      this.resetValue();
+    }
+
     this.passCodes.patchValue(splittedValue, { emitEvent: false });
   }
 
