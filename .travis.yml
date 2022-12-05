@@ -13,6 +13,7 @@ script:
   - npm run lint:ci
   - npm run test:ci
   - npm run build:ci
+  - cd ngx-libs-workspace
   - ng build --prod --base-href https://github.com/dineeek/ngx-libs-workspace.git
 deploy:
   provider: pages
