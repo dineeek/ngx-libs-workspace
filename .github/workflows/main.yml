@@ -45,3 +45,9 @@ jobs:
       - run: pnpm affected:lint:ci
       - run: pnpm affected:test:ci
       - run: pnpm affected:build:ci
+      - run: pnpm test:coverage:ci
+
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
