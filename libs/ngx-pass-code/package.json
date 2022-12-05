@@ -44,7 +44,7 @@
     "library",
     "no dependencies"
   ],
-  "license": "Apache",
+  "license": "MIT",
   "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/README.md",
   "bugs": {
     "url": "https://github.com/dineeek/ngx-libs-workspace/issues"
