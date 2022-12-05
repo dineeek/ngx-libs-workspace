@@ -22,7 +22,7 @@
     "build": "nx build",
     "test": "nx test",
     "prepare": "husky install",
-    "deploy-page": "ng build --prod --output-path docs --base-href https://github.com/dineeek/ngx-libs-workspace.git",
+    "deploy-page": "nx build --prod --output-path docs --base-href https://github.com/dineeek/ngx-libs-workspace.git",
     "generate-publish": "pnpm nx generate ngx-deploy-npm:install",
     "publish-lib-ngx-pass-code": "pnpm run generate-publish && pnpm nx deploy ngx-pass-code"
   },
