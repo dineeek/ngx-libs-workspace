@@ -52,3 +52,4 @@ jobs:
         uses: coverallsapp/github-action@1.1.3
         with:
           github-token: ${{ secrets.GIT_TOKEN }}
+          repo_token: ${{ secrets.REPO_TOKEN }}
