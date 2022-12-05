@@ -4,7 +4,7 @@ addons:
 language: node_js
 dist: trusty
 node_js:
-  - 17
+  - 16
 before_script:
   - npm install @angular/cli
   - npm install --legacy-peer-deps
@@ -13,7 +13,7 @@ script:
   - npm run lint:ci
   - npm run test:ci
   - npm run build:ci
-  - ng build --prod --base-href https://github.com/dineeek/ngx-libs-workspace.git
+  - ng build --prod --base-href .
 deploy:
   provider: pages
   skip_cleanup: true
