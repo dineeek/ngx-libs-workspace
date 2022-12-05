@@ -3,6 +3,7 @@ addons:
   chrome: stable
 language: node_js
 dist: trusty
+branch: main
 node_js:
   - 16
 before_script:
