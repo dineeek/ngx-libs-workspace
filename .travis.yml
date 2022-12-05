@@ -5,6 +5,10 @@ language: node_js
 dist: trusty
 node_js:
   - 16
+branches:
+  only:
+  - main
+  - ngx-pass-code
 before_script:
   - npm install @angular/cli
   - npm install --legacy-peer-deps
