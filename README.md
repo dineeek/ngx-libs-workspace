@@ -1,6 +1,7 @@
 # Ngx Libs Workspace
 
 [![Build Status](https://app.travis-ci.com/dineeek/ngx-libs-workspace.svg?branch=main)](https://app.travis-ci.com/dineeek/ngx-libs-workspace)
+[![lint:test:build](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/main.yml/badge.svg)](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/main.yml)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_shield)
 
 This project was generated using [Nx](https://nx.dev).
