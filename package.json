@@ -18,13 +18,13 @@
     "affected:test:ci": "nx affected --target=test --base=origin/main --head=origin/main --plain --parallel=3 --ci --code-coverage",
     "affected:build:ci": "nx affected --target=build --base=origin/main --head=origin/main --plain --parallel=3",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
+    "prepare": "husky install",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test",
-    "prepare": "husky install",
-    "deploy-page": "nx build --prod --output-path docs --base-href https://github.com/dineeek/ngx-libs-workspace.git",
-    "generate-publish": "pnpm nx generate ngx-deploy-npm:install",
-    "publish-lib-ngx-pass-code": "pnpm run generate-publish && pnpm nx deploy ngx-pass-code"
+    "test": "nx test ngx-pass-code --watchAll --coverage",
+    "deploy-page": "nx build --prod --output-path docs --base-href .",
+    "configure-deploy": "nx generate ngx-deploy-npm:install",
+    "publish:ngx-pass-code": "nx deploy ngx-pass-code"
   },
   "private": true,
   "dependencies": {

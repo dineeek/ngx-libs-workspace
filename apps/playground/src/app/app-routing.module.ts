@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PassCodeDemoComponent } from './demos/pass-code/pass-code-demo.component';
 
 const routes: Routes = [
-  { path: 'demos/ngx-pass-code', component: PassCodeDemoComponent },
+  { path: 'ngx-pass-code', component: PassCodeDemoComponent },
 ];
 
 @NgModule({

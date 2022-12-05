@@ -1,15 +1,8 @@
-@mixin flexJustifyAndAlign {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 :host {
-  @include flexJustifyAndAlign;
-  flex-flow: column wrap;
-
   .demo {
-    @include flexJustifyAndAlign;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px 0;
 
     &__case {
