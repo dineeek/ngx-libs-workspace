@@ -1,5 +1,3 @@
-# 0.0.1 - 05.12.2022.
+### 1.0.0 - 05.12.2022.
 
-Beta version.
-
-# 1.0.0 - TBD
+ngx-pass-code initial release
