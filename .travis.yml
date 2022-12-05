@@ -7,12 +7,12 @@ node_js:
   - 16
 branches:
   only:
-  - main
-  - ngx-pass-code
+    - main
+    - /^merge-.*$/
+    - /^deploy-.*$/
 before_script:
   - npm install @angular/cli
   - npm install --legacy-peer-deps
-  - npm install --save-dev @types/jest
 script:
   - npm run lint:ci
   - npm run test:ci
