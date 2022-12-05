@@ -62,9 +62,9 @@
     },
     "@nrwl/angular:library": {
       "linter": "eslint",
+      "unitTestRunner": "jest",
       "prefix": "ngx",
-      "strict": true,
-      "unitTestRunner": "jest"
+      "strict": true
     },
     "@nrwl/angular:component": {
       "style": "scss"

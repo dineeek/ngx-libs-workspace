@@ -1,0 +1,55 @@
+:host {
+  .container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  input {
+    width: 44px;
+    height: 54px;
+    border-radius: 6px;
+    margin: 5px;
+    background: transparent;
+    line-height: 2.25rem;
+    font-family: Helvetica Neue, Arial, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    text-align: center;
+    color: #0c0c0d;
+    border: 2px solid #aeaeb5;
+    transition: box-shadow linear 0.2s;
+  }
+
+  input:focus {
+    outline: none;
+    box-shadow: 0 0 12px #aeaeb5;
+  }
+
+  .invalid-input {
+    border: 2px solid #b90d0d;
+  }
+
+  .invalid-input:focus {
+    outline: none;
+    border-color: #b90d0d;
+    box-shadow: 0 0 12px #b90d0d;
+  }
+
+  //focus - border-color: #1040c1;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  ::selection {
+    background: transparent;
+  }
+}

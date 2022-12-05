@@ -1,0 +1,16 @@
+<div class="container">
+  <input
+    *ngFor="let control of passCodes.controls; index as i"
+    [formControl]="control"
+    [type]="type"
+    (blur)="onTouched()"
+    onclick="select()"
+    maxlength="1"
+    focusNextPreviousInput
+    transformInputValue
+    [uppercase]="uppercase"
+    [ngClass]="{
+      'invalid-input': isInvalidCode
+    }"
+  />
+</div>

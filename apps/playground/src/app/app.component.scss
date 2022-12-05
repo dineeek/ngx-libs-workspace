@@ -1,0 +1,42 @@
+@mixin flexLayout {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep body {
+  margin: 20px 60px;
+}
+
+:host {
+  @include flexLayout;
+  font-family: 'Courier New', Courier, monospace;
+
+  .demos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 25px;
+    width: 100%;
+    padding: 15px 0;
+
+    &__card {
+      @include flexLayout;
+      box-shadow: 0 0 20px gray;
+      height: 6vh;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+
+  .showcase {
+    padding-top: 30px;
+  }
+
+  .active-link {
+    background-color: lawngreen;
+  }
+}
