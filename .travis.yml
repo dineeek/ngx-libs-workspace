@@ -13,11 +13,11 @@ script:
   - npm run lint:ci
   - npm run test:ci
   - npm run build:ci
-  - ng build --prod --output-path=docs --base-href=https://github.com/dineeek/ngx-libs-workspace.git
+  - ng build --prod --base-href https://github.com/dineeek/ngx-libs-workspace.git
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
-  local_dir: docs
+  local_dir: dist/apps/playground/
   on:
     branch: main
