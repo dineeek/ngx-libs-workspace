@@ -5,17 +5,19 @@ This library was generated with [Nx](https://nx.dev).
 Angular custom control component for inserting code (OTP) or password. Supports
 Angular version 12+.
 
-![Numeric range form field](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.gif)
+<p align="center">
+  ![Numeric range form field](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.gif)
+</p>
 
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-numeric-range-form-field.svg?style=flat-square"></a>
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="npm version" src="https://img.shields.io/npm/v/ngx-pass-code.svg?style=flat-square"></a>
-    
 </p>
-[![Build Status](https://app.travis-ci.com/dineeek/ngx-libs-workspace.svg?branch=ngx-pass-code)](https://app.travis-ci.com/dineeek/ngx-libs-workspace)
+
+[![Build Status](https://app.travis-ci.com/dineeek/ngx-libs-workspace.svg?branch=main)](https://app.travis-ci.com/dineeek/ngx-libs-workspace)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)]
 
 # Feature
 
@@ -25,7 +27,7 @@ Angular version 12+.
 - Supports sync validation.
 - No dependencies.
 
-**[View live demo on StackBlitz.](https://ngx-pass-code.stackblitz.io)**
+**[View live demo on StackBlitz.](https://dineeek.github.io/ngx-libs-workspace/demos/ngx-pass-code)**
 
 # Install
 
