@@ -2,10 +2,10 @@
 
 This library was generated with [Nx](https://nx.dev).
 
-Angular custom control component for inserting code (OTP) or password. Supports
-Angular version 12+.
+Reactive Angular custom form control component for inserting (OTP) code or
+password. Supports Angular version 12+.
 
-![Numeric range form field](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.gif)
+![Ngx_pass_code](https://github.com/dineeek/ngx-libs-workspace/blob/ngx-pass-code/libs/ngx-pass-code/ngx_pass_code_example.gif)
 
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-pass-code.svg?style=flat-square"></a>
@@ -21,12 +21,12 @@ Angular version 12+.
 # Feature
 
 - Individual character input box.
-- Reactive on input change.
+- Reactive form control.
 - Plug & play by providing form control.
 - Supports sync validation.
-- No dependencies.
+- No 3rd party dependencies.
 
-**[Github Live demo](https://dineeek.github.io/ngx-libs-workspace)**
+**[Live demo.](https://dineeek.github.io/ngx-libs-workspace)**
 
 # Install
 
@@ -49,26 +49,27 @@ export class FeatureModule {}
 
 ```html
 <ngx-pass-code
-  formControlName="passCodeControl"
+  formControlName="codeControl"
   [length]="5"
   type="text"
   [uppercase]="true"
 ></ngx-pass-code>
 ```
 
-#### Input property decorators:
+### Input property decorators:
 
-- ##### length
+- #### length
 
   Represents needed length of code.Defaulted to 0.
 
-- ##### type
+- #### type
 
-  Represents input type - 'text', 'number', 'password'. Type 'password' is
-  hiding inserted values. Defined type is also used for casting out form value.
-  Defaulted to 'text'.
+  Represents input type property: 'text' | 'number' |'password'. Type 'password'
+  is hiding inserted values. Defined type is also used for casting control
+  value. Defaulted to 'text'.
 
-- ##### uppercase
+- #### uppercase
+
   Represent the property to transform user input to uppercase. Defaulted to
   false.
 
