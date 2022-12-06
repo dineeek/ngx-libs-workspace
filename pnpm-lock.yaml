@@ -64,7 +64,7 @@ dependencies:
   '@angular/router': 14.2.3_bzitv6nc6qyeo4tcxlc4thruh4
   '@nrwl/angular': 14.8.0_6bxxvmyt3fp5tcv3kpwrxwqifq
   angular-cli-ghpages: 1.0.5_zzbtpsefck336kvjidy3pg7zge
-  ngx-deploy-npm: 4.3.9_nx@14.8.0+typescript@4.8.4
+  ngx-deploy-npm: 4.3.10_nx@14.8.0+typescript@4.8.4
   rxjs: 7.5.7
   tslib: 2.4.0
   zone.js: 0.11.8
@@ -8998,8 +8998,8 @@ packages:
       - supports-color
     dev: true
 
-  /ngx-deploy-npm/4.3.9_nx@14.8.0+typescript@4.8.4:
-    resolution: {integrity: sha512-Sglr7oxEfWROrT3w6B/NOTScjNg2YSRt6JxQMnVWDSnQ6iprCsOustEuQAs31LrX4J99kOMSvwyi8BtN61uyuA==}
+  /ngx-deploy-npm/4.3.10_nx@14.8.0+typescript@4.8.4:
+    resolution: {integrity: sha512-6cLM1z0h6VD5SYH9fJSeslvTSKTkaySsH63k2AouXnAXsHQe4eFrdkmfMAZoVwUZHyaNIBOKMUcTvotgMwQnug==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@nrwl/devkit': 15.2.3_nx@14.8.0+typescript@4.8.4
