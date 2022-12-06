@@ -1,37 +1,39 @@
 :host {
-  .demo {
+  .demo-container {
     display: flex;
+    flex-flow: row wrap;
     justify-content: center;
     align-items: center;
     padding: 20px 0;
+    row-gap: 40px;
+  }
 
-    &__case {
+  .showcase {
+    display: flex;
+    flex-direction: column;
+    padding: 0 34px;
+
+    &__title {
+      padding-bottom: 4px;
+      font-weight: 600;
+    }
+
+    &__values {
       display: flex;
-      flex-direction: column;
-      padding: 0 34px;
-
-      &__title {
-        padding-bottom: 4px;
-        font-weight: 600;
-      }
-
-      &__values {
-        display: flex;
-        flex-flow: column wrap;
-        row-gap: 4px;
-        padding: 10px 0;
-      }
-
-      &__actions {
-        display: flex;
-        column-gap: 6px;
-        padding: 5px 0;
-      }
+      flex-flow: column wrap;
+      row-gap: 4px;
+      padding: 10px 0;
     }
 
-    &__case:not(:last-child) {
-      border-right: 1px solid #d5d9d9;
+    &__actions {
+      display: flex;
+      column-gap: 6px;
+      padding: 5px 0;
     }
+  }
+
+  .showcase:not(:last-child) {
+    border-right: 1px solid #d5d9d9;
   }
 
   button {
@@ -65,5 +67,11 @@
     border-color: #008296;
     box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
     outline: 0;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .showcase:not(:last-child) {
+      border-right: none;
+    }
   }
 }

@@ -1,5 +1,5 @@
-<form [formGroup]="form" class="demo">
-  <div class="demo__case">
+<form [formGroup]="form" class="demo-container">
+  <div class="showcase">
     <span class="demo__case__title">Text code - required + upercase</span>
     <ngx-pass-code
       [length]="5"
@@ -8,42 +8,42 @@
       formControlName="textCode"
     ></ngx-pass-code>
 
-    <div class="demo__case__values">
+    <div class="showcase__values">
       <span>Current value: {{ textCode.value | json }}</span>
       <span>Value changes: {{ textCode.valueChanges | async | json }}</span>
       <span>Valid: {{ textCode.valid }}</span>
     </div>
 
-    <div class="demo__case__actions">
+    <div class="showcase__actions">
       <button (click)="textCode.reset(); textCode.enable()">Reset</button>
       <button (click)="textCode.disable()">Disable</button>
       <button (click)="textCode.patchValue('ACAB7')">Patch</button>
     </div>
   </div>
 
-  <div class="demo__case">
-    <span class="demo__case__title">Numbers code</span>
+  <div class="showcase">
+    <span class="showcase__title">Numbers code</span>
     <ngx-pass-code
       [length]="5"
       type="number"
       formControlName="numberCode"
     ></ngx-pass-code>
 
-    <div class="demo__case__values">
+    <div class="showcase__values">
       <span>Current value: {{ numberCode.value | json }}</span>
       <span>Value changes: {{ numberCode.valueChanges | async | json }}</span>
       <span>Valid: {{ numberCode.valid }}</span>
     </div>
 
-    <div class="demo__case__actions">
+    <div class="showcase__actions">
       <button (click)="numberCode.reset()">Reset</button>
       <button (click)="numberCode.disable()">Disable</button>
       <button (click)="numberCode.patchValue('216582')">Patch</button>
     </div>
   </div>
 
-  <div class="demo__case">
-    <span class="demo__case__title">Password (hidden) code</span>
+  <div class="showcase">
+    <span class="showcase__title">Password (hidden) code</span>
 
     <ngx-pass-code
       [length]="7"
@@ -51,13 +51,13 @@
       formControlName="passwordCode"
     ></ngx-pass-code>
 
-    <div class="demo__case__values">
+    <div class="showcase__values">
       <span>Current value: {{ passwordCode.value | json }}</span>
       <span>Value changes: {{ passwordCode.valueChanges | async | json }}</span>
       <span>Valid: {{ passwordCode.valid }}</span>
     </div>
 
-    <div class="demo__case__actions">
+    <div class="showcase__actions">
       <button (click)="passwordCode.reset()">Reset</button>
       <button (click)="passwordCode.disable()">Disable</button>
       <button (click)="passwordCode.patchValue('my')">Patch</button>
