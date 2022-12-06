@@ -65,7 +65,6 @@ export class PassCodeComponent
 
   writeValue(value: string): void {
     const stringifyTrimmedValue = value?.toString().trim();
-
     if (!this.initialized) {
       // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
       setTimeout(() => {
@@ -85,12 +84,16 @@ export class PassCodeComponent
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    isDisabled
-      ? this.passCodes.disable({ emitEvent: false })
-      : this.passCodes.enable({ emitEvent: false });
+  setDisabledState(isDisabled: boolean): void {
+    if (!this.initialized) {
+      setTimeout(() => {
+        this.disableControls(isDisabled);
+      });
 
-    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false });
+      return;
+    }
+
+    this.disableControls(isDisabled);
   }
 
   validate(): ValidationErrors | null {
@@ -131,7 +134,6 @@ export class PassCodeComponent
 
   private updateView(value: string): void {
     value ? this.setValue(value) : this.resetValue();
-    this.passCodes.updateValueAndValidity();
     this.updateCodeValidity();
   }
 
@@ -185,6 +187,16 @@ export class PassCodeComponent
       control => control.dirty
     );
     this.isInvalidCode = allControlsAreInvalid && allControlsAreDirty;
+    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false });
+    this.cdRef.markForCheck();
     this.cdRef.detectChanges();
+  }
+
+  private disableControls(isDisabled: boolean): void {
+    isDisabled
+      ? this.passCodes.disable({ emitEvent: false })
+      : this.passCodes.enable({ emitEvent: false });
+
+    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false });
   }
 }

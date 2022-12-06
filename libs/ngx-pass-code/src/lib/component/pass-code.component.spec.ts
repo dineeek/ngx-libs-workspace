@@ -14,16 +14,19 @@ import spyOn = jest.spyOn;
     [formControl]="control"
   ></ngx-pass-code>`,
 })
-class HostComponent {
+class HostTextCodeComponent {
   @ViewChild(PassCodeComponent) passCodeComponent!: PassCodeComponent;
-  control = new FormControl<string | number | null>('mypass1', {
-    validators: Validators.required,
-  });
+  control = new FormControl<string | number | null>(
+    { value: 'mypass1', disabled: false },
+    {
+      validators: Validators.required,
+    }
+  );
 }
 
 describe('PassCodeComponent - type text + validation', () => {
-  let hostComponent: HostComponent;
-  let hostFixture: ComponentFixture<HostComponent>;
+  let hostComponent: HostTextCodeComponent;
+  let hostFixture: ComponentFixture<HostTextCodeComponent>;
   const codeLength = 7;
 
   const getAllInputs = (): HTMLInputElement[] => {
@@ -35,10 +38,10 @@ describe('PassCodeComponent - type text + validation', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgxPassCodeModule],
-      declarations: [HostComponent],
+      declarations: [HostTextCodeComponent],
     }).compileComponents();
 
-    hostFixture = TestBed.createComponent(HostComponent);
+    hostFixture = TestBed.createComponent(HostTextCodeComponent);
     hostComponent = hostFixture.componentInstance;
     hostFixture.detectChanges();
   });
@@ -112,6 +115,14 @@ describe('PassCodeComponent - type text + validation', () => {
     expect(hostComponent.control.value).toStrictEqual(value.toUpperCase());
   });
 
+  it('should send a lowercase value to parent when view value changes', () => {
+    const value = 'newvals';
+    hostComponent.passCodeComponent.uppercase = false;
+    hostComponent.passCodeComponent.passCodes.patchValue([...value]);
+
+    expect(hostComponent.control.value).toStrictEqual(value);
+  });
+
   it('should send a touch event when input interaction', () => {
     expect(hostComponent.control.touched).toBe(false); // initially
 
@@ -178,14 +189,14 @@ describe('PassCodeComponent - type text + validation', () => {
     [formControl]="control"
   ></ngx-pass-code>`,
 })
-class Host2Component {
+class HostNumbersCodeComponent {
   @ViewChild(PassCodeComponent) passCodeComponent!: PassCodeComponent;
   control = new FormControl<string | number | null>(null);
 }
 
 describe('PassCodeComponent - type numbers', () => {
-  let hostComponent: Host2Component;
-  let hostFixture: ComponentFixture<Host2Component>;
+  let hostComponent: HostNumbersCodeComponent;
+  let hostFixture: ComponentFixture<HostNumbersCodeComponent>;
   const codeLength = 5;
 
   const getAllInputs = (): HTMLInputElement[] => {
@@ -197,10 +208,10 @@ describe('PassCodeComponent - type numbers', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgxPassCodeModule],
-      declarations: [Host2Component],
+      declarations: [HostNumbersCodeComponent],
     }).compileComponents();
 
-    hostFixture = TestBed.createComponent(Host2Component);
+    hostFixture = TestBed.createComponent(HostNumbersCodeComponent);
     hostComponent = hostFixture.componentInstance;
     hostFixture.detectChanges();
   });
@@ -384,5 +395,85 @@ describe('PassCodeComponent - type numbers', () => {
     expect(firstInput.value).toStrictEqual('');
     firstInput.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })); // spacebar
     expect(firstInput.value).toStrictEqual(''); // spacebar ignored - value is the same
+  });
+});
+
+@Component({
+  template: `<ngx-pass-code
+    [length]="6"
+    type="password"
+    [formControl]="control"
+  ></ngx-pass-code>`,
+})
+class HostPasswordCodeComponent {
+  @ViewChild(PassCodeComponent) passCodeComponent!: PassCodeComponent;
+  control = new FormControl<string | number | null>({
+    value: null,
+    disabled: true,
+  });
+}
+
+describe('PassCodeComponent - type password + disabled', () => {
+  let hostComponent: HostPasswordCodeComponent;
+  let hostFixture: ComponentFixture<HostPasswordCodeComponent>;
+  const codeLength = 6;
+
+  const getAllInputs = (): HTMLInputElement[] => {
+    const compiled = hostFixture.debugElement.nativeElement;
+    const component = compiled.querySelector('ngx-pass-code');
+    return component.querySelectorAll('input');
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, NgxPassCodeModule],
+      declarations: [HostPasswordCodeComponent],
+    }).compileComponents();
+
+    hostFixture = TestBed.createComponent(HostPasswordCodeComponent);
+    hostComponent = hostFixture.componentInstance;
+    hostFixture.detectChanges();
+  });
+
+  beforeEach(waitForAsync(() => {
+    // async as initial value is set in timeout
+    hostFixture.whenStable().then(() => {
+      hostFixture.detectChanges();
+    });
+  }));
+
+  afterEach(() => {
+    hostFixture.destroy();
+  });
+
+  it('should create', () => {
+    expect(hostComponent).toBeTruthy();
+    expect(hostComponent.passCodeComponent).toBeTruthy();
+    expect(getAllInputs().length).toStrictEqual(codeLength);
+  });
+
+  it('should set the initial value in the ui', () => {
+    expect(hostComponent.passCodeComponent.passCodes.value).toStrictEqual(
+      new Array(codeLength).fill(null)
+    );
+  });
+
+  it('should enable/disable ui on control disable', () => {
+    expect(hostComponent.control.enabled).toStrictEqual(false);
+    expect(hostComponent.passCodeComponent.passCodes.enabled).toStrictEqual(
+      false
+    );
+
+    hostComponent.control.enable();
+
+    expect(hostComponent.passCodeComponent.passCodes.enabled).toStrictEqual(
+      true
+    );
+
+    hostComponent.control.disable();
+
+    expect(hostComponent.passCodeComponent.passCodes.enabled).toStrictEqual(
+      false
+    );
   });
 });
