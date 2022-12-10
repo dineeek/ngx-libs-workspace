@@ -13,7 +13,7 @@ password. Supports Angular version 12+.
 </p>
 
 [![Build Status](https://app.travis-ci.com/dineeek/ngx-libs-workspace.svg?branch=main)](https://app.travis-ci.com/dineeek/ngx-libs-workspace)
-[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=setup-codecov)
+[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=main)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_shield)
@@ -26,7 +26,8 @@ password. Supports Angular version 12+.
 - Supports sync validation.
 - No 3rd party dependencies.
 
-**[Live demo](https://dineeek.github.io/ngx-libs-workspace)**
+**[Live workspace demo](https://dineeek.github.io/ngx-libs-workspace)**
+
 **[Stackblitz](https://stackblitz.com/edit/ngx-pass-code)**
 
 # Install
