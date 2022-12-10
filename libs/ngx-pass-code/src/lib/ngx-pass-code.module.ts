@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PassCodeComponent } from './component/pass-code.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PassCodeComponent } from './component/pass-code.component';
+import { AutofocusFirstInputDirective } from './directives/autofocus-first-input.directive';
 import { FocusNextPreviousInputDirective } from './directives/focus-next-previous-input.directive';
 import { TransformInputValueDirective } from './directives/transform-uppercase.directive';
 
@@ -11,6 +12,7 @@ import { TransformInputValueDirective } from './directives/transform-uppercase.d
     PassCodeComponent,
     FocusNextPreviousInputDirective,
     TransformInputValueDirective,
+    AutofocusFirstInputDirective,
   ],
   exports: [PassCodeComponent],
 })

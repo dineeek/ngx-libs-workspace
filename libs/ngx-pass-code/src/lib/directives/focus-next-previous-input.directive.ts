@@ -1,10 +1,12 @@
-import { Directive, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[focusNextPreviousInput]',
 })
 export class FocusNextPreviousInputDirective {
+  @Input() autoblur = false;
+
   private BACKSPACE_KEY = 8;
   private TAB_KEY = 9;
   private DELETE_KEY = 46;
@@ -50,6 +52,8 @@ export class FocusNextPreviousInputDirective {
     if (nextControl) {
       nextControl.focus();
       nextControl.select();
+    } else if (this.autoblur) {
+      e.srcElement.blur();
     }
   }
 

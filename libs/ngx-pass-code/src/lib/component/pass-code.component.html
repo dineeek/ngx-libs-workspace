@@ -1,16 +1,22 @@
-<div class="container">
+<div
+  class="container"
+  [autofocus]="autofocus && !!passCodes.controls.length"
+  autofocusFirstInput
+>
   <input
-    *ngFor="let control of passCodes.controls; index as i"
-    [formControl]="control"
-    [type]="type"
+    *ngFor="let control of passCodes.controls"
     (blur)="onTouched()"
     onclick="select()"
+    [autoblur]="autoblur"
+    [formControl]="control"
+    [type]="type"
+    [uppercase]="uppercase"
+    [ngClass]="{
+      'invalid-input': isCodeInvalid
+    }"
     maxlength="1"
     focusNextPreviousInput
     transformInputValue
-    [uppercase]="uppercase"
-    [ngClass]="{
-      'invalid-input': isInvalidCode
-    }"
+    autofocusFirst
   />
 </div>
