@@ -2,10 +2,11 @@
   <div class="showcase">
     <span class="demo__case__title">Text code - required + upercase</span>
     <ngx-pass-code
-      [length]="5"
-      type="text"
-      [uppercase]="true"
       formControlName="textCode"
+      type="text"
+      [length]="5"
+      [uppercase]="true"
+      [autofocus]="true"
     ></ngx-pass-code>
 
     <div class="showcase__values">
@@ -25,6 +26,7 @@
     <span class="showcase__title">Numbers code</span>
     <ngx-pass-code
       [length]="5"
+      [autoblur]="true"
       type="number"
       formControlName="numberCode"
     ></ngx-pass-code>

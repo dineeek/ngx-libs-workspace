@@ -28,9 +28,11 @@ export class PassCodeComponent
   @Input() length = 0;
   @Input() type: 'text' | 'number' | 'password' = 'text';
   @Input() uppercase = false;
+  @Input() autofocus = false; // set focus on first input
+  @Input() autoblur = false; // remove focus from last input when filled
 
   passCodes!: FormArray<FormControl>;
-  isInvalidCode = false; // validation is triggered only if all controls are invalid
+  isCodeInvalid = false; // validation is triggered only if all controls are invalid
 
   private initialized = false;
   private unsubscribe$ = new Subject<void>();
@@ -186,9 +188,12 @@ export class PassCodeComponent
     const allControlsAreDirty = this.passCodes.controls.every(
       control => control.dirty
     );
-    this.isInvalidCode = allControlsAreInvalid && allControlsAreDirty;
+
+    this.isCodeInvalid = allControlsAreInvalid && allControlsAreDirty;
+
     this.controlDirective.control?.updateValueAndValidity({ emitEvent: false });
     this.cdRef.markForCheck();
+
     this.cdRef.detectChanges();
   }
 

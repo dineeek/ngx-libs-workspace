@@ -1,10 +1,12 @@
-import { Directive, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[focusNextPreviousInput]',
 })
 export class FocusNextPreviousInputDirective {
+  @Input() autoblur = false;
+
   private BACKSPACE_KEY = 8;
   private TAB_KEY = 9;
   private DELETE_KEY = 46;
@@ -25,8 +27,7 @@ export class FocusNextPreviousInputDirective {
     }
 
     // allow jumping across
-    if (e.keyCode === this.RIGHT_ARROW_KEY || e.keyCode === this.TAB_KEY) {
-      this.goNext(e);
+    if (e.keyCode === this.TAB_KEY) {
       return;
     }
 
@@ -50,6 +51,8 @@ export class FocusNextPreviousInputDirective {
     if (nextControl) {
       nextControl.focus();
       nextControl.select();
+    } else if (this.autoblur) {
+      e.srcElement.blur();
     }
   }
 
@@ -57,16 +60,19 @@ export class FocusNextPreviousInputDirective {
     // prevent whitespace
     if (e.keyCode === this.SPACE_KEY) {
       e.preventDefault();
+      return;
     }
 
     // assure only one number
     if (
       e.srcElement.type === 'number' &&
       e.keyCode !== this.DELETE_KEY &&
-      e.keyCode !== this.BACKSPACE_KEY
+      e.keyCode !== this.BACKSPACE_KEY &&
+      e.keyCode !== this.RIGHT_ARROW_KEY &&
+      e.keyCode !== this.LEFT_ARROW_KEY &&
+      e.keyCode !== this.TAB_KEY
     ) {
-      e.srcElement.value = e.srcElement.value.substring(0, 0);
-      return;
+      e.srcElement.value = e.srcElement.value.toString().substring(0, 0);
     }
   }
 }

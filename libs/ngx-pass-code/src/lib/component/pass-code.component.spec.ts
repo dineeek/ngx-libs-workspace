@@ -12,6 +12,7 @@ import spyOn = jest.spyOn;
     type="text"
     [uppercase]="true"
     [formControl]="control"
+    [autofocus]="true"
   ></ngx-pass-code>`,
 })
 class HostTextCodeComponent {
@@ -187,6 +188,7 @@ describe('PassCodeComponent - type text + validation', () => {
     [length]="5"
     type="number"
     [formControl]="control"
+    [autoblur]="true"
   ></ngx-pass-code>`,
 })
 class HostNumbersCodeComponent {
@@ -322,7 +324,7 @@ describe('PassCodeComponent - type numbers', () => {
     expect(firstInputSpy).toHaveBeenCalled();
   });
 
-  it('should move to next input element', () => {
+  it('should move to next input element if previous has value', () => {
     const inputs = getAllInputs();
 
     const firstInput = inputs[0];
@@ -332,11 +334,12 @@ describe('PassCodeComponent - type numbers', () => {
     const secondInputSpy = spyOn(secondInput, 'focus');
 
     firstInput.focus();
+    firstInput.value = '2';
     hostFixture.detectChanges();
 
     expect(firstInputSpy).toHaveBeenCalled();
 
-    firstInput.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 9 })); // tab key - moves to next element
+    firstInput.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 53 }));
     hostFixture.detectChanges();
 
     expect(secondInputSpy).toHaveBeenCalled();
@@ -387,14 +390,59 @@ describe('PassCodeComponent - type numbers', () => {
     expect(secondInputSpy).toHaveBeenCalled();
   });
 
-  it('should do actions on keydown', () => {
+  it('should substring value on specific keys for number codes', () => {
     const compiled = hostFixture.debugElement.nativeElement;
     const component = compiled.querySelector('ngx-pass-code');
     const firstInput = component.querySelector('input');
 
+    firstInput.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 53 }));
+
+    firstInput.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })); // space key
+    hostFixture.detectChanges();
+
+    expect(firstInput.value).toStrictEqual(''); // space key ignored - value is the same
+
+    firstInput.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 9 })); // tab key
+    hostFixture.detectChanges();
+
+    expect(firstInput.value).toStrictEqual(''); // tab ignored - value is the same
+  });
+
+  it('should ignore tab key press', () => {
+    const inputs = getAllInputs();
+
+    const firstInput = inputs[0];
+    const secondInput = inputs[1];
+
+    const firstInputSpy = spyOn(firstInput, 'focus');
+    const secondInputSpy = spyOn(secondInput, 'focus');
+
     expect(firstInput.value).toStrictEqual('');
-    firstInput.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })); // spacebar
-    expect(firstInput.value).toStrictEqual(''); // spacebar ignored - value is the same
+
+    firstInput.focus();
+    hostFixture.detectChanges();
+
+    expect(firstInputSpy).toHaveBeenCalled();
+
+    firstInput.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 9 })); // tab key
+    hostFixture.detectChanges();
+
+    expect(secondInputSpy).not.toHaveBeenCalled();
+  });
+
+  it('should blur out on last input if it has value', () => {
+    const allInputs = getAllInputs();
+    const lastInput = allInputs[allInputs.length - 1];
+
+    const lastInputBlurSpy = spyOn(lastInput, 'blur');
+
+    expect(lastInput.value).toStrictEqual('');
+
+    lastInput.value = '2';
+    lastInput.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 39 }));
+    hostFixture.detectChanges();
+
+    expect(lastInputBlurSpy).toHaveBeenCalled();
   });
 });
 

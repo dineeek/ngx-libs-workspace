@@ -26,7 +26,8 @@ password. Supports Angular version 12+.
 - Supports sync validation.
 - No 3rd party dependencies.
 
-**[Live demo.](https://dineeek.github.io/ngx-libs-workspace)**
+**[Live demo](https://dineeek.github.io/ngx-libs-workspace)**
+**[Stackblitz](https://stackblitz.com/edit/ngx-pass-code)**
 
 # Install
 
@@ -60,18 +61,36 @@ export class FeatureModule {}
 
 - #### length
 
-  Represents needed length of code.Defaulted to 0.
+  Set length of the code (number of inputs). Defaulted to 0.
 
 - #### type
 
-  Represents input type property: 'text' | 'number' |'password'. Type 'password'
-  is hiding inserted values. Defined type is also used for casting control
-  value. Defaulted to 'text'.
+  Set input type property: 'text' | 'number' |'password'. Type 'password' is
+  hiding inserted values. Defined type is also used for casting control value.
+  Defaulted to 'text'.
 
 - #### uppercase
 
-  Represent the property to transform user input to uppercase. Defaulted to
-  false.
+  Set uppercase inputs value transformation. Defaulted to false.
+
+- #### patterns
+
+  To set pattern validation use Angular Validators.pattern when defining form
+  control. Example: new FormControl('', {validators:
+  Validators.pattern('[a-zA-z0-9]{1}')}). The `{1}` in pattern expression has to
+  be set to 1 because individual inputs.
+
+- #### autofocus - from v1.1.0
+
+  Set focus on the first input code. Defaulted to false.
+
+- #### autoblur - from v1.1.0
+
+  Remove focus from the last input when it is filled. Defaulted to false.
+
+# Contributing
+
+Contributions are more than welcome!
 
 # License
 
