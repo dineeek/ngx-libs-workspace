@@ -40,7 +40,7 @@
     "@angular/router": "~14.2.3",
     "@nrwl/angular": "14.8.0",
     "angular-cli-ghpages": "^1.0.5",
-    "ngx-deploy-npm": "^4.3.9",
+    "ngx-deploy-npm": "^4.3.11",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

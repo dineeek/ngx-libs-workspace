@@ -39,7 +39,7 @@ specifiers:
   jest-preset-angular: ~12.2.2
   lint-staged: ^13.0.3
   ng-packagr: ~14.2.0
-  ngx-deploy-npm: ^4.3.9
+  ngx-deploy-npm: ^4.3.11
   nx: 14.8.0
   postcss: ^8.4.5
   postcss-import: ~14.1.0
@@ -64,7 +64,7 @@ dependencies:
   '@angular/router': 14.2.3_bzitv6nc6qyeo4tcxlc4thruh4
   '@nrwl/angular': 14.8.0_6bxxvmyt3fp5tcv3kpwrxwqifq
   angular-cli-ghpages: 1.0.5_zzbtpsefck336kvjidy3pg7zge
-  ngx-deploy-npm: 4.3.10_nx@14.8.0+typescript@4.8.4
+  ngx-deploy-npm: 4.3.11_nx@14.8.0+typescript@4.8.4
   rxjs: 7.5.7
   tslib: 2.4.0
   zone.js: 0.11.8
@@ -3368,8 +3368,8 @@ packages:
     transitivePeerDependencies:
       - typescript
 
-  /@nrwl/devkit/15.2.3_nx@14.8.0+typescript@4.8.4:
-    resolution: {integrity: sha512-3IZVahO6vvEFxp0N7mEO34ZnYT+8FaObyYI/2XVYZ0eDCAMihn2IIUMj+M42vAXPOJpctdghSKXovQDuHO031w==}
+  /@nrwl/devkit/15.6.2_nx@14.8.0+typescript@4.8.4:
+    resolution: {integrity: sha512-RcPwjr1btr16wz/ZTnLeKMLu4zATWoh5E94qrFxw3n8hXbC5cIW0Hs/D3ho7cuJQCtQmItTD21M7akjvgHsniA==}
     peerDependencies:
       nx: '>= 14 <= 16'
     dependencies:
@@ -8998,13 +8998,15 @@ packages:
       - supports-color
     dev: true
 
-  /ngx-deploy-npm/4.3.10_nx@14.8.0+typescript@4.8.4:
-    resolution: {integrity: sha512-6cLM1z0h6VD5SYH9fJSeslvTSKTkaySsH63k2AouXnAXsHQe4eFrdkmfMAZoVwUZHyaNIBOKMUcTvotgMwQnug==}
+  /ngx-deploy-npm/4.3.11_nx@14.8.0+typescript@4.8.4:
+    resolution: {integrity: sha512-2fvT7+u9iIdzlgkM3iMiQeQyl275RYG7REj7pW/Whve5reoKfkvQn3MLfxAYg/86QZrahHYR4TOhlKr/ccy/VQ==}
     engines: {node: '>=14.0.0'}
+    peerDependencies:
+      nx: 15.6.2
     dependencies:
-      '@nrwl/devkit': 15.2.3_nx@14.8.0+typescript@4.8.4
+      '@nrwl/devkit': 15.6.2_nx@14.8.0+typescript@4.8.4
+      nx: 14.8.0
     transitivePeerDependencies:
-      - nx
       - typescript
     dev: false
 
