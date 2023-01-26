@@ -5,7 +5,8 @@ on:
       - main
       - ngx-pass-code
   pull_request:
-
+    branches:
+      - main
 jobs:
   main:
     runs-on: ubuntu-latest
