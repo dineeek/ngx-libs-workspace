@@ -5,7 +5,7 @@ language: node_js
 dist: trusty
 branch: main
 node_js:
-  - 16
+  - 18
 before_script:
   - npm config set legacy-peer-deps true
   - npm install @angular/cli
