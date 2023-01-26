@@ -48,7 +48,7 @@ jobs:
       - run: pnpm affected:build:ci
 
       - name: main coverage
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         run: pnpm test:coverage:ci
 
       - name: ngx-pass-code coverage
