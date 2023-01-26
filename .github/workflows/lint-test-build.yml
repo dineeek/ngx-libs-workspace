@@ -3,8 +3,10 @@ on:
   push:
     branches:
       - main
+      - ngx-pass-code
   pull_request:
-
+    branches:
+      - main
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -43,9 +45,15 @@ jobs:
         run: pnpm install
 
       - run: pnpm affected:lint:ci
-      - run: pnpm affected:test:ci
       - run: pnpm affected:build:ci
-      - run: pnpm test:coverage:ci
+
+      - name: main coverage
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        run: pnpm test:coverage:ci
+
+      - name: ngx-pass-code coverage
+        if: github.ref == 'refs/heads/ngx-pass-code'
+        run: pnpm ngx-pass-code:test:ci
 
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@1.1.3

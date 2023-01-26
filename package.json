@@ -22,9 +22,10 @@
     "prepare": "husky install",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test ngx-pass-code --watchAll --coverage",
     "deploy-page": "nx build --prod --output-path docs --base-href .",
     "configure-deploy": "nx generate ngx-deploy-npm:install",
+    "ngx-pass-code:test:dev": "nx test ngx-pass-code --watchAll --coverage",
+    "ngx-pass-code:test:ci": "pnpm jest ngx-pass-code --coverage",
     "publish:ngx-pass-code": "nx deploy ngx-pass-code"
   },
   "private": true,
@@ -39,7 +40,7 @@
     "@angular/router": "~14.2.3",
     "@nrwl/angular": "14.8.0",
     "angular-cli-ghpages": "^1.0.5",
-    "ngx-deploy-npm": "^4.3.9",
+    "ngx-deploy-npm": "^4.3.11",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

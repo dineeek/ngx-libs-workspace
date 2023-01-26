@@ -6,9 +6,11 @@ dist: trusty
 branch: main
 node_js:
   - 16
+before_install:
+  - npm config set legacy-peer-deps true
 before_script:
   - npm install @angular/cli
-  - npm install --legacy-peer-deps
+  - npm install
   - npm install --save-dev @types/jest
 script:
   - npm run lint:ci
