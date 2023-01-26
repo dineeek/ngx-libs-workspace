@@ -5,7 +5,6 @@ on:
       - main
       - ngx-pass-code
   pull_request:
-      - main
 
 jobs:
   main:
