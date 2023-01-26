@@ -4,10 +4,10 @@ addons:
 language: node_js
 dist: trusty
 branch: main
-cache:
-  npm: false
 node_js:
   - 16
+before_install:
+  - npm config set legacy-peer-deps true
 before_script:
   - npm install @angular/cli
   - npm install --legacy-peer-deps
