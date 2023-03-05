@@ -22,6 +22,8 @@
     "prepare": "husky install",
     "start": "nx serve",
     "build": "nx build",
+    "prettier:write": "prettier --write \"**/*.{ts,scss,html}\"",
+    "prettier:check": "prettier --check \"**/*.{ts,scss,html}\"",
     "deploy-page": "nx build --prod --output-path docs --base-href .",
     "configure-deploy": "nx generate ngx-deploy-npm:install",
     "ngx-pass-code:test:dev": "nx test ngx-pass-code --watchAll --coverage",
