@@ -4,160 +4,160 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
-} from '@angular/core';
+  OnInit
+} from '@angular/core'
 import {
   ControlValueAccessor,
   FormArray,
   FormControl,
   NgControl,
   ValidationErrors,
-  Validator,
-} from '@angular/forms';
-import { distinctUntilChanged, map, Subject, takeUntil, tap } from 'rxjs';
+  Validator
+} from '@angular/forms'
+import { distinctUntilChanged, map, Subject, takeUntil, tap } from 'rxjs'
 
 @Component({
   selector: 'ngx-pass-code',
   templateUrl: './pass-code.component.html',
   styleUrls: ['./pass-code.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PassCodeComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
-  @Input() length = 0;
-  @Input() type: 'text' | 'number' | 'password' = 'text';
-  @Input() uppercase = false;
-  @Input() autofocus = false; // set focus on first input
-  @Input() autoblur = false; // remove focus from last input when filled
+  @Input() length = 0
+  @Input() type: 'text' | 'number' | 'password' = 'text'
+  @Input() uppercase = false
+  @Input() autofocus = false // set focus on first input
+  @Input() autoblur = false // remove focus from last input when filled
 
-  passCodes!: FormArray<FormControl>;
-  isCodeInvalid = false; // validation is triggered only if all controls are invalid
+  passCodes!: FormArray<FormControl>
+  isCodeInvalid = false // validation is triggered only if all controls are invalid
 
-  private initialized = false;
-  private unsubscribe$ = new Subject<void>();
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (value: string | number | null) => {};
+  private initialized = false
+  private unsubscribe$ = new Subject<void>()
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched = () => {};
+  onChange = (value: string | number | null) => {}
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched = () => {}
 
   constructor(
     private controlDirective: NgControl,
     private cdRef: ChangeDetectorRef
   ) {
-    this.controlDirective.valueAccessor = this;
+    this.controlDirective.valueAccessor = this
   }
 
   ngOnInit(): void {
     this.passCodes = new FormArray(
       [...new Array(this.length)].map(() => new FormControl(''))
-    );
+    )
 
-    this.setSyncValidatorsFromParent();
-    this.updateParentValidation();
-    this.propagateViewToModel();
+    this.setSyncValidatorsFromParent()
+    this.updateParentValidation()
+    this.propagateViewToModel()
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.next()
+    this.unsubscribe$.complete()
   }
 
   writeValue(value: string): void {
-    const stringifyTrimmedValue = value?.toString().trim();
+    const stringifyTrimmedValue = value?.toString().trim()
     if (!this.initialized) {
       // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
       setTimeout(() => {
-        this.initialized = true;
-        this.updateView(stringifyTrimmedValue);
-      });
+        this.initialized = true
+        this.updateView(stringifyTrimmedValue)
+      })
     } else {
-      this.updateView(stringifyTrimmedValue);
+      this.updateView(stringifyTrimmedValue)
     }
   }
 
   registerOnChange(fn: any): void {
-    this.onChange = fn;
+    this.onChange = fn
   }
 
   registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+    this.onTouched = fn
   }
 
   setDisabledState(isDisabled: boolean): void {
     if (!this.initialized) {
       setTimeout(() => {
-        this.disableControls(isDisabled);
-      });
+        this.disableControls(isDisabled)
+      })
 
-      return;
+      return
     }
 
-    this.disableControls(isDisabled);
+    this.disableControls(isDisabled)
   }
 
   validate(): ValidationErrors | null {
     if (this.passCodes.valid) {
-      return null;
+      return null
     }
 
     const errors = this.passCodes.controls
       .map(control => control.errors)
-      .filter(error => error !== null);
+      .filter(error => error !== null)
 
-    return errors.length ? errors : null;
+    return errors.length ? errors : null
   }
 
   private setSyncValidatorsFromParent(): void {
-    const parentValidators = this.controlDirective.control?.validator;
+    const parentValidators = this.controlDirective.control?.validator
 
     if (!parentValidators) {
-      return;
+      return
     }
 
     this.passCodes.controls.forEach(control => {
-      control.setValidators(parentValidators);
-    });
-    this.passCodes.updateValueAndValidity({ emitEvent: false });
+      control.setValidators(parentValidators)
+    })
+    this.passCodes.updateValueAndValidity({ emitEvent: false })
   }
 
   private updateParentValidation(): void {
-    const parentControl = this.controlDirective.control;
+    const parentControl = this.controlDirective.control
 
     if (!parentControl) {
-      return;
+      return
     }
 
-    parentControl.setValidators(this.validate.bind(this));
-    parentControl.updateValueAndValidity({ emitEvent: false });
+    parentControl.setValidators(this.validate.bind(this))
+    parentControl.updateValueAndValidity({ emitEvent: false })
   }
 
   private updateView(value: string): void {
-    value ? this.setValue(value) : this.resetValue();
-    this.updateCodeValidity();
+    value ? this.setValue(value) : this.resetValue()
+    this.updateCodeValidity()
   }
 
   private setValue(value: string): void {
     if (this.type === 'number' && isNaN(parseInt(value))) {
       throw new TypeError(
         'Provided value does not match provided type property number!'
-      );
+      )
     }
 
-    const splittedValue = value.substring(0, this.length).split(''); // remove chars after specified length and split
+    const splittedValue = value.substring(0, this.length).split('') // remove chars after specified length and split
 
     if (splittedValue.length < this.length) {
-      this.resetValue();
+      this.resetValue()
     }
 
-    this.passCodes.patchValue(splittedValue, { emitEvent: false });
+    this.passCodes.patchValue(splittedValue, { emitEvent: false })
   }
 
   private resetValue(): void {
-    const nullValues = Array(this.length).fill(null);
-    this.passCodes.patchValue(nullValues, { emitEvent: false });
+    const nullValues = Array(this.length).fill(null)
+    this.passCodes.patchValue(nullValues, { emitEvent: false })
   }
 
   private propagateViewToModel(): void {
@@ -165,43 +165,43 @@ export class PassCodeComponent
       .pipe(
         tap(() => this.updateCodeValidity()),
         map(codes => {
-          const code = codes.join('');
+          const code = codes.join('')
 
           if (this.passCodes.invalid || !code) {
-            return null;
+            return null
           }
 
           if (this.type === 'number') {
-            return parseInt(code);
+            return parseInt(code)
           }
 
-          return this.uppercase ? code.toUpperCase() : code;
+          return this.uppercase ? code.toUpperCase() : code
         }),
         distinctUntilChanged(),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe((value: string | number | null) => this.onChange(value));
+      .subscribe((value: string | number | null) => this.onChange(value))
   }
 
   private updateCodeValidity(): void {
-    const allControlsAreInvalid = this.validate()?.['length'] === this.length;
+    const allControlsAreInvalid = this.validate()?.['length'] === this.length
     const allControlsAreDirty = this.passCodes.controls.every(
       control => control.dirty
-    );
+    )
 
-    this.isCodeInvalid = allControlsAreInvalid && allControlsAreDirty;
+    this.isCodeInvalid = allControlsAreInvalid && allControlsAreDirty
 
-    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false });
-    this.cdRef.markForCheck();
+    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false })
+    this.cdRef.markForCheck()
 
-    this.cdRef.detectChanges();
+    this.cdRef.detectChanges()
   }
 
   private disableControls(isDisabled: boolean): void {
     isDisabled
       ? this.passCodes.disable({ emitEvent: false })
-      : this.passCodes.enable({ emitEvent: false });
+      : this.passCodes.enable({ emitEvent: false })
 
-    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false });
+    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false })
   }
 }
