@@ -21,7 +21,8 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "emitDecoratorMetadata": false
+    "emitDecoratorMetadata": false,
+    "strictNullChecks": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
