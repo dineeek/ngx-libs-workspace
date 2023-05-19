@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { PassCodeDemoComponent } from './demos/pass-code/pass-code-demo.component'
+import { PassCodeDemoComponent } from './demos/pass-code/pass-code.component'
 
 const routes: Routes = [
   { path: 'ngx-pass-code', component: PassCodeDemoComponent }

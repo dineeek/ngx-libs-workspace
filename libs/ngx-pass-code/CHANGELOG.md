@@ -15,3 +15,7 @@ emit on set/patch value.
 
 Improved left and right movement through inputs. Added autofocus and autoblur
 features.
+
+### 1.1.1 - 19.02.2023
+
+Small code improvements.

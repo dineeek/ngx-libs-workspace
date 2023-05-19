@@ -38,7 +38,7 @@
     </div>
 
     <div class="showcase__actions">
-      <button (click)="numberCode.reset()">Reset</button>
+      <button (click)="numberCode.reset(); numberCode.enable()">Reset</button>
       <button (click)="numberCode.disable()">Disable</button>
       <button (click)="numberCode.patchValue('216582')">Patch</button>
     </div>
@@ -60,7 +60,9 @@
     </div>
 
     <div class="showcase__actions">
-      <button (click)="passwordCode.reset()">Reset</button>
+      <button (click)="passwordCode.reset(); passwordCode.enable()">
+        Reset
+      </button>
       <button (click)="passwordCode.disable()">Disable</button>
       <button (click)="passwordCode.patchValue('my')">Patch</button>
     </div>
