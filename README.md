@@ -32,7 +32,7 @@ the devtools to test, and build projects as well.
 Below are our core plugins:
 
 - [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
+  - `ng add @nx/angular`
 - [React](https://reactjs.org)
   - `ng add @nrwl/react`
 - Web (no framework frontends)
@@ -48,7 +48,7 @@ There are also many [community plugins](https://nx.dev/community) you could add.
 
 ## Generate an application
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+Run `ng g @nx/angular:app my-app` to generate an application.
 
 > You can use any of the plugins above to generate applications as well.
 
@@ -57,7 +57,7 @@ workspace.
 
 ## Generate a library
 
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
+Run `ng g @nx/angular:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
