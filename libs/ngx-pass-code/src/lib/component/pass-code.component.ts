@@ -7,6 +7,7 @@ import {
   OnInit
 } from '@angular/core'
 import {
+  AbstractControl,
   ControlValueAccessor,
   FormArray,
   FormControl,
@@ -110,8 +111,12 @@ export class PassCodeComponent
     return errors.length ? errors : null
   }
 
+  private get parentControl(): AbstractControl<any, any> {
+    return this.controlDirective.control as AbstractControl<any, any>
+  }
+
   private setSyncValidatorsFromParent(): void {
-    const parentValidators = this.controlDirective.control.validator
+    const parentValidators = this.parentControl.validator
 
     if (!parentValidators) {
       return
@@ -124,14 +129,12 @@ export class PassCodeComponent
   }
 
   private updateParentControlValidation(): void {
-    const parentControl = this.controlDirective.control
-
-    if (!parentControl) {
+    if (!this.parentControl) {
       return
     }
 
-    parentControl.setValidators(this.validate.bind(this))
-    parentControl.updateValueAndValidity({ emitEvent: false })
+    this.parentControl.setValidators(this.validate.bind(this))
+    this.parentControl.updateValueAndValidity({ emitEvent: false })
   }
 
   private propagateModelValueToView(value: string): void {
@@ -187,7 +190,7 @@ export class PassCodeComponent
   private updateCodeValidity(): void {
     const allControlsAreInvalid = this.validate()?.['length'] === this.length
     this.isCodeInvalid = allControlsAreInvalid && this.passCodes.dirty
-    this.controlDirective.control.updateValueAndValidity({ emitEvent: false })
+    this.parentControl.updateValueAndValidity({ emitEvent: false })
   }
 
   private disableControls(isDisabled: boolean): void {
@@ -195,6 +198,6 @@ export class PassCodeComponent
       ? this.passCodes.disable({ emitEvent: false })
       : this.passCodes.enable({ emitEvent: false })
 
-    this.controlDirective.control.updateValueAndValidity({ emitEvent: false })
+    this.parentControl.updateValueAndValidity({ emitEvent: false })
   }
 }
