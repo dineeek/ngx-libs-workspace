@@ -111,7 +111,7 @@ export class PassCodeComponent
   }
 
   private setSyncValidatorsFromParent(): void {
-    const parentValidators = this.controlDirective.control?.validator
+    const parentValidators = this.controlDirective.control.validator
 
     if (!parentValidators) {
       return
@@ -187,7 +187,7 @@ export class PassCodeComponent
   private updateCodeValidity(): void {
     const allControlsAreInvalid = this.validate()?.['length'] === this.length
     this.isCodeInvalid = allControlsAreInvalid && this.passCodes.dirty
-    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false })
+    this.controlDirective.control.updateValueAndValidity({ emitEvent: false })
   }
 
   private disableControls(isDisabled: boolean): void {
@@ -195,6 +195,6 @@ export class PassCodeComponent
       ? this.passCodes.disable({ emitEvent: false })
       : this.passCodes.enable({ emitEvent: false })
 
-    this.controlDirective.control?.updateValueAndValidity({ emitEvent: false })
+    this.controlDirective.control.updateValueAndValidity({ emitEvent: false })
   }
 }
