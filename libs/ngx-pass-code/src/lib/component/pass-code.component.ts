@@ -56,8 +56,8 @@ export class PassCodeComponent
     )
 
     this.setSyncValidatorsFromParent()
-    this.updateParentValidation()
-    this.propagateViewToModel()
+    this.updateParentControlValidation()
+    this.propagateViewValueToModel()
   }
 
   ngOnDestroy(): void {
@@ -71,10 +71,10 @@ export class PassCodeComponent
       // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
       setTimeout(() => {
         this.initialized = true
-        this.updateView(stringifyTrimmedValue)
+        this.propagateModelValueToView(stringifyTrimmedValue)
       })
     } else {
-      this.updateView(stringifyTrimmedValue)
+      this.propagateModelValueToView(stringifyTrimmedValue)
     }
   }
 
@@ -123,7 +123,7 @@ export class PassCodeComponent
     this.passCodes.updateValueAndValidity({ emitEvent: false })
   }
 
-  private updateParentValidation(): void {
+  private updateParentControlValidation(): void {
     const parentControl = this.controlDirective.control
 
     if (!parentControl) {
@@ -134,9 +134,10 @@ export class PassCodeComponent
     parentControl.updateValueAndValidity({ emitEvent: false })
   }
 
-  private updateView(value: string): void {
+  private propagateModelValueToView(value: string): void {
     value ? this.setValue(value) : this.resetValue()
     this.updateCodeValidity()
+    this.cdRef.markForCheck()
   }
 
   private setValue(value: string): void {
@@ -160,7 +161,7 @@ export class PassCodeComponent
     this.passCodes.patchValue(nullValues, { emitEvent: false })
   }
 
-  private propagateViewToModel(): void {
+  private propagateViewValueToModel(): void {
     this.passCodes.valueChanges
       .pipe(
         tap(() => this.updateCodeValidity()),
@@ -185,16 +186,8 @@ export class PassCodeComponent
 
   private updateCodeValidity(): void {
     const allControlsAreInvalid = this.validate()?.['length'] === this.length
-    const allControlsAreDirty = this.passCodes.controls.every(
-      control => control.dirty
-    )
-
-    this.isCodeInvalid = allControlsAreInvalid && allControlsAreDirty
-
+    this.isCodeInvalid = allControlsAreInvalid && this.passCodes.dirty
     this.controlDirective.control?.updateValueAndValidity({ emitEvent: false })
-    this.cdRef.markForCheck()
-
-    this.cdRef.detectChanges()
   }
 
   private disableControls(isDisabled: boolean): void {

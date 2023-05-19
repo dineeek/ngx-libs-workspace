@@ -136,7 +136,7 @@ describe('PassCodeComponent - type text + validation', () => {
     expect(component.classList.contains('ng-touched')).toBe(true)
   })
 
-  it('should set invalid class when field is required and send null value', () => {
+  it('should set invalid class when field is required and reset to null value', () => {
     expect(hostComponent.control.valid).toBe(true) // initially
 
     const compiled = hostFixture.debugElement.nativeElement
@@ -146,14 +146,9 @@ describe('PassCodeComponent - type text + validation', () => {
     expect(component.classList.contains('ng-invalid')).toBe(false)
     expect(compiledInput.classList.contains('invalid-input')).toBe(false) // custom validation class
 
-    // clearing value in ui
-    hostComponent.passCodeComponent.passCodes.setValue([
-      ...new Array(codeLength).fill(null).map(() => null)
-    ])
-    // mark every control dirty
-    hostComponent.passCodeComponent.passCodes.controls.forEach(c =>
-      c.markAsDirty()
-    )
+    hostComponent.passCodeComponent.passCodes.reset()
+    hostComponent.passCodeComponent.passCodes.markAsDirty()
+    component.querySelector('input').dispatchEvent(new Event('input'))
     hostComponent.passCodeComponent.passCodes.updateValueAndValidity()
 
     hostFixture.detectChanges()
