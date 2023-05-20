@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpm affected:lint:ci
+      - run: pnpm affected:lint
       - run: pnpm build:ci
 
       - name: Branch main coverage
@@ -66,6 +66,7 @@ jobs:
         if: github.ref == 'refs/heads/deploy-main'
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: main
           publish__dir: dist/apps/playground/
           commit_message: \${{ github.event.head_commit.message }}
