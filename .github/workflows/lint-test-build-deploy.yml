@@ -46,8 +46,8 @@ jobs:
         run: pnpm install
 
       - run: pnpm affected:lint:ci
-      - run: pnpm build:ci
-      - run: playground:build:prod
+      - run: pnpm affected:build:ci
+      - run: pnpm playground:build:prod
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
