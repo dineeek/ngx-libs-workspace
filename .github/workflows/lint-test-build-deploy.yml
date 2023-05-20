@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpm lint:ci
+      - run: pnpm affected:lint:ci
       - run: pnpm build:ci
       - run: playground:build:prod
 
