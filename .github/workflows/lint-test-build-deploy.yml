@@ -1,4 +1,4 @@
-name: lint:test:build
+name: lint:test:build:deploy
 on:
   push:
     branches:
@@ -20,7 +20,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.2
@@ -48,11 +48,11 @@ jobs:
       - run: pnpm lint:ci
       - run: pnpm build:ci
 
-      - name: main coverage
+      - name: main branch coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         run: pnpm test:coverage:ci
 
-      - name: ngx-pass-code coverage
+      - name: ngx-pass-code branch coverage
         if: github.ref == 'refs/heads/ngx-pass-code'
         run: pnpm ngx-pass-code:test:ci
 
