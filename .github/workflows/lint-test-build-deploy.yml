@@ -68,5 +68,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: main
-          publish__dir: dist/apps/playground/
+          publish_dir: dist/apps/playground/
           commit_message: \${{ github.event.head_commit.message }}
