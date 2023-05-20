@@ -1,12 +1,10 @@
 :host {
-  .demo-container {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
-    row-gap: 40px;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  row-gap: 40px;
 
   .showcase {
     display: flex;

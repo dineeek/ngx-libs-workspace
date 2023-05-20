@@ -40,7 +40,7 @@ export class PassCodeComponent
   @Input() autoblur = false // remove focus from last input when filled
 
   passCodes!: FormArray<FormControl>
-  isCodeInvalid = false // validation is triggered only if all controls are invalid
+  isCodeInvalid = false // validation ui is shown only if all controls are invalid
 
   private initialized = false
   private unsubscribe$ = new Subject<void>()
@@ -80,7 +80,7 @@ export class PassCodeComponent
       asyncScheduler.schedule(() => {
         this.initialized = true
         this.propagateModelValueToView(stringifyTrimmedValue)
-        this.cdRef.markForCheck()
+        this.cdRef.markForCheck() // because of scheduling
       })
     } else {
       this.propagateModelValueToView(stringifyTrimmedValue)
@@ -137,10 +137,6 @@ export class PassCodeComponent
   }
 
   private updateParentControlValidation(): void {
-    if (!this.parentControl) {
-      return
-    }
-
     this.parentControl.setValidators(this.validate.bind(this))
     this.parentControl.updateValueAndValidity({ emitEvent: false })
   }
@@ -191,7 +187,7 @@ export class PassCodeComponent
         distinctUntilChanged(),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe((value: string | number | null) => this.onChange(value))
+      .subscribe(this.onChange)
   }
 
   private updatePassCodeValidity(): void {

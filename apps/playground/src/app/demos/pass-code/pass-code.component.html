@@ -1,70 +1,79 @@
-<form [formGroup]="form" class="demo-container">
-  <div class="showcase">
-    <span class="demo__case__title">Text code - required + upercase</span>
-    <ngx-pass-code
-      formControlName="textCode"
-      type="text"
-      [length]="5"
-      [uppercase]="true"
-      [autofocus]="true"
-    ></ngx-pass-code>
+<div class="showcase">
+  <span class="demo__case__title">Text code - required + upercase</span>
+  <ngx-pass-code
+    [formControl]="textCodeControl"
+    type="text"
+    [length]="5"
+    [uppercase]="true"
+    [autofocus]="true"
+  ></ngx-pass-code>
 
-    <div class="showcase__values">
-      <span>Current value: {{ textCode.value | json }}</span>
-      <span>Value changes: {{ textCode.valueChanges | async | json }}</span>
-      <span>Valid: {{ textCode.valid }}</span>
-    </div>
-
-    <div class="showcase__actions">
-      <button (click)="textCode.reset(); textCode.enable()">Reset</button>
-      <button (click)="textCode.disable()">Disable</button>
-      <button (click)="textCode.patchValue('ACAB7')">Patch</button>
-    </div>
+  <div class="showcase__values">
+    <span>Current value: {{ textCodeControl.value | json }}</span>
+    <span
+      >Value changes: {{ textCodeControl.valueChanges | async | json }}</span
+    >
+    <span>Valid: {{ textCodeControl.valid }}</span>
   </div>
 
-  <div class="showcase">
-    <span class="showcase__title">Numbers code</span>
-    <ngx-pass-code
-      [length]="5"
-      [autoblur]="true"
-      type="number"
-      formControlName="numberCode"
-    ></ngx-pass-code>
+  <div class="showcase__actions">
+    <button (click)="textCodeControl.reset(); textCodeControl.enable()">
+      Reset
+    </button>
+    <button (click)="textCodeControl.disable()">Disable</button>
+    <button (click)="textCodeControl.patchValue('ACAB7')">Patch</button>
+  </div>
+</div>
 
-    <div class="showcase__values">
-      <span>Current value: {{ numberCode.value | json }}</span>
-      <span>Value changes: {{ numberCode.valueChanges | async | json }}</span>
-      <span>Valid: {{ numberCode.valid }}</span>
-    </div>
+<div class="showcase">
+  <span class="showcase__title">Numbers code</span>
+  <ngx-pass-code
+    [length]="5"
+    [autoblur]="true"
+    type="number"
+    [formControl]="numberCodeControl"
+  ></ngx-pass-code>
 
-    <div class="showcase__actions">
-      <button (click)="numberCode.reset(); numberCode.enable()">Reset</button>
-      <button (click)="numberCode.disable()">Disable</button>
-      <button (click)="numberCode.patchValue('216582')">Patch</button>
-    </div>
+  <div class="showcase__values">
+    <span>Current value: {{ numberCodeControl.value | json }}</span>
+    <span
+      >Value changes: {{ numberCodeControl.valueChanges | async | json }}</span
+    >
+    <span>Valid: {{ numberCodeControl.valid }}</span>
   </div>
 
-  <div class="showcase">
-    <span class="showcase__title">Password (hidden) code</span>
-
-    <ngx-pass-code
-      [length]="7"
-      type="password"
-      formControlName="passwordCode"
-    ></ngx-pass-code>
-
-    <div class="showcase__values">
-      <span>Current value: {{ passwordCode.value | json }}</span>
-      <span>Value changes: {{ passwordCode.valueChanges | async | json }}</span>
-      <span>Valid: {{ passwordCode.valid }}</span>
-    </div>
-
-    <div class="showcase__actions">
-      <button (click)="passwordCode.reset(); passwordCode.enable()">
-        Reset
-      </button>
-      <button (click)="passwordCode.disable()">Disable</button>
-      <button (click)="passwordCode.patchValue('my')">Patch</button>
-    </div>
+  <div class="showcase__actions">
+    <button (click)="numberCodeControl.reset(); numberCodeControl.enable()">
+      Reset
+    </button>
+    <button (click)="numberCodeControl.disable()">Disable</button>
+    <button (click)="numberCodeControl.patchValue(216582)">Patch</button>
   </div>
-</form>
+</div>
+
+<div class="showcase">
+  <span class="showcase__title">Password (hidden) code</span>
+
+  <ngx-pass-code
+    [length]="7"
+    type="password"
+    [formControl]="passwordCodeControl"
+  ></ngx-pass-code>
+
+  <div class="showcase__values">
+    <span>Current value: {{ passwordCodeControl.value | json }}</span>
+    <span
+      >Value changes:
+      {{ passwordCodeControl.valueChanges | async | json }}</span
+    >
+    <span>Valid: {{ passwordCodeControl.valid }}</span>
+  </div>
+
+  <div class="showcase__actions">
+    <button (click)="passwordCodeControl.reset(); passwordCodeControl.enable()">
+      Reset
+    </button>
+    <button (click)="passwordCodeControl.disable()">Disable</button>
+    <button (click)="passwordCodeControl.patchValue('my')">Patch</button>
+  </div>
+</div>

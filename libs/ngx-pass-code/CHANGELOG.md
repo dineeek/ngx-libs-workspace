@@ -19,3 +19,7 @@ features.
 ### 1.1.1 - 19.02.2023
 
 Small code improvements.
+
+### 1.1.2 - 20.02.2023
+
+Small code refactoring. Code cleanup.
