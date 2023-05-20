@@ -11,8 +11,8 @@
     "affected:libs": "nx affected:libs",
     "affected:lint": "nx affected:lint",
     "affected:test": "nx affected:test",
-    "lint:ci": "nx run-many --target=lint",
-    "test:ci": "nx run-many --target=test",
+    "lint:ci": "nx affected:lint --parallel",
+    "test:ci": "nx affected:test --parallel",
     "build:ci": "nx run-many --target=build",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
     "test:coverage:ci": "pnpm jest --coverage",
@@ -25,7 +25,8 @@
     "configure-deploy": "nx generate ngx-deploy-npm:install",
     "ngx-pass-code:test:dev": "nx test ngx-pass-code --watchAll --coverage",
     "ngx-pass-code:test:ci": "pnpm jest ngx-pass-code --coverage",
-    "publish:ngx-pass-code": "nx deploy ngx-pass-code"
+    "publish:ngx-pass-code": "nx deploy ngx-pass-code",
+    "playground:build:prod": "nx build playground --prod --base-href ."
   },
   "private": true,
   "dependencies": {
