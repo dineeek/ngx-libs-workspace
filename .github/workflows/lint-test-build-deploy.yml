@@ -4,7 +4,6 @@ on:
     branches:
       - main
       - ngx-pass-code
-      - deploy-main
   pull_request:
     branches:
       - main
@@ -47,7 +46,6 @@ jobs:
 
       - run: pnpm affected:lint:ci
       - run: pnpm affected:build:ci
-      - run: pnpm playground:build:prod
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
@@ -63,8 +61,12 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build Playground app
+        if: github.ref == 'refs/heads/main'
+        run: pnpm playground:build:prod
+
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/deploy-main'
+        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
