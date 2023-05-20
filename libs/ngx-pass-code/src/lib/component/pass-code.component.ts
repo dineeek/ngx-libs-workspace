@@ -15,7 +15,14 @@ import {
   ValidationErrors,
   Validator
 } from '@angular/forms'
-import { distinctUntilChanged, map, Subject, takeUntil, tap } from 'rxjs'
+import {
+  asyncScheduler,
+  distinctUntilChanged,
+  map,
+  Subject,
+  takeUntil,
+  tap
+} from 'rxjs'
 
 @Component({
   selector: 'ngx-pass-code',
@@ -33,7 +40,7 @@ export class PassCodeComponent
   @Input() autoblur = false // remove focus from last input when filled
 
   passCodes!: FormArray<FormControl>
-  isCodeInvalid = false // validation is triggered only if all controls are invalid
+  isCodeInvalid = false // validation ui is shown only if all controls are invalid
 
   private initialized = false
   private unsubscribe$ = new Subject<void>()
@@ -69,10 +76,11 @@ export class PassCodeComponent
   writeValue(value: string): void {
     const stringifyTrimmedValue = value?.toString().trim()
     if (!this.initialized) {
-      // issue - https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
-      setTimeout(() => {
+      // https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
+      asyncScheduler.schedule(() => {
         this.initialized = true
         this.propagateModelValueToView(stringifyTrimmedValue)
+        this.cdRef.markForCheck() // because of scheduling
       })
     } else {
       this.propagateModelValueToView(stringifyTrimmedValue)
@@ -89,7 +97,7 @@ export class PassCodeComponent
 
   setDisabledState(isDisabled: boolean): void {
     if (!this.initialized) {
-      setTimeout(() => {
+      asyncScheduler.schedule(() => {
         this.disableControls(isDisabled)
       })
 
@@ -129,18 +137,13 @@ export class PassCodeComponent
   }
 
   private updateParentControlValidation(): void {
-    if (!this.parentControl) {
-      return
-    }
-
     this.parentControl.setValidators(this.validate.bind(this))
     this.parentControl.updateValueAndValidity({ emitEvent: false })
   }
 
   private propagateModelValueToView(value: string): void {
     value ? this.setValue(value) : this.resetValue()
-    this.updateCodeValidity()
-    this.cdRef.markForCheck()
+    this.updatePassCodeValidity()
   }
 
   private setValue(value: string): void {
@@ -167,7 +170,7 @@ export class PassCodeComponent
   private propagateViewValueToModel(): void {
     this.passCodes.valueChanges
       .pipe(
-        tap(() => this.updateCodeValidity()),
+        tap(() => this.updatePassCodeValidity()),
         map(codes => {
           const code = codes.join('')
 
@@ -184,10 +187,10 @@ export class PassCodeComponent
         distinctUntilChanged(),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe((value: string | number | null) => this.onChange(value))
+      .subscribe(this.onChange)
   }
 
-  private updateCodeValidity(): void {
+  private updatePassCodeValidity(): void {
     const allControlsAreInvalid = this.validate()?.['length'] === this.length
     this.isCodeInvalid = allControlsAreInvalid && this.passCodes.dirty
     this.parentControl.updateValueAndValidity({ emitEvent: false })
