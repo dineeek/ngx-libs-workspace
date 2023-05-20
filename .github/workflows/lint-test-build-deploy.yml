@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpm affected:lint
+      - run: pnpm lint:ci
       - run: pnpm build:ci
 
       - name: Branch main coverage
