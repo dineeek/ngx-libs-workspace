@@ -11,9 +11,6 @@
     "affected:libs": "nx affected:libs",
     "affected:lint": "nx affected:lint",
     "affected:test": "nx affected:test",
-    "lint:ci": "nx run-many --target=lint",
-    "test:ci": "nx run-many --target=test",
-    "build:ci": "nx run-many --target=build",
     "affected:lint:ci": "nx affected --target=lint --base=origin/main --head=origin/main --plain --parallel=3",
     "affected:test:ci": "nx affected --target=test --base=origin/main --head=origin/main --plain --parallel=3 --ci --code-coverage",
     "affected:build:ci": "nx affected --target=build --base=origin/main --head=origin/main --plain --parallel=3",
@@ -28,7 +25,8 @@
     "configure-deploy": "nx generate ngx-deploy-npm:install",
     "ngx-pass-code:test:dev": "nx test ngx-pass-code --watchAll --coverage",
     "ngx-pass-code:test:ci": "pnpm jest ngx-pass-code --coverage",
-    "publish:ngx-pass-code": "nx deploy ngx-pass-code"
+    "publish:ngx-pass-code": "nx deploy ngx-pass-code",
+    "playground:build:prod": "nx build playground --prod --base-href ."
   },
   "private": true,
   "dependencies": {
