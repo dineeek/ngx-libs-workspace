@@ -9,7 +9,7 @@ on:
     branches:
       - main
 jobs:
-  main:
+  workflow:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout commit
@@ -45,18 +45,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpm lint:ci
+      - run: pnpm affected:lint:ci
       - run: pnpm build:ci
 
-      - name: main branch coverage
+      - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
         run: pnpm test:coverage:ci
 
-      - name: ngx-pass-code branch coverage
+      - name: Branch ngx-pass-code coverage
         if: github.ref == 'refs/heads/ngx-pass-code'
         run: pnpm ngx-pass-code:test:ci
 
       - name: Coveralls GitHub Action
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main' || github.ref == 'refs/heads/ngx-pass-code'
         uses: coverallsapp/github-action@1.1.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
