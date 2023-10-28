@@ -4,7 +4,8 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
+  signal
 } from '@angular/core'
 import {
   AbstractControl,
@@ -39,8 +40,8 @@ export class PassCodeComponent
   @Input() autofocus = false // set focus on first input
   @Input() autoblur = false // remove focus from last input when filled
 
-  passCodes!: FormArray<FormControl>
-  isCodeInvalid = false // validation ui is shown only if all controls are invalid
+  public passCodes!: FormArray<FormControl>
+  protected isCodeInvalid = signal(false) // validation ui is shown only if all controls are invalid
 
   private initialized = false
   private unsubscribe$ = new Subject<void>()
@@ -149,7 +150,7 @@ export class PassCodeComponent
   private setValue(value: string): void {
     if (this.type === 'number' && isNaN(parseInt(value))) {
       throw new TypeError(
-        'Provided value does not match provided type property number!'
+        'Provided value does not match provided type property number.'
       )
     }
 
@@ -192,7 +193,7 @@ export class PassCodeComponent
 
   private updatePassCodeValidity(): void {
     const allControlsAreInvalid = this.validate()?.['length'] === this.length
-    this.isCodeInvalid = allControlsAreInvalid && this.passCodes.dirty
+    this.isCodeInvalid.set(allControlsAreInvalid && this.passCodes.dirty)
     this.parentControl.updateValueAndValidity({ emitEvent: false })
   }
 
