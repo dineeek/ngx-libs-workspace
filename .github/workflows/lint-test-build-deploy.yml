@@ -44,20 +44,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Pull request
-        if: github.event.pull_request.base.ref == 'main'
-        run: |
-          pnpm affected:build:ci
-          pnpm affected:lint:ci
-          pnpm test:coverage:ci
+      - name: Check for Affected Projects
+        uses: 2coo/action-nx-affected@v1
+        id: checkForAffected
+  
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Lint affected
+        run: pnpm affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }} --plain
 
-             
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Build affected
+        run: pnpm affected:build --target=build --base=${{ github.base_ref }} --head=${{ github.head_ref }}  --plain
+
       - name: Branch main coverage
-        if: github.ref == 'refs/heads/main'
-        run: |
-          pnpm main-affected:build:ci
-          pnpm main-affected:lint:ci
-          pnpm test:coverage:ci
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        run: pnpm test:coverage:ci
 
       - name: Branch ngx-pass-code coverage
         if: github.ref == 'refs/heads/ngx-pass-code'
