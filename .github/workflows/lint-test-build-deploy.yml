@@ -42,20 +42,14 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
-      - name: Pull request
-        if: github.event.pull_request.base.ref == 'main'
-        run: pnpm affected:build:ci
-             pnpm affected:lint:ci
-             pnpm test:coverage:ci
+      - run: pnpm affected:lint:ci
+      - run: pnpm affected:build:ci
 
-             
       - name: Branch main coverage
-        if: github.ref == 'refs/heads/main'
-        run: pnpm main-affected:build:ci
-             pnpm main-affected:lint:ci
-             pnpm test:coverage:ci
+        if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
+        run: pnpm test:coverage:ci
 
       - name: Branch ngx-pass-code coverage
         if: github.ref == 'refs/heads/ngx-pass-code'
