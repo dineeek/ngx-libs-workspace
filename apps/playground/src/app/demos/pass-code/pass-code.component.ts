@@ -9,7 +9,7 @@ import { FormControl, Validators } from '@angular/forms'
 })
 export class PassCodeDemoComponent {
   protected textCodeControl = new FormControl<string>('76', {
-    validators: []
+    validators: [Validators.required]
   })
   protected numberCodeControl = new FormControl<number | null>(null, {
     validators: [Validators.required]

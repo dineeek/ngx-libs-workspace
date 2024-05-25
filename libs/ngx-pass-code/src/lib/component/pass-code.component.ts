@@ -2,9 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
-  OnDestroy,
-  OnInit
+  OnInit,
+  inject
 } from '@angular/core'
 import {
   AbstractControl,
@@ -19,10 +20,9 @@ import {
   asyncScheduler,
   distinctUntilChanged,
   map,
-  Subject,
-  takeUntil,
   tap
 } from 'rxjs'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'ngx-pass-code',
@@ -31,7 +31,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PassCodeComponent
-  implements OnInit, OnDestroy, ControlValueAccessor, Validator
+  implements OnInit, ControlValueAccessor, Validator
 {
   @Input() length = 0
   @Input() type: 'text' | 'number' | 'password' = 'text'
@@ -43,7 +43,7 @@ export class PassCodeComponent
   isCodeInvalid = false // validation ui is shown only if all controls are invalid
 
   private initialized = false
-  private unsubscribe$ = new Subject<void>()
+  private destroyRef$ = inject(DestroyRef)
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (value: string | number | null) => {}
@@ -66,11 +66,6 @@ export class PassCodeComponent
     this.setSyncValidatorsFromParent()
     this.updateParentControlValidation()
     this.propagateViewValueToModel()
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next()
-    this.unsubscribe$.complete()
   }
 
   writeValue(value: string): void {
@@ -185,7 +180,7 @@ export class PassCodeComponent
           return this.uppercase ? code.toUpperCase() : code
         }),
         distinctUntilChanged(),
-        takeUntil(this.unsubscribe$)
+        takeUntilDestroyed(this.destroyRef$)
       )
       .subscribe(this.onChange)
   }
