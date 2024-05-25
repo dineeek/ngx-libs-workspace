@@ -44,8 +44,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - run: pnpm affected:lint:ci
-      - run: pnpm affected:build:ci
+      - name: Check for Affected Projects
+        uses: 2coo/action-nx-affected@v1
+        id: checkForAffected
+  
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Lint affected
+        run: pnpm affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }} --plain
+
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Build affected
+        run: pnpm affected:build --target=build --base=${{ github.base_ref }} --head=${{ github.head_ref }}  --plain
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'

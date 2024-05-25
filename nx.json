@@ -70,5 +70,6 @@
   },
   "defaultProject": "playground",
   "useInferencePlugins": false,
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "neverConnectToCloud": true
 }
