@@ -19,7 +19,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.2
@@ -42,10 +42,19 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
-      - run: pnpm affected:lint:ci
-      - run: pnpm affected:build:ci
+      - name: Check for Affected Projects
+        uses: 2coo/action-nx-affected@v1
+        id: checkForAffected
+  
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Lint affected
+        run: pnpm affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }} --plain
+
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Build affected
+        run: pnpm affected:build --target=build --base=${{ github.base_ref }} --head=${{ github.head_ref }}  --plain
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
