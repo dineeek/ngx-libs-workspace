@@ -23,7 +23,6 @@
     "prettier:check": "prettier --check \"**/*.{ts,scss,html}\"",
     "deploy-page": "nx build --prod --output-path docs --base-href .",
     "configure-deploy": "nx generate ngx-deploy-npm:install",
-    "ngx-pass-code:test:dev": "nx test ngx-pass-code --watchAll --coverage",
     "ngx-pass-code:test:ci": "pnpm jest ngx-pass-code --coverage",
     "publish:ngx-pass-code": "nx deploy ngx-pass-code",
     "playground:build:prod": "nx build playground --prod --base-href ."
