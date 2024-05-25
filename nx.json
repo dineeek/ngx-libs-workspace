@@ -1,9 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "ngx-libs-workspace",
-  "affected": {
-    "defaultBase": "main"
-  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx-cloud",
@@ -71,5 +68,7 @@
       }
     }
   },
-  "defaultProject": "playground"
+  "defaultProject": "playground",
+  "useInferencePlugins": false,
+  "defaultBase": "main"
 }
