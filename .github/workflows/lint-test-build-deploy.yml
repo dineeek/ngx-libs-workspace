@@ -50,15 +50,15 @@ jobs:
   
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Lint affected
-        run: pnpm affected:lint --verbose
+        run: pnpm affected:lint --skip-nx-cache --verbose
 
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Build affected
-        run: pnpm affected:build --verbose
+        run: pnpm affected:build --skip-nx-cache --verbose
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-        run: pnpm test:coverage:ci
+        run: pnpm test:coverage:ci --skip-nx-cache
 
       - name: Branch ngx-pass-code coverage
         if: github.ref == 'refs/heads/ngx-pass-code'
