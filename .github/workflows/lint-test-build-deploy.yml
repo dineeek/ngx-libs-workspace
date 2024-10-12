@@ -58,7 +58,7 @@ jobs:
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
-        run: pnpm test:coverage:ci --skip-nx-cache
+        run: pnpm test:coverage:ci
 
       - name: Branch ngx-pass-code coverage
         if: github.ref == 'refs/heads/ngx-pass-code'
