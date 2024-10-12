@@ -23,3 +23,7 @@ Small code improvements.
 ### 1.1.2 - 20.02.2023
 
 Small code refactoring. Code cleanup.
+
+### 1.2.0 - 12.10.2024
+
+Angular 17 migration.
