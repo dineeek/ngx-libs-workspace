@@ -50,11 +50,11 @@ jobs:
   
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Lint affected
-        run: pnpm affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }} --plain
+        run: pnpm affected:lint
 
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Build affected
-        run: pnpm affected:build --target=build --base=${{ github.base_ref }} --head=${{ github.head_ref }}  --plain
+        run: pnpm affected:build
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
