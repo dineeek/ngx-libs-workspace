@@ -22,10 +22,10 @@ jobs:
           node-version: 20
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.2
+        uses: pnpm/action-setup@v4.0.0
         id: pnpm-install
         with:
-          version: 7
+          version: latest
           run_install: false
 
       - name: Get pnpm store directory
@@ -50,11 +50,11 @@ jobs:
   
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Lint affected
-        run: pnpm affected:lint --base=${{ github.base_ref }} --head=${{ github.head_ref }} --plain
+        run: pnpm affected:lint --skip-nx-cache --verbose
 
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Build affected
-        run: pnpm affected:build --target=build --base=${{ github.base_ref }} --head=${{ github.head_ref }}  --plain
+        run: pnpm affected:build --skip-nx-cache --verbose
 
       - name: Branch main coverage
         if: github.ref == 'refs/heads/main' || github.event.pull_request.base.ref == 'main'
