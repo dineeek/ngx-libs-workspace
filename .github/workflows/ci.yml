@@ -1,0 +1,88 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      base: ${{ steps.shas.outputs.base }}
+      head: ${{ steps.shas.outputs.head }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Compute Nx SHAs
+        id: shas
+        uses: nrwl/nx-set-shas@v4
+
+  affected:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [lint, test, build]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Cache Nx local computation cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key:
+            nx-${{ matrix.target }}-${{ runner.os }}-${{
+            hashFiles('pnpm-lock.yaml', 'nx.json') }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ matrix.target }}-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'nx.json') }}-
+            nx-${{ matrix.target }}-${{ runner.os }}-
+
+      - name: Run ${{ matrix.target }}
+        run: pnpm nx affected -t ${{ matrix.target }} --parallel=3
+
+      - name: Coverage — run for test job
+        if:
+          matrix.target == 'test' && (github.ref == 'refs/heads/main' ||
+          github.event_name == 'pull_request')
+        run: pnpm test:coverage:ci
+
+      - name: Upload coverage to Coveralls
+        if:
+          matrix.target == 'test' && (github.ref == 'refs/heads/main' ||
+          github.event_name == 'pull_request')
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
