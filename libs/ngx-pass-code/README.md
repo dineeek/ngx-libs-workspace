@@ -12,11 +12,8 @@ password. Supports Angular version 12+.
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="npm version" src="https://img.shields.io/npm/v/ngx-pass-code.svg?style=flat-square"></a>
 </p>
 
-[![Build Status](https://app.travis-ci.com/dineeek/ngx-libs-workspace.svg?branch=main)](https://app.travis-ci.com/dineeek/ngx-libs-workspace)
-[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=ngx-pass-code)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=ngx-pass-code&kill_cache=1)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=main)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_shield)
 
 # Feature
 
@@ -89,9 +86,37 @@ export class FeatureModule {}
 
   Remove focus from the last input when it is filled. Defaulted to false.
 
+# Angular compatibility
+
+| Library version | Angular    |
+| --------------- | ---------- |
+| `1.x`           | `>=12 <18` |
+| `2.x`           | `>=21 <22` |
+
 # Contributing
 
 Contributions are more than welcome!
+
+# Releasing
+
+Releases are automated via
+[release-please](https://github.com/googleapis/release-please) driven by
+[Conventional Commits](https://www.conventionalcommits.org/):
+
+1. Merge commits to `main` using Conventional Commit messages (`feat:`, `fix:`,
+   `feat!:`, etc.).
+2. `release-please` opens/updates a release PR that bumps
+   `libs/ngx-pass-code/package.json` and maintains `CHANGELOG.md`.
+3. Merging the release PR creates a GitHub Release + tag `ngx-pass-code@x.y.z`.
+4. The tag triggers `.github/workflows/publish-ngx-pass-code.yml`, which builds
+   the library and runs `npm publish --provenance --access public` using the
+   `NPM_TOKEN` repo secret.
+
+To sanity-check a build locally:
+
+```shell
+pnpm ngx-pass-code:publish:dry-run
+```
 
 # License
 

@@ -21,11 +21,9 @@
     "prepare": "husky",
     "prettier:write": "prettier --write \"**/*.{ts,scss,html}\"",
     "prettier:check": "prettier --check \"**/*.{ts,scss,html}\"",
-    "deploy-page": "nx build --prod --output-path docs --base-href .",
-    "configure-deploy": "nx generate ngx-deploy-npm:install",
     "ngx-pass-code:test:ci": "pnpm jest ngx-pass-code --coverage",
-    "publish:ngx-pass-code": "nx deploy ngx-pass-code",
-    "playground:build:prod": "nx build playground --skip-nx-cache --prod --base-href ."
+    "ngx-pass-code:publish:dry-run": "pnpm nx build ngx-pass-code --configuration=production && npm publish dist/libs/ngx-pass-code --dry-run --access public",
+    "playground:build:prod": "nx build playground --prod --base-href ."
   },
   "private": true,
   "dependencies": {
@@ -38,8 +36,6 @@
     "@angular/platform-browser-dynamic": "21.2.9",
     "@angular/router": "21.2.9",
     "@nx/angular": "22.6.5",
-    "angular-cli-ghpages": "^1.0.5",
-    "ngx-deploy-npm": "6.0.0",
     "rxjs": "7.8.1",
     "tslib": "^2.0.0",
     "zone.js": "0.16.1"
