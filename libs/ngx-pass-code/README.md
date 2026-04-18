@@ -22,9 +22,13 @@ character, with validation, autofocus, and autoblur.
 - Individual character input box
 - Plug & play with Angular **Signal Forms** via `FormValueControl`
   (`[formField]`)
+- Ships `passCodeComplete(path, length)` — opinionated exact-length validator
+  composable into any `form()` schema
 - Schema-driven validation (`required`, `pattern`, `validate`, …) owned by the
   consumer's `form()`
 - Keyboard navigation: auto next/previous, backspace, arrow keys
+- Paste anywhere — fills left-to-right, sanitizes per `type`, truncates to
+  `length`, focuses the first empty slot (or blurs when `autoblur`)
 - Autofocus first input, autoblur last input
 - Standalone component — no NgModule required in consumer apps
 - Tree-shakable (`sideEffects: false`)
@@ -61,8 +65,8 @@ to a field produced by `form()`:
 
 ```typescript
 import { Component, signal } from '@angular/core'
-import { form, pattern, required, FormField } from '@angular/forms/signals'
-import { PassCodeComponent } from 'ngx-pass-code'
+import { form, pattern, FormField } from '@angular/forms/signals'
+import { PassCodeComponent, passCodeComplete } from 'ngx-pass-code'
 
 @Component({
   selector: 'app-login',
@@ -80,7 +84,7 @@ import { PassCodeComponent } from 'ngx-pass-code'
 export class LoginComponent {
   protected readonly code = signal<string | number | null>(null)
   protected readonly codeForm = form<string | number | null>(this.code, p => {
-    required(p)
+    passCodeComplete(p, 5)
     pattern(p as never, /^[A-Z0-9]{5}$/)
   })
 }
@@ -88,7 +92,7 @@ export class LoginComponent {
 
 The component does not run validators itself; it forwards the field's `errors`
 and `touched` state to the UI and flips to the `invalid-input` class only once
-both are present. Validation rules (`required`, `pattern`, custom
+both are present. Validation rules (`passCodeComplete`, `pattern`, custom
 `validate(...)`) live in your `form()` schema.
 
 ## Inputs
@@ -110,15 +114,23 @@ Signal Forms.
 
 ### Validation
 
-Validation is entirely driven by the consumer's `form()` schema. Common
-patterns:
+Validation is entirely driven by the consumer's `form()` schema. The library
+ships `passCodeComplete(path, length)` for the common "every slot must be
+filled" rule — Signal Forms' `required` only checks non-nullish, so a partially
+filled control would otherwise report `Valid`.
 
 ```typescript
+import { passCodeComplete } from 'ngx-pass-code'
+import { form, pattern } from '@angular/forms/signals'
+
 form(code, p => {
-  required(p)
-  pattern(p as never, /^[A-Z0-9]{5}$/) // exact length + charset
+  passCodeComplete(p, 5) // all 5 slots filled
+  pattern(p as never, /^[A-Z0-9]{5}$/) // charset
 })
 ```
+
+`passCodeComplete` emits a `{ kind: 'incomplete' }` error when the concatenated
+value is shorter than `length`.
 
 ## Contributing
 
