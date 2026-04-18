@@ -133,7 +133,11 @@ export class PassCodeComponent
   }
 
   private propagateModelValueToView(value: string): void {
-    value ? this.setValue(value) : this.resetValue()
+    if (value) {
+      this.setValue(value)
+    } else {
+      this.resetValue()
+    }
     this.updatePassCodeValidity()
   }
 
@@ -188,9 +192,11 @@ export class PassCodeComponent
   }
 
   private disableControls(isDisabled: boolean): void {
-    isDisabled
-      ? this.passCodes.disable({ emitEvent: false })
-      : this.passCodes.enable({ emitEvent: false })
+    if (isDisabled) {
+      this.passCodes.disable({ emitEvent: false })
+    } else {
+      this.passCodes.enable({ emitEvent: false })
+    }
 
     this.parentControl.updateValueAndValidity({ emitEvent: false })
   }

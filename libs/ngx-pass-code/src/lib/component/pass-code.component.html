@@ -1,23 +1,25 @@
+<!-- eslint-disable @angular-eslint/template/no-autofocus -->
 <div
   class="container"
   [autofocus]="autofocus && !!passCodes.controls.length"
   autofocusFirstInput
 >
+  <!-- eslint-enable @angular-eslint/template/no-autofocus -->
   @for (control of passCodes.controls; track control) {
-  <input
-    (blur)="onTouched()"
-    onclick="select()"
-    [autoblur]="autoblur"
-    [formControl]="control"
-    [type]="type"
-    [uppercase]="uppercase"
-    [ngClass]="{
-      'invalid-input': isCodeInvalid
-    }"
-    maxlength="1"
-    focusNextPreviousInput
-    transformInputValue
-    autofocusFirst
-  />
+    <input
+      (blur)="onTouched()"
+      onclick="select()"
+      [autoblur]="autoblur"
+      [formControl]="control"
+      [type]="type"
+      [uppercase]="uppercase"
+      [ngClass]="{
+        'invalid-input': isCodeInvalid
+      }"
+      maxlength="1"
+      focusNextPreviousInput
+      transformInputValue
+      autofocusFirst
+    />
   }
 </div>

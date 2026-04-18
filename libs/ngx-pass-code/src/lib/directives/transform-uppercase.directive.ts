@@ -11,8 +11,8 @@ export class TransformInputValueDirective implements OnInit {
   @Input() uppercase = false
 
   ngOnInit(): void {
-    this.uppercase
-      ? (this.el.nativeElement.style.textTransform = 'uppercase')
-      : (this.el.nativeElement.style.textTransform = '')
+    this.el.nativeElement.style.textTransform = this.uppercase
+      ? 'uppercase'
+      : ''
   }
 }
