@@ -1,7 +1,9 @@
 <div class="showcase">
-  <span class="demo__case__title">Text code - required + upercase</span>
+  <span class="demo__case__title"
+    >Text code — required + pattern + uppercase</span
+  >
   <ngx-pass-code
-    [formControl]="textCodeControl"
+    [formField]="textForm"
     type="text"
     [length]="5"
     [uppercase]="true"
@@ -9,71 +11,64 @@
   ></ngx-pass-code>
 
   <div class="showcase__values">
-    <span>Current value: {{ textCodeControl.value | json }}</span>
-    <span
-      >Value changes: {{ textCodeControl.valueChanges | async | json }}</span
-    >
-    <span>Valid: {{ textCodeControl.valid }}</span>
+    <span>Current value: {{ textValue() | json }}</span>
+    <span>Valid: {{ textForm().valid() }}</span>
+    <span>Touched: {{ textForm().touched() }}</span>
   </div>
 
   <div class="showcase__actions">
-    <button (click)="textCodeControl.reset(); textCodeControl.enable()">
-      Reset
+    <button (click)="resetText()">Reset</button>
+    <button (click)="textDisabled.set(!textDisabled())">
+      {{ textDisabled() ? 'Enable' : 'Disable' }}
     </button>
-    <button (click)="textCodeControl.disable()">Disable</button>
-    <button (click)="textCodeControl.patchValue('ACAB7')">Patch</button>
+    <button (click)="patchText()">Patch</button>
   </div>
 </div>
 
 <div class="showcase">
-  <span class="showcase__title">Numbers code</span>
+  <span class="showcase__title">Numbers code — required</span>
   <ngx-pass-code
+    [formField]="numberForm"
     [length]="5"
     [autoblur]="true"
     type="number"
-    [formControl]="numberCodeControl"
   ></ngx-pass-code>
 
   <div class="showcase__values">
-    <span>Current value: {{ numberCodeControl.value | json }}</span>
-    <span
-      >Value changes: {{ numberCodeControl.valueChanges | async | json }}</span
-    >
-    <span>Valid: {{ numberCodeControl.valid }}</span>
+    <span>Current value: {{ numberValue() | json }}</span>
+    <span>Valid: {{ numberForm().valid() }}</span>
+    <span>Touched: {{ numberForm().touched() }}</span>
   </div>
 
   <div class="showcase__actions">
-    <button (click)="numberCodeControl.reset(); numberCodeControl.enable()">
-      Reset
+    <button (click)="resetNumber()">Reset</button>
+    <button (click)="numberDisabled.set(!numberDisabled())">
+      {{ numberDisabled() ? 'Enable' : 'Disable' }}
     </button>
-    <button (click)="numberCodeControl.disable()">Disable</button>
-    <button (click)="numberCodeControl.patchValue(216582)">Patch</button>
+    <button (click)="patchNumber()">Patch</button>
   </div>
 </div>
 
 <div class="showcase">
-  <span class="showcase__title">Password (hidden) code</span>
+  <span class="showcase__title">Password (hidden) code — required</span>
 
   <ngx-pass-code
+    [formField]="passwordForm"
     [length]="7"
     type="password"
-    [formControl]="passwordCodeControl"
   ></ngx-pass-code>
 
   <div class="showcase__values">
-    <span>Current value: {{ passwordCodeControl.value | json }}</span>
-    <span
-      >Value changes:
-      {{ passwordCodeControl.valueChanges | async | json }}</span
-    >
-    <span>Valid: {{ passwordCodeControl.valid }}</span>
+    <span>Current value: {{ passwordValue() | json }}</span>
+    <span>Valid: {{ passwordForm().valid() }}</span>
+    <span>Touched: {{ passwordForm().touched() }}</span>
   </div>
 
   <div class="showcase__actions">
-    <button (click)="passwordCodeControl.reset(); passwordCodeControl.enable()">
-      Reset
+    <button (click)="resetPassword()">Reset</button>
+    <button (click)="passwordDisabled.set(!passwordDisabled())">
+      {{ passwordDisabled() ? 'Enable' : 'Disable' }}
     </button>
-    <button (click)="passwordCodeControl.disable()">Disable</button>
-    <button (click)="passwordCodeControl.patchValue('my')">Patch</button>
+    <button (click)="patchPassword()">Patch</button>
   </div>
 </div>

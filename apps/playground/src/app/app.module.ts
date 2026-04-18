@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
-import { NgxPassCodeModule } from 'ngx-pass-code'
+import { JsonPipe } from '@angular/common'
+import { FormField } from '@angular/forms/signals'
+import { PassCodeComponent } from 'ngx-pass-code'
 
 import { AppComponent } from './app.component'
 
@@ -13,8 +14,9 @@ import { PassCodeDemoComponent } from './demos/pass-code/pass-code.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
-    NgxPassCodeModule
+    JsonPipe,
+    FormField,
+    PassCodeComponent
   ],
   bootstrap: [AppComponent]
 })
