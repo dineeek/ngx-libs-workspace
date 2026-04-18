@@ -9,6 +9,7 @@
     <input
       [value]="slots()[i]"
       (input)="onSlotInput(i, $event)"
+      (paste)="onSlotPaste($event)"
       (blur)="onSlotBlur()"
       onclick="select()"
       [autoblur]="autoblur()"

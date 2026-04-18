@@ -3,6 +3,8 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
+  inject,
   input,
   model,
   signal,
@@ -55,6 +57,8 @@ export class PassCodeComponent implements FormValueControl<PassCodeValue> {
   // tell an external write (reset / patch) apart from a write we just made.
   private lastEmitted: PassCodeValue = null
 
+  private readonly hostEl = inject<ElementRef<HTMLElement>>(ElementRef)
+
   constructor() {
     effect(() => {
       const n = this.length()
@@ -105,6 +109,63 @@ export class PassCodeComponent implements FormValueControl<PassCodeValue> {
 
     this.lastEmitted = newValue
     this.value.set(newValue)
+  }
+
+  protected onSlotPaste(event: ClipboardEvent): void {
+    const clipboard = event.clipboardData?.getData('text') ?? ''
+    if (clipboard.length === 0) {
+      return
+    }
+    event.preventDefault()
+
+    const type = this.type()
+    let sanitized: string
+    if (type === 'number') {
+      sanitized = clipboard.replace(/\D/g, '')
+    } else if (type === 'password') {
+      sanitized = clipboard.replace(/\s+/g, '')
+    } else {
+      sanitized = clipboard.replace(/[\s\-_]+/g, '')
+    }
+    if (this.uppercase()) {
+      sanitized = sanitized.toUpperCase()
+    }
+
+    const n = this.length()
+    sanitized = sanitized.slice(0, n)
+    if (sanitized.length === 0) {
+      return
+    }
+
+    const next = new Array<string>(n).fill('')
+    for (let i = 0; i < sanitized.length; i++) {
+      next[i] = sanitized[i]
+    }
+    this.slotsState.set(next)
+
+    let newValue: PassCodeValue
+    if (type === 'number') {
+      const parsed = Number(sanitized)
+      newValue = Number.isNaN(parsed) ? null : parsed
+    } else {
+      newValue = sanitized
+    }
+    this.lastEmitted = newValue
+    this.value.set(newValue)
+
+    queueMicrotask(() => {
+      const inputs = Array.from(
+        this.hostEl.nativeElement.querySelectorAll<HTMLInputElement>('input')
+      )
+      if (inputs.length === 0) return
+      if (sanitized.length < n) {
+        inputs[sanitized.length]?.focus()
+      } else if (this.autoblur()) {
+        inputs[n - 1]?.blur()
+      } else {
+        inputs[n - 1]?.focus()
+      }
+    })
   }
 
   protected onSlotBlur(): void {

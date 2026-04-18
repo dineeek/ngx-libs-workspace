@@ -120,6 +120,16 @@ function typeInto(input: HTMLInputElement, ch: string): void {
   input.dispatchEvent(new Event('input'))
 }
 
+function pasteInto(input: HTMLInputElement, text: string): Event {
+  const event = new Event('paste', { cancelable: true, bubbles: true })
+  Object.defineProperty(event, 'clipboardData', {
+    value: { getData: () => text },
+    writable: false
+  })
+  input.dispatchEvent(event)
+  return event
+}
+
 describe('PassCodeComponent — static configuration', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -611,6 +621,143 @@ describe('PassCodeComponent — directive behaviour', () => {
     fixture.componentInstance.uppercase.set(false)
     fixture.detectChanges()
     expect(first.style.textTransform).toBe('')
+  })
+})
+
+describe('PassCodeComponent — paste', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DirectHostComponent]
+    }).compileComponents()
+  })
+
+  it('fills every slot from slot 0 when pasting a full-length string', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    const ev = pasteInto(inputsOf(fixture)[0], '12345')
+    fixture.detectChanges()
+    expect(ev.defaultPrevented).toBe(true)
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5'
+    ])
+    expect(fixture.componentInstance.value()).toBe('12345')
+  })
+
+  it('ignores the target slot and always starts from slot 0', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    pasteInto(inputsOf(fixture)[2], 'ABCDE')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      'A',
+      'B',
+      'C',
+      'D',
+      'E'
+    ])
+  })
+
+  it('truncates clipboard content longer than length', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    pasteInto(inputsOf(fixture)[0], 'ABCDEFGH')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      'A',
+      'B',
+      'C',
+      'D',
+      'E'
+    ])
+    expect(fixture.componentInstance.value()).toBe('ABCDE')
+  })
+
+  it('fills partial when clipboard is shorter than length', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    pasteInto(inputsOf(fixture)[0], 'XY')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      'X',
+      'Y',
+      '',
+      '',
+      ''
+    ])
+    expect(fixture.componentInstance.value()).toBe('XY')
+  })
+
+  it('strips whitespace, hyphens, and underscores for type="text"', () => {
+    const fixture = createDirect(h => h.length.set(6))
+    pasteInto(inputsOf(fixture)[0], 'AB-CD_EF GH')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F'
+    ])
+  })
+
+  it('strips non-digits for type="number" and emits a Number', () => {
+    const fixture = createDirect(h => {
+      h.length.set(5)
+      h.type.set('number')
+    })
+    pasteInto(inputsOf(fixture)[0], '12-34-5abc')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5'
+    ])
+    expect(fixture.componentInstance.value()).toBe(12345)
+  })
+
+  it('uppercases pasted text when uppercase=true', () => {
+    const fixture = createDirect(h => {
+      h.length.set(4)
+      h.uppercase.set(true)
+    })
+    pasteInto(inputsOf(fixture)[0], 'abcd')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      'A',
+      'B',
+      'C',
+      'D'
+    ])
+    expect(fixture.componentInstance.value()).toBe('ABCD')
+  })
+
+  it('strips only whitespace for type="password" (preserves special chars)', () => {
+    const fixture = createDirect(h => {
+      h.length.set(7)
+      h.type.set('password')
+    })
+    pasteInto(inputsOf(fixture)[0], 'p@ss w0rd')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      'p',
+      '@',
+      's',
+      's',
+      'w',
+      '0',
+      'r'
+    ])
+  })
+
+  it('ignores an empty clipboard', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    const ev = pasteInto(inputsOf(fixture)[0], '')
+    fixture.detectChanges()
+    expect(ev.defaultPrevented).toBe(false)
+    expect(fixture.componentInstance.value()).toBeNull()
   })
 })
 
