@@ -32,14 +32,12 @@
     "test-watch": {
       "executor": "nx:run-commands",
       "options": {
-      "parallel": false,
-      "commands": [
-        "nx run ngx-pass-code:test --watchAll"
-        ]
+        "parallel": false,
+        "commands": ["nx run ngx-pass-code:test --watchAll"]
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "libs/ngx-pass-code/**/*.ts",

@@ -58,8 +58,8 @@
     "@commitlint/config-conventional": "^20.5.0",
     "@nx/cypress": "19.8.9",
     "@nx/eslint-plugin": "19.8.9",
+    "@nx/eslint": "19.8.9",
     "@nx/jest": "19.8.9",
-    "@nx/linter": "19.8.9",
     "@nx/workspace": "19.8.9",
     "@schematics/angular": "18.2.9",
     "@types/jest": "29.5.14",
@@ -89,9 +89,12 @@
     "typescript": "~5.5.4"
   },
   "lint-staged": {
-    "**/*.{js,ts,html,css,scss,json}": [
+    "**/*.{js,ts,html}": [
       "pnpm exec prettier --write",
       "pnpm exec eslint --fix"
+    ],
+    "**/*.{css,scss,json,md,yml,yaml}": [
+      "pnpm exec prettier --write"
     ]
   }
 }
