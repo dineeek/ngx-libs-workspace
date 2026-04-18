@@ -20,13 +20,18 @@ character, with validation, autofocus, and autoblur.
 ## Features
 
 - Individual character input box
-- Plug & play with Angular Reactive Forms (`ControlValueAccessor`)
-- Sync validator support (via `Validators.pattern`, `Validators.required`, …)
+- Plug & play with Angular **Signal Forms** via `FormValueControl`
+  (`[formField]`)
+- Schema-driven validation (`required`, `pattern`, `validate`, …) owned by the
+  consumer's `form()`
 - Keyboard navigation: auto next/previous, backspace, arrow keys
 - Autofocus first input, autoblur last input
 - Standalone component — no NgModule required in consumer apps
 - Tree-shakable (`sideEffects: false`)
 - No 3rd-party runtime dependencies
+
+> `@angular/forms/signals` is marked `@experimental 21.0.0`. Consumers of
+> `ngx-pass-code@2.x` adopt the same experimental surface.
 
 ## Install
 
@@ -40,77 +45,78 @@ yarn add ngx-pass-code
 
 ## Angular compatibility
 
-| Library version | Angular    |
-| --------------- | ---------- |
-| `1.x`           | `>=12 <18` |
-| `2.x`           | `>=21 <22` |
+| Library version | Angular    | Forms API                               |
+| --------------- | ---------- | --------------------------------------- |
+| `1.x`           | `>=12 <18` | Reactive Forms (`ControlValueAccessor`) |
+| `2.x`           | `>=21 <22` | Signal Forms (`FormValueControl`)       |
 
 Peer dependencies for `2.x`: `@angular/common`, `@angular/core`,
 `@angular/forms` `>=21.0.0 <22.0.0`, `rxjs ^7.8.0`.
 
 ## Usage
 
-### Standalone component (recommended, v2+)
+`PassCodeComponent` implements the Signal Forms
+`FormValueControl<string | number | null>` contract. Bind it with `[formField]`
+to a field produced by `form()`:
 
 ```typescript
-import { Component } from '@angular/core'
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Component, signal } from '@angular/core'
+import { form, pattern, required, FormField } from '@angular/forms/signals'
 import { PassCodeComponent } from 'ngx-pass-code'
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, PassCodeComponent],
+  imports: [PassCodeComponent, FormField],
   template: `
     <ngx-pass-code
-      [formControl]="codeControl"
+      [formField]="codeForm"
       [length]="5"
       type="text"
       [uppercase]="true"
       [autofocus]="true"
-    ></ngx-pass-code>
+    />
   `
 })
 export class LoginComponent {
-  codeControl = new FormControl('', {
-    validators: [Validators.required, Validators.pattern('[a-zA-Z0-9]{1}')]
+  protected readonly code = signal<string | number | null>(null)
+  protected readonly codeForm = form<string | number | null>(this.code, p => {
+    required(p)
+    pattern(p as never, /^[A-Z0-9]{5}$/)
   })
 }
 ```
 
-### NgModule (backward-compatible)
-
-`NgxPassCodeModule` is kept as a thin re-export shim so existing NgModule-based
-apps keep working without changes.
-
-```typescript
-import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
-import { NgxPassCodeModule } from 'ngx-pass-code'
-
-@NgModule({
-  imports: [ReactiveFormsModule, NgxPassCodeModule]
-})
-export class FeatureModule {}
-```
+The component does not run validators itself; it forwards the field's `errors`
+and `touched` state to the UI and flips to the `invalid-input` class only once
+both are present. Validation rules (`required`, `pattern`, custom
+`validate(...)`) live in your `form()` schema.
 
 ## Inputs
 
+All inputs are signal inputs (`input()`):
+
 | Input       | Type                               | Default  | Description                                                                                 |
 | ----------- | ---------------------------------- | -------- | ------------------------------------------------------------------------------------------- |
-| `length`    | `number`                           | `0`      | Number of individual input boxes to render.                                                 |
+| `length`    | `number` (required)                | —        | Number of individual input boxes to render.                                                 |
 | `type`      | `'text' \| 'number' \| 'password'` | `'text'` | Input type. `'password'` hides inserted characters. Used to cast the emitted control value. |
 | `uppercase` | `boolean`                          | `false`  | Uppercase-transform displayed value and control value.                                      |
 | `autofocus` | `boolean`                          | `false`  | Focus the first input on render.                                                            |
 | `autoblur`  | `boolean`                          | `false`  | Remove focus from the last input once it is filled.                                         |
 
-### Pattern validation
+The `value` (model signal), `touched` (model signal), `disabled`, and `errors`
+properties are bound automatically by the `[formField]` directive from the
+parent `form()`. You can still bind `[(value)]` directly if you are not using
+Signal Forms.
 
-Use Angular's built-in `Validators.pattern` when creating the form control. The
-`{1}` quantifier must match the single-character nature of each box:
+### Validation
+
+Validation is entirely driven by the consumer's `form()` schema. Common
+patterns:
 
 ```typescript
-new FormControl('', {
-  validators: Validators.pattern('[a-zA-Z0-9]{1}')
+form(code, p => {
+  required(p)
+  pattern(p as never, /^[A-Z0-9]{5}$/) // exact length + charset
 })
 ```
 
