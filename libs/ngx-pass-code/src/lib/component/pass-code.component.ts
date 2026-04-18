@@ -19,12 +19,24 @@ import {
 import { asyncScheduler, distinctUntilChanged, map, tap } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
+import { NgClass } from '@angular/common'
+import { ReactiveFormsModule } from '@angular/forms'
+import { AutofocusFirstInputDirective } from '../directives/autofocus-first-input.directive'
+import { FocusNextPreviousInputDirective } from '../directives/focus-next-previous-input.directive'
+import { TransformInputValueDirective } from '../directives/transform-uppercase.directive'
+
 @Component({
   selector: 'ngx-pass-code',
   templateUrl: './pass-code.component.html',
   styleUrls: ['./pass-code.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+  imports: [
+    NgClass,
+    ReactiveFormsModule,
+    AutofocusFirstInputDirective,
+    FocusNextPreviousInputDirective,
+    TransformInputValueDirective
+  ]
 })
 export class PassCodeComponent
   implements OnInit, ControlValueAccessor, Validator

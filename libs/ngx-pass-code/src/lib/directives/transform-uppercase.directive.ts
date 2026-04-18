@@ -2,8 +2,7 @@ import { Directive, ElementRef, Input, OnInit, inject } from '@angular/core'
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[transformInputValue]',
-  standalone: false
+  selector: '[transformInputValue]'
 })
 export class TransformInputValueDirective implements OnInit {
   private el = inject(ElementRef)

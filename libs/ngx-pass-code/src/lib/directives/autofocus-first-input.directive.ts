@@ -8,8 +8,7 @@ import {
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[autofocusFirstInput]',
-  standalone: false
+  selector: '[autofocusFirstInput]'
 })
 export class AutofocusFirstInputDirective implements AfterViewInit {
   private elementRef = inject(ElementRef)

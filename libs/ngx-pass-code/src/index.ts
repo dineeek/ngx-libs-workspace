@@ -1,2 +1,5 @@
 export { PassCodeComponent } from './lib/component/pass-code.component'
-export * from './lib/ngx-pass-code.module'
+export { AutofocusFirstInputDirective } from './lib/directives/autofocus-first-input.directive'
+export { FocusNextPreviousInputDirective } from './lib/directives/focus-next-previous-input.directive'
+export { TransformInputValueDirective } from './lib/directives/transform-uppercase.directive'
+export { NgxPassCodeModule } from './lib/ngx-pass-code.module'

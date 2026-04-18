@@ -2,8 +2,7 @@ import { Directive, HostListener, Input } from '@angular/core'
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[focusNextPreviousInput]',
-  standalone: false
+  selector: '[focusNextPreviousInput]'
 })
 export class FocusNextPreviousInputDirective {
   @Input() autoblur = false
