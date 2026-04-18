@@ -1,17 +1,19 @@
-import { Directive, ElementRef, Input, OnInit, inject } from '@angular/core'
+import { Directive, ElementRef, effect, inject, input } from '@angular/core'
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[transformInputValue]'
 })
-export class TransformInputValueDirective implements OnInit {
-  private el = inject(ElementRef)
+export class TransformInputValueDirective {
+  private el: ElementRef<HTMLElement> = inject(ElementRef)
 
-  @Input() uppercase = false
+  readonly uppercase = input(false)
 
-  ngOnInit(): void {
-    this.el.nativeElement.style.textTransform = this.uppercase
-      ? 'uppercase'
-      : ''
+  constructor() {
+    effect(() => {
+      this.el.nativeElement.style.textTransform = this.uppercase()
+        ? 'uppercase'
+        : ''
+    })
   }
 }

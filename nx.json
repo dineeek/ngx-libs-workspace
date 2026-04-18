@@ -118,5 +118,6 @@
   "useInferencePlugins": false,
   "defaultBase": "main",
   "neverConnectToCloud": true,
-  "useDaemonProcess": false
+  "useDaemonProcess": false,
+  "analytics": false
 }

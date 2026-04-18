@@ -2,8 +2,8 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
-  Input,
-  inject
+  inject,
+  input
 } from '@angular/core'
 
 @Directive({
@@ -11,21 +11,25 @@ import {
   selector: '[autofocusFirstInput]'
 })
 export class AutofocusFirstInputDirective implements AfterViewInit {
-  private elementRef = inject(ElementRef)
+  private elementRef: ElementRef<HTMLElement> = inject(ElementRef)
 
-  @Input() autofocus = false
+  readonly autofocus = input(false)
 
-  ngAfterViewInit() {
-    if (this.autofocus) {
-      const firstInput = this.elementRef.nativeElement.querySelector(
-        'input'
-      ) as HTMLInputElement
-
-      // wait for control value set so it can be selected and overridden on typing
-      setTimeout(() => {
-        firstInput.focus()
-        firstInput.select()
-      })
+  ngAfterViewInit(): void {
+    if (!this.autofocus()) {
+      return
     }
+
+    const firstInput =
+      this.elementRef.nativeElement.querySelector<HTMLInputElement>('input')
+
+    if (!firstInput) {
+      return
+    }
+
+    setTimeout(() => {
+      firstInput.focus()
+      firstInput.select()
+    })
   }
 }
