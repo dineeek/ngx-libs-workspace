@@ -1,28 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
-import {
-  disabled,
-  form,
-  pattern,
-  required,
-  validate,
-  ValidationError
-} from '@angular/forms/signals'
+import { disabled, form, pattern } from '@angular/forms/signals'
+import { passCodeComplete } from 'ngx-pass-code'
 
 type PassCodeValue = string | number | null
-
-function hasExactLength(value: PassCodeValue, expected: number): boolean {
-  return value != null && String(value).length === expected
-}
-
-function incompleteIf(
-  value: PassCodeValue,
-  expected: number
-): ValidationError.WithoutFieldTree | null {
-  if (value == null) return null
-  return hasExactLength(value, expected)
-    ? null
-    : ({ kind: 'incomplete' } as ValidationError.WithoutFieldTree)
-}
 
 @Component({
   selector: 'ngx-libs-workspace-pass-code-demo',
@@ -35,17 +15,15 @@ export class PassCodeDemoComponent {
   protected readonly textValue = signal<PassCodeValue>('76')
   protected readonly textDisabled = signal(false)
   protected readonly textForm = form<PassCodeValue>(this.textValue, p => {
-    required(p)
+    passCodeComplete(p, 5)
     pattern(p as never, /^[A-Z0-9]{5}$/)
-    validate(p, ({ value }) => incompleteIf(value(), 5))
     disabled(p, () => this.textDisabled())
   })
 
   protected readonly numberValue = signal<PassCodeValue>(null)
   protected readonly numberDisabled = signal(false)
   protected readonly numberForm = form<PassCodeValue>(this.numberValue, p => {
-    required(p)
-    validate(p, ({ value }) => incompleteIf(value(), 5))
+    passCodeComplete(p, 5)
     disabled(p, () => this.numberDisabled())
   })
 
@@ -54,8 +32,7 @@ export class PassCodeDemoComponent {
   protected readonly passwordForm = form<PassCodeValue>(
     this.passwordValue,
     p => {
-      required(p)
-      validate(p, ({ value }) => incompleteIf(value(), 7))
+      passCodeComplete(p, 7)
       disabled(p, () => this.passwordDisabled())
     }
   )
@@ -80,55 +57,49 @@ export class PassCodeDemoComponent {
 
   protected readonly textSnippet = `readonly value = signal<string | number | null>(null)
 readonly field = form(this.value, p => {
-  required(p)
+  passCodeComplete(p, 5)
   pattern(p as never, /^[A-Z0-9]{5}$/)
-  validate(p, ({ value }) =>
-    value() != null && String(value()).length === 5
-      ? null
-      : { kind: 'incomplete' })
 })
 
-// template
-// <ngx-pass-code
-//   [formField]="field"
-//   type="text"
-//   [length]="5"
-//   [uppercase]="true"
-//   [autofocus]="true"
-// />`
+/*
+ * template
+ * <ngx-pass-code
+ *   [formField]="field"
+ *   type="text"
+ *   [length]="5"
+ *   [uppercase]="true"
+ *   [autofocus]="true"
+ * />
+ */`
 
   protected readonly numberSnippet = `readonly value = signal<string | number | null>(null)
 readonly field = form(this.value, p => {
-  required(p)
-  validate(p, ({ value }) =>
-    value() != null && String(value()).length === 5
-      ? null
-      : { kind: 'incomplete' })
+  passCodeComplete(p, 5)
 })
 
-// template
-// <ngx-pass-code
-//   [formField]="field"
-//   type="number"
-//   [length]="5"
-//   [autoblur]="true"
-// />`
+/*
+ * template
+ * <ngx-pass-code
+ *   [formField]="field"
+ *   type="number"
+ *   [length]="5"
+ *   [autoblur]="true"
+ * />
+ */`
 
   protected readonly passwordSnippet = `readonly value = signal<string | number | null>(null)
 readonly field = form(this.value, p => {
-  required(p)
-  validate(p, ({ value }) =>
-    value() != null && String(value()).length === 7
-      ? null
-      : { kind: 'incomplete' })
+  passCodeComplete(p, 7)
 })
 
-// template
-// <ngx-pass-code
-//   [formField]="field"
-//   type="password"
-//   [length]="7"
-// />`
+/*
+ * template
+ * <ngx-pass-code
+ *   [formField]="field"
+ *   type="password"
+ *   [length]="7"
+ * />
+ */`
 
   protected resetText(): void {
     this.textValue.set(null)
@@ -145,7 +116,7 @@ readonly field = form(this.value, p => {
   }
 
   protected patchNumber(): void {
-    this.numberValue.set(216582)
+    this.numberValue.set(21658)
   }
 
   protected resetPassword(): void {
