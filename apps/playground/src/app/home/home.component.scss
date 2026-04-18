@@ -35,6 +35,7 @@
 .hero__ctas {
   display: inline-flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
   justify-content: center;
   margin-bottom: 18px;
@@ -91,8 +92,8 @@
 }
 
 .hero__npm {
-  display: block;
-  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
   font-size: 13px;
   color: var(--text-muted);
 }
