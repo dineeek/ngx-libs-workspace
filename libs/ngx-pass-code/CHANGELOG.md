@@ -6,6 +6,35 @@ are generated automatically by
 [release-please](https://github.com/googleapis/release-please) from
 [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [2.0.0] - 2026-04-18
+
+### ⚠ BREAKING CHANGES
+
+- Peer deps bumped to `@angular/* >=21.0.0 <22.0.0`.
+- Standalone-only distribution — the `NgxPassCodeModule` is removed; import
+  `PassCodeComponent` directly.
+- Forms integration switched from `ControlValueAccessor` / `[formControl]` to
+  Signal Forms `FormValueControl` / `[formField]`.
+
+### Added
+
+- `passCodeComplete(path, length)` validator helper for exact-length
+  completeness checks inside `form()` schemas.
+- Paste support: clipboard input is distributed across slots left-to-right,
+  sanitized per `type` (digits-only for `number`, strip whitespace for
+  `password`, strip whitespace and separators for `text`), truncated to
+  `length`, then focus moves to the first empty slot (or blurs on `autoblur`).
+- Per-slot signal state as the source of truth, so typed characters stay in the
+  slot the user clicked and resets clear every box.
+
+### Changed
+
+- Inputs migrated to `input()` / `model()` signal APIs.
+- Directives (`autofocus-first-input`, `focus-next-previous-input`,
+  `transform-input-value`) rewritten as signal-driven standalone directives.
+- Slot boxes shrink gracefully so 7-slot controls fit narrow cards without
+  horizontal overflow.
+
 ## [1.2.0] - 2024-10-12
 
 ### Changed
