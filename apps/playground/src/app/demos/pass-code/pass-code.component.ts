@@ -136,7 +136,7 @@ readonly field = form(this.value, p => {
   }
 
   protected patchText(): void {
-    this.textValue.set('ACAB7')
+    this.textValue.set('HELLO')
   }
 
   protected resetNumber(): void {
