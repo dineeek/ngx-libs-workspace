@@ -1,74 +1,179 @@
-<div class="showcase">
-  <span class="demo__case__title"
-    >Text code — required + pattern + uppercase</span
-  >
-  <ngx-pass-code
-    [formField]="textForm"
-    type="text"
-    [length]="5"
-    [uppercase]="true"
-    [autofocus]="true"
-  ></ngx-pass-code>
+<a class="back-link" routerLink="/">← Back to home</a>
 
-  <div class="showcase__values">
-    <span>Current value: {{ textValue() | json }}</span>
-    <span>Valid: {{ textForm().valid() }}</span>
-    <span>Touched: {{ textForm().touched() }}</span>
-  </div>
+<header class="demo-header">
+  <h1 class="demo-header__title">ngx-pass-code demo</h1>
+  <p class="demo-header__tagline">
+    Three live showcases of the component's inputs (<code>type</code>,
+    <code>uppercase</code>, <code>autoblur</code>,
+    <code>pattern</code> validation). Every value is a plain
+    <code>signal()</code> wrapped in <code>form()</code> — the library plugs in
+    via <code>[formField]</code>.
+  </p>
+</header>
 
-  <div class="showcase__actions">
-    <button (click)="resetText()">Reset</button>
-    <button (click)="textDisabled.set(!textDisabled())">
-      {{ textDisabled() ? 'Enable' : 'Disable' }}
-    </button>
-    <button (click)="patchText()">Patch</button>
-  </div>
-</div>
+<section class="demo-grid">
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Text code</h2>
+      <p class="demo-card__sub">
+        5 uppercase letters or digits. Demonstrates <code>uppercase</code> +
+        <code>pattern</code> + <code>required</code> + <code>autofocus</code>.
+      </p>
+      <ul class="badges">
+        @for (b of textBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
 
-<div class="showcase">
-  <span class="showcase__title">Numbers code — required</span>
-  <ngx-pass-code
-    [formField]="numberForm"
-    [length]="5"
-    [autoblur]="true"
-    type="number"
-  ></ngx-pass-code>
+    <div class="demo-card__control">
+      <ngx-pass-code
+        [formField]="textForm"
+        type="text"
+        [length]="5"
+        [uppercase]="true"
+        [autofocus]="true"
+      ></ngx-pass-code>
+    </div>
 
-  <div class="showcase__values">
-    <span>Current value: {{ numberValue() | json }}</span>
-    <span>Valid: {{ numberForm().valid() }}</span>
-    <span>Touched: {{ numberForm().touched() }}</span>
-  </div>
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="textForm().valid()"
+        [class.chip--err]="!textForm().valid()"
+      >
+        {{ textForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="textForm().touched()"
+        [class.chip--muted]="!textForm().touched()"
+      >
+        {{ textForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ textValue() | json }}</li>
+    </ul>
 
-  <div class="showcase__actions">
-    <button (click)="resetNumber()">Reset</button>
-    <button (click)="numberDisabled.set(!numberDisabled())">
-      {{ numberDisabled() ? 'Enable' : 'Disable' }}
-    </button>
-    <button (click)="patchNumber()">Patch</button>
-  </div>
-</div>
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetText()">Reset</button>
+      <button type="button" (click)="textDisabled.set(!textDisabled())">
+        {{ textDisabled() ? 'Enable' : 'Disable' }}
+      </button>
+      <button type="button" (click)="patchText()">Set demo value</button>
+    </div>
 
-<div class="showcase">
-  <span class="showcase__title">Password (hidden) code — required</span>
+    <ngx-libs-workspace-code-block
+      [code]="textSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
 
-  <ngx-pass-code
-    [formField]="passwordForm"
-    [length]="7"
-    type="password"
-  ></ngx-pass-code>
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Numbers code</h2>
+      <p class="demo-card__sub">
+        5-digit PIN. Demonstrates <code>type='number'</code> +
+        <code>autoblur</code> + <code>required</code>.
+      </p>
+      <ul class="badges">
+        @for (b of numberBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
 
-  <div class="showcase__values">
-    <span>Current value: {{ passwordValue() | json }}</span>
-    <span>Valid: {{ passwordForm().valid() }}</span>
-    <span>Touched: {{ passwordForm().touched() }}</span>
-  </div>
+    <div class="demo-card__control">
+      <ngx-pass-code
+        [formField]="numberForm"
+        type="number"
+        [length]="5"
+        [autoblur]="true"
+      ></ngx-pass-code>
+    </div>
 
-  <div class="showcase__actions">
-    <button (click)="resetPassword()">Reset</button>
-    <button (click)="passwordDisabled.set(!passwordDisabled())">
-      {{ passwordDisabled() ? 'Enable' : 'Disable' }}
-    </button>
-    <button (click)="patchPassword()">Patch</button>
-  </div>
-</div>
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="numberForm().valid()"
+        [class.chip--err]="!numberForm().valid()"
+      >
+        {{ numberForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="numberForm().touched()"
+        [class.chip--muted]="!numberForm().touched()"
+      >
+        {{ numberForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ numberValue() | json }}</li>
+    </ul>
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetNumber()">Reset</button>
+      <button type="button" (click)="numberDisabled.set(!numberDisabled())">
+        {{ numberDisabled() ? 'Enable' : 'Disable' }}
+      </button>
+      <button type="button" (click)="patchNumber()">Set demo value</button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="numberSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Password code</h2>
+      <p class="demo-card__sub">
+        7-character masked secret. Demonstrates <code>type='password'</code> +
+        <code>required</code>.
+      </p>
+      <ul class="badges">
+        @for (b of passwordBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-pass-code
+        [formField]="passwordForm"
+        type="password"
+        [length]="7"
+      ></ngx-pass-code>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="passwordForm().valid()"
+        [class.chip--err]="!passwordForm().valid()"
+      >
+        {{ passwordForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="passwordForm().touched()"
+        [class.chip--muted]="!passwordForm().touched()"
+      >
+        {{ passwordForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ passwordValue() | json }}</li>
+    </ul>
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetPassword()">Reset</button>
+      <button type="button" (click)="passwordDisabled.set(!passwordDisabled())">
+        {{ passwordDisabled() ? 'Enable' : 'Disable' }}
+      </button>
+      <button type="button" (click)="patchPassword()">Set demo value</button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="passwordSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+</section>

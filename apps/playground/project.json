@@ -22,7 +22,8 @@
           "apps/playground/src/icons"
         ],
         "styles": ["apps/playground/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": ["prismjs"]
       },
       "configurations": {
         "production": {
@@ -34,7 +35,7 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
+              "maximumWarning": "3kb",
               "maximumError": "4kb"
             }
           ],

@@ -40,6 +40,64 @@ export class PassCodeDemoComponent {
     }
   )
 
+  protected readonly textBadges = [
+    'type=text',
+    'length=5',
+    'required',
+    'pattern',
+    'uppercase',
+    'autofocus'
+  ]
+
+  protected readonly numberBadges = [
+    'type=number',
+    'length=5',
+    'required',
+    'autoblur'
+  ]
+
+  protected readonly passwordBadges = ['type=password', 'length=7', 'required']
+
+  protected readonly textSnippet = `readonly value = signal<string | number | null>(null)
+readonly field = form(this.value, p => {
+  required(p)
+  pattern(p as never, /^[A-Z0-9]{5}$/)
+})
+
+// template
+// <ngx-pass-code
+//   [formField]="field"
+//   type="text"
+//   [length]="5"
+//   [uppercase]="true"
+//   [autofocus]="true"
+// />`
+
+  protected readonly numberSnippet = `readonly value = signal<string | number | null>(null)
+readonly field = form(this.value, p => {
+  required(p)
+})
+
+// template
+// <ngx-pass-code
+//   [formField]="field"
+//   type="number"
+//   [length]="5"
+//   [autoblur]="true"
+// />`
+
+  protected readonly passwordSnippet = `readonly value = signal<string | number | null>(null)
+readonly field = form(this.value, p => {
+  required(p)
+})
+
+// template
+// <ngx-pass-code
+//   [formField]="field"
+//   type="password"
+//   [length]="7"
+// />`
+
   protected resetText(): void {
     this.textValue.set(null)
     this.textDisabled.set(false)
