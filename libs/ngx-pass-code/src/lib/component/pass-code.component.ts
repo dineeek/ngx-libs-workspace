@@ -1,29 +1,18 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  DestroyRef,
-  Input,
-  OnInit,
-  inject
+  computed,
+  input,
+  model
 } from '@angular/core'
-import {
-  AbstractControl,
-  ControlValueAccessor,
-  FormArray,
-  FormControl,
-  NgControl,
-  ValidationErrors,
-  Validator
-} from '@angular/forms'
-import { asyncScheduler, distinctUntilChanged, map, tap } from 'rxjs'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { FormValueControl, ValidationError } from '@angular/forms/signals'
 
-import { NgClass } from '@angular/common'
-import { ReactiveFormsModule } from '@angular/forms'
 import { AutofocusFirstInputDirective } from '../directives/autofocus-first-input.directive'
 import { FocusNextPreviousInputDirective } from '../directives/focus-next-previous-input.directive'
 import { TransformInputValueDirective } from '../directives/transform-uppercase.directive'
+
+type PassCodeType = 'text' | 'number' | 'password'
+type PassCodeValue = string | number | null
 
 @Component({
   selector: 'ngx-pass-code',
@@ -31,185 +20,63 @@ import { TransformInputValueDirective } from '../directives/transform-uppercase.
   styleUrls: ['./pass-code.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgClass,
-    ReactiveFormsModule,
     AutofocusFirstInputDirective,
     FocusNextPreviousInputDirective,
     TransformInputValueDirective
   ]
 })
-export class PassCodeComponent
-  implements OnInit, ControlValueAccessor, Validator
-{
-  private controlDirective = inject(NgControl)
-  private cdRef = inject(ChangeDetectorRef)
+export class PassCodeComponent implements FormValueControl<PassCodeValue> {
+  readonly length = input.required<number>()
+  readonly type = input<PassCodeType>('text')
+  readonly uppercase = input(false)
+  readonly autofocus = input(false)
+  readonly autoblur = input(false)
 
-  @Input() length = 0
-  @Input() type: 'text' | 'number' | 'password' = 'text'
-  @Input() uppercase = false
-  @Input() autofocus = false // set focus on first input
-  @Input() autoblur = false // remove focus from last input when filled
+  readonly value = model<PassCodeValue>(null)
+  readonly disabled = input(false)
+  readonly errors = input<readonly ValidationError.WithOptionalFieldTree[]>([])
+  readonly touched = model(false)
 
-  passCodes!: FormArray<FormControl>
-  isCodeInvalid = false // validation ui is shown only if all controls are invalid
+  protected readonly slotIndices = computed<number[]>(() =>
+    Array.from({ length: this.length() }, (_, i) => i)
+  )
 
-  private initialized = false
-  private destroyRef$ = inject(DestroyRef)
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (value: string | number | null) => {}
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched = () => {}
-
-  constructor() {
-    this.controlDirective.valueAccessor = this
-  }
-
-  ngOnInit(): void {
-    this.passCodes = new FormArray(
-      [...new Array(this.length)].map(() => new FormControl(''))
-    )
-
-    this.setSyncValidatorsFromParent()
-    this.updateParentControlValidation()
-    this.propagateViewValueToModel()
-  }
-
-  writeValue(value: string): void {
-    const stringifyTrimmedValue = value?.toString().trim()
-    if (!this.initialized) {
-      // https://github.com/angular/angular/issues/29218 - have to know length property before writing any value
-      asyncScheduler.schedule(() => {
-        this.initialized = true
-        this.propagateModelValueToView(stringifyTrimmedValue)
-        this.cdRef.markForCheck() // because of scheduling
-      })
-    } else {
-      this.propagateModelValueToView(stringifyTrimmedValue)
+  protected readonly slots = computed<string[]>(() => {
+    const n = this.length()
+    const raw = this.value()
+    const str = raw == null ? '' : String(raw)
+    const chars = str.slice(0, n).split('')
+    while (chars.length < n) {
+      chars.push('')
     }
-  }
+    return this.uppercase() ? chars.map(c => c.toUpperCase()) : chars
+  })
 
-  registerOnChange(fn: any): void {
-    this.onChange = fn
-  }
+  protected readonly isInvalid = computed(
+    () => this.touched() && this.errors().length > 0
+  )
 
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn
-  }
+  protected onSlotInput(index: number, event: Event): void {
+    const el = event.target as HTMLInputElement
+    const current = this.slots().slice()
+    current[index] = el.value
+    const combined = current.join('')
 
-  setDisabledState(isDisabled: boolean): void {
-    if (!this.initialized) {
-      asyncScheduler.schedule(() => {
-        this.disableControls(isDisabled)
-      })
-
+    if (combined === '') {
+      this.value.set(null)
       return
     }
 
-    this.disableControls(isDisabled)
-  }
-
-  validate(): ValidationErrors | null {
-    if (this.passCodes.valid) {
-      return null
-    }
-
-    const errors = this.passCodes.controls
-      .map(control => control.errors)
-      .filter(error => error !== null)
-
-    return errors.length ? errors : null
-  }
-
-  private get parentControl(): AbstractControl<any, any> {
-    return this.controlDirective.control as AbstractControl<any, any>
-  }
-
-  private setSyncValidatorsFromParent(): void {
-    const parentValidators = this.parentControl.validator
-
-    if (!parentValidators) {
+    if (this.type() === 'number') {
+      const parsed = Number(combined)
+      this.value.set(Number.isNaN(parsed) ? null : parsed)
       return
     }
 
-    this.passCodes.controls.forEach(control => {
-      control.setValidators(parentValidators)
-    })
-    this.passCodes.updateValueAndValidity({ emitEvent: false })
+    this.value.set(this.uppercase() ? combined.toUpperCase() : combined)
   }
 
-  private updateParentControlValidation(): void {
-    this.parentControl.setValidators(this.validate.bind(this))
-    this.parentControl.updateValueAndValidity({ emitEvent: false })
-  }
-
-  private propagateModelValueToView(value: string): void {
-    if (value) {
-      this.setValue(value)
-    } else {
-      this.resetValue()
-    }
-    this.updatePassCodeValidity()
-  }
-
-  private setValue(value: string): void {
-    if (this.type === 'number' && isNaN(parseInt(value))) {
-      throw new TypeError(
-        'Provided value does not match provided type property number!'
-      )
-    }
-
-    const splittedValue = value.substring(0, this.length).split('') // remove chars after specified length and split
-
-    if (splittedValue.length < this.length) {
-      this.resetValue()
-    }
-
-    this.passCodes.patchValue(splittedValue, { emitEvent: false })
-  }
-
-  private resetValue(): void {
-    const nullValues = Array(this.length).fill(null)
-    this.passCodes.patchValue(nullValues, { emitEvent: false })
-  }
-
-  private propagateViewValueToModel(): void {
-    this.passCodes.valueChanges
-      .pipe(
-        tap(() => this.updatePassCodeValidity()),
-        map(codes => {
-          const code = codes.join('')
-
-          if (this.passCodes.invalid || !code) {
-            return null
-          }
-
-          if (this.type === 'number') {
-            return parseInt(code)
-          }
-
-          return this.uppercase ? code.toUpperCase() : code
-        }),
-        distinctUntilChanged(),
-        takeUntilDestroyed(this.destroyRef$)
-      )
-      .subscribe(this.onChange)
-  }
-
-  private updatePassCodeValidity(): void {
-    const allControlsAreInvalid = this.validate()?.['length'] === this.length
-    this.isCodeInvalid = allControlsAreInvalid && this.passCodes.dirty
-    this.parentControl.updateValueAndValidity({ emitEvent: false })
-  }
-
-  private disableControls(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.passCodes.disable({ emitEvent: false })
-    } else {
-      this.passCodes.enable({ emitEvent: false })
-    }
-
-    this.parentControl.updateValueAndValidity({ emitEvent: false })
+  protected onSlotBlur(): void {
+    this.touched.set(true)
   }
 }
