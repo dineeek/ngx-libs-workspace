@@ -3,49 +3,6 @@
 }
 
 .app-main {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  row-gap: 2vh;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-.demos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 25px;
-  justify-items: center;
+  display: block;
   width: 100%;
-  padding: 15px 0;
-}
-
-.demos__card {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 6vh;
-  font-size: 16px;
-  font-weight: 500;
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  background: var(--surface);
-  color: var(--text);
-}
-
-.demos__card:only-child {
-  max-width: 250px;
-}
-
-.showcase {
-  padding-top: 4vh;
-  width: 100%;
-}
-
-.active-link {
-  box-shadow: 0 0 20px var(--accent);
 }

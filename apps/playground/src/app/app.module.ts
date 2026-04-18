@@ -9,6 +9,7 @@ import { AppComponent } from './app.component'
 import { AppRoutingModule } from './app-routing.module'
 import { PassCodeDemoComponent } from './demos/pass-code/pass-code.component'
 import { TopBarComponent } from './shared/top-bar/top-bar.component'
+import { HomeComponent } from './home/home.component'
 
 @NgModule({
   declarations: [AppComponent, PassCodeDemoComponent],
@@ -18,7 +19,8 @@ import { TopBarComponent } from './shared/top-bar/top-bar.component'
     JsonPipe,
     FormField,
     PassCodeComponent,
-    TopBarComponent
+    TopBarComponent,
+    HomeComponent
   ],
   bootstrap: [AppComponent]
 })
