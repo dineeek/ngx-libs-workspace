@@ -5,7 +5,8 @@ import { FormControl, Validators } from '@angular/forms'
   selector: 'ngx-libs-workspace-pass-code-demo',
   templateUrl: './pass-code.component.html',
   styleUrls: ['./pass-code.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class PassCodeDemoComponent {
   protected textCodeControl = new FormControl<string>('76', {

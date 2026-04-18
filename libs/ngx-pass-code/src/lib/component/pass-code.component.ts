@@ -16,19 +16,15 @@ import {
   ValidationErrors,
   Validator
 } from '@angular/forms'
-import {
-  asyncScheduler,
-  distinctUntilChanged,
-  map,
-  tap
-} from 'rxjs'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { asyncScheduler, distinctUntilChanged, map, tap } from 'rxjs'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'ngx-pass-code',
   templateUrl: './pass-code.component.html',
   styleUrls: ['./pass-code.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class PassCodeComponent
   implements OnInit, ControlValueAccessor, Validator

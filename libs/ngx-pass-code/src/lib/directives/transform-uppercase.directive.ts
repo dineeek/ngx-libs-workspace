@@ -2,7 +2,8 @@ import { Directive, ElementRef, Input, OnInit } from '@angular/core'
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[transformInputValue]'
+  selector: '[transformInputValue]',
+  standalone: false
 })
 export class TransformInputValueDirective implements OnInit {
   @Input() uppercase = false

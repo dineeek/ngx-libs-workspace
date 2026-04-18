@@ -7,6 +7,7 @@ import { PassCodeComponent } from './pass-code.component'
 import spyOn = jest.spyOn
 
 @Component({
+  standalone: false,
   template: `<ngx-pass-code
     [length]="7"
     type="text"
@@ -179,6 +180,7 @@ describe('PassCodeComponent - type text + validation', () => {
 })
 
 @Component({
+  standalone: false,
   template: `<ngx-pass-code
     [length]="5"
     type="number"
@@ -442,6 +444,7 @@ describe('PassCodeComponent - type numbers', () => {
 })
 
 @Component({
+  standalone: false,
   template: `<ngx-pass-code
     [length]="6"
     type="password"

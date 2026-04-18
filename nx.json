@@ -5,7 +5,6 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "useDaemonProcess": false,
         "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "MDdiZWE4ZGYtNGE2NS00MTY3LWEwZGMtZjhjYzJiNjgwZmNjfHJlYWQtd3JpdGU="
       }
@@ -71,5 +70,7 @@
   "defaultProject": "playground",
   "useInferencePlugins": false,
   "defaultBase": "main",
-  "neverConnectToCloud": true
+  "neverConnectToCloud": true,
+  "useDaemonProcess": false,
+  "useLegacyCache": true
 }
