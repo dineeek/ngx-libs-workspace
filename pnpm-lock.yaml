@@ -148,8 +148,8 @@ importers:
         specifier: 30.3.0
         version: 30.3.0
       jest-preset-angular:
-        specifier: 16.0.0
-        version: 16.0.0(af2a46bab10c9b283b6e758dd83a0006)
+        specifier: 16.1.4
+        version: 16.1.4(af2a46bab10c9b283b6e758dd83a0006)
       jest-util:
         specifier: 30.3.0
         version: 30.3.0
@@ -5891,8 +5891,8 @@ packages:
       jest-resolve:
         optional: true
 
-  jest-preset-angular@16.0.0:
-    resolution: {integrity: sha512-FVo98EZiJ9cwHeteJozCCIkgJecytt1tu0t8DrAMTyyQ4x/seeZmctkWXP0J9uGyARS0Kcwd+f2YeKqKQOB2yA==}
+  jest-preset-angular@16.1.4:
+    resolution: {integrity: sha512-9RAEcxejwhumdGhOabraQ6ZSNAKJfOHHeQpq47fYOfBNNl4CIQf9um7a6vGK2iGSxvo0tNzw1mNVlYWKkPWx1g==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0}
     peerDependencies:
       '@angular/compiler-cli': '>=19.0.0 <22.0.0'
@@ -15444,7 +15444,7 @@ snapshots:
     optionalDependencies:
       jest-resolve: 30.3.0
 
-  jest-preset-angular@16.0.0(af2a46bab10c9b283b6e758dd83a0006):
+  jest-preset-angular@16.1.4(af2a46bab10c9b283b6e758dd83a0006):
     dependencies:
       '@angular/compiler-cli': 21.2.9(@angular/compiler@21.2.9)(typescript@5.9.3)
       '@angular/core': 21.2.9(@angular/compiler@21.2.9)(rxjs@7.8.1)(zone.js@0.16.1)
