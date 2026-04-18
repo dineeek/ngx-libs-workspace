@@ -1,5 +1,28 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
-import { disabled, form, pattern, required } from '@angular/forms/signals'
+import {
+  disabled,
+  form,
+  pattern,
+  required,
+  validate,
+  ValidationError
+} from '@angular/forms/signals'
+
+type PassCodeValue = string | number | null
+
+function hasExactLength(value: PassCodeValue, expected: number): boolean {
+  return value != null && String(value).length === expected
+}
+
+function incompleteIf(
+  value: PassCodeValue,
+  expected: number
+): ValidationError.WithoutFieldTree | null {
+  if (value == null) return null
+  return hasExactLength(value, expected)
+    ? null
+    : ({ kind: 'incomplete' } as ValidationError.WithoutFieldTree)
+}
 
 @Component({
   selector: 'ngx-libs-workspace-pass-code-demo',
@@ -9,33 +32,30 @@ import { disabled, form, pattern, required } from '@angular/forms/signals'
   standalone: false
 })
 export class PassCodeDemoComponent {
-  protected readonly textValue = signal<string | number | null>('76')
+  protected readonly textValue = signal<PassCodeValue>('76')
   protected readonly textDisabled = signal(false)
-  protected readonly textForm = form<string | number | null>(
-    this.textValue,
-    p => {
-      required(p)
-      pattern(p as never, /^[A-Z0-9]{5}$/)
-      disabled(p, () => this.textDisabled())
-    }
-  )
+  protected readonly textForm = form<PassCodeValue>(this.textValue, p => {
+    required(p)
+    pattern(p as never, /^[A-Z0-9]{5}$/)
+    validate(p, ({ value }) => incompleteIf(value(), 5))
+    disabled(p, () => this.textDisabled())
+  })
 
-  protected readonly numberValue = signal<string | number | null>(null)
+  protected readonly numberValue = signal<PassCodeValue>(null)
   protected readonly numberDisabled = signal(false)
-  protected readonly numberForm = form<string | number | null>(
-    this.numberValue,
-    p => {
-      required(p)
-      disabled(p, () => this.numberDisabled())
-    }
-  )
+  protected readonly numberForm = form<PassCodeValue>(this.numberValue, p => {
+    required(p)
+    validate(p, ({ value }) => incompleteIf(value(), 5))
+    disabled(p, () => this.numberDisabled())
+  })
 
-  protected readonly passwordValue = signal<string | number | null>('mypass1')
+  protected readonly passwordValue = signal<PassCodeValue>('mypass1')
   protected readonly passwordDisabled = signal(false)
-  protected readonly passwordForm = form<string | number | null>(
+  protected readonly passwordForm = form<PassCodeValue>(
     this.passwordValue,
     p => {
       required(p)
+      validate(p, ({ value }) => incompleteIf(value(), 7))
       disabled(p, () => this.passwordDisabled())
     }
   )
@@ -62,6 +82,10 @@ export class PassCodeDemoComponent {
 readonly field = form(this.value, p => {
   required(p)
   pattern(p as never, /^[A-Z0-9]{5}$/)
+  validate(p, ({ value }) =>
+    value() != null && String(value()).length === 5
+      ? null
+      : { kind: 'incomplete' })
 })
 
 // template
@@ -76,6 +100,10 @@ readonly field = form(this.value, p => {
   protected readonly numberSnippet = `readonly value = signal<string | number | null>(null)
 readonly field = form(this.value, p => {
   required(p)
+  validate(p, ({ value }) =>
+    value() != null && String(value()).length === 5
+      ? null
+      : { kind: 'incomplete' })
 })
 
 // template
@@ -89,6 +117,10 @@ readonly field = form(this.value, p => {
   protected readonly passwordSnippet = `readonly value = signal<string | number | null>(null)
 readonly field = form(this.value, p => {
   required(p)
+  validate(p, ({ value }) =>
+    value() != null && String(value()).length === 7
+      ? null
+      : { kind: 'incomplete' })
 })
 
 // template
