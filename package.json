@@ -62,7 +62,7 @@
     "@nx/workspace": "22.6.5",
     "@schematics/angular": "21.2.7",
     "@types/jest": "30.0.0",
-    "@types/node": "22.19.17",
+    "@types/node": "25.6.0",
     "@types/prismjs": "^1.26.6",
     "@typescript-eslint/eslint-plugin": "8.58.2",
     "@typescript-eslint/parser": "8.58.2",
