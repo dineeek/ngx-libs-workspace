@@ -83,6 +83,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^2.1.1
         version: 2.1.4
+      '@eslint/js':
+        specifier: 9.39.4
+        version: 9.39.4
       '@nx/cypress':
         specifier: 22.6.5
         version: 22.6.5(@babel/traverse@7.29.0)(@zkochan/js-yaml@0.0.7)(cypress@15.14.0)(eslint@9.39.4(jiti@2.6.1))(nx@22.6.5)(typescript@5.9.3)
