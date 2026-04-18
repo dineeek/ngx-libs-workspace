@@ -286,7 +286,7 @@ describe('PassCodeComponent — value (ModelSignal) sync', () => {
     expect(fixture.componentInstance.value()).toBeNull()
   })
 
-  it('clearing one slot compacts the value', () => {
+  it('clearing one slot compacts the emitted value', () => {
     const fixture = createDirect(h => {
       h.length.set(4)
       h.value.set('abcd')
@@ -294,6 +294,38 @@ describe('PassCodeComponent — value (ModelSignal) sync', () => {
     typeInto(inputsOf(fixture)[1], '')
     fixture.detectChanges()
     expect(fixture.componentInstance.value()).toBe('acd')
+  })
+
+  it('typing in a later slot while earlier slots are empty keeps the char in that slot', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    typeInto(inputsOf(fixture)[2], 'x')
+    fixture.detectChanges()
+    const chars = inputsOf(fixture).map(i => i.value)
+    expect(chars).toStrictEqual(['', '', 'x', '', ''])
+    expect(fixture.componentInstance.value()).toBe('x')
+  })
+
+  it('resetting value to null from a partial state clears every slot in the DOM', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    typeInto(inputsOf(fixture)[2], 'x')
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      '',
+      '',
+      'x',
+      '',
+      ''
+    ])
+
+    fixture.componentInstance.value.set(null)
+    fixture.detectChanges()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      '',
+      '',
+      '',
+      '',
+      ''
+    ])
   })
 
   it('uppercase=true uppercases both value() and rendered chars', () => {
