@@ -29,6 +29,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 export class PassCodeComponent
   implements OnInit, ControlValueAccessor, Validator
 {
+  private controlDirective = inject(NgControl)
+  private cdRef = inject(ChangeDetectorRef)
+
   @Input() length = 0
   @Input() type: 'text' | 'number' | 'password' = 'text'
   @Input() uppercase = false
@@ -47,10 +50,7 @@ export class PassCodeComponent
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {}
 
-  constructor(
-    private controlDirective: NgControl,
-    private cdRef: ChangeDetectorRef
-  ) {
+  constructor() {
     this.controlDirective.valueAccessor = this
   }
 

@@ -4,20 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/ngx-pass-code/src",
   "prefix": "ngx",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/ngx-pass-code"],
       "options": {
-        "project": "libs/ngx-pass-code/ng-package.json"
+        "project": "libs/ngx-pass-code/ng-package.json",
+        "tsConfig": "libs/ngx-pass-code/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/ngx-pass-code/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/ngx-pass-code/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -26,7 +26,8 @@
       "outputs": ["{workspaceRoot}/coverage/libs/ngx-pass-code"],
       "options": {
         "jestConfig": "libs/ngx-pass-code/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "tsConfig": "libs/ngx-pass-code/tsconfig.spec.json"
       }
     },
     "test-watch": {
@@ -52,6 +53,5 @@
         "buildTarget": "production"
       }
     }
-  },
-  "tags": []
+  }
 }
