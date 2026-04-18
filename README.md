@@ -13,11 +13,10 @@ and a playground application used to showcase it.
 
 ## Projects
 
-| Project          | Path                  | Description                                                 |
-| ---------------- | --------------------- | ----------------------------------------------------------- |
-| `ngx-pass-code`  | `libs/ngx-pass-code`  | Publishable Angular library (OTP / pass-code form control). |
-| `playground`     | `apps/playground`     | Demo Angular application deployed to GitHub Pages.          |
-| `playground-e2e` | `apps/playground-e2e` | Cypress end-to-end tests for the playground.                |
+- `ngx-pass-code` (`libs/ngx-pass-code`) — publishable Angular library (OTP /
+  pass-code form control).
+- `playground` (`apps/playground`) — demo app deployed to GitHub Pages.
+- `playground-e2e` (`apps/playground-e2e`) — Cypress end-to-end tests.
 
 ## Prerequisites
 
