@@ -1,22 +1,25 @@
+<!-- eslint-disable @angular-eslint/template/no-autofocus -->
 <div
   class="container"
-  [autofocus]="autofocus && !!passCodes.controls.length"
+  [autofocus]="autofocus() && length() > 0"
   autofocusFirstInput
 >
-  <input
-    *ngFor="let control of passCodes.controls"
-    (blur)="onTouched()"
-    onclick="select()"
-    [autoblur]="autoblur"
-    [formControl]="control"
-    [type]="type"
-    [uppercase]="uppercase"
-    [ngClass]="{
-      'invalid-input': isCodeInvalid
-    }"
-    maxlength="1"
-    focusNextPreviousInput
-    transformInputValue
-    autofocusFirst
-  />
+  <!-- eslint-enable @angular-eslint/template/no-autofocus -->
+  @for (i of slotIndices(); track i) {
+    <input
+      [value]="slots()[i]"
+      (input)="onSlotInput(i, $event)"
+      (paste)="onSlotPaste($event)"
+      (blur)="onSlotBlur()"
+      onclick="select()"
+      [autoblur]="autoblur()"
+      [type]="type()"
+      [uppercase]="uppercase()"
+      [disabled]="disabled()"
+      [class.invalid-input]="isInvalid()"
+      maxlength="1"
+      focusNextPreviousInput
+      transformInputValue
+    />
+  }
 </div>

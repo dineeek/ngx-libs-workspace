@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/playground/src",
   "prefix": "ngx-libs-workspace",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -17,10 +18,12 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/playground/src/favicon.ico",
-          "apps/playground/src/assets"
+          "apps/playground/src/assets",
+          "apps/playground/src/icons"
         ],
         "styles": ["apps/playground/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": ["prismjs"]
       },
       "configurations": {
         "production": {
@@ -32,7 +35,7 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
+              "maximumWarning": "3kb",
               "maximumError": "4kb"
             }
           ],
@@ -65,7 +68,8 @@
           "buildTarget": "playground:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -74,7 +78,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "apps/playground/**/*.ts",
@@ -87,9 +91,9 @@
       "outputs": ["{workspaceRoot}/coverage/apps/playground"],
       "options": {
         "jestConfig": "apps/playground/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "tsConfig": "apps/playground/tsconfig.spec.json"
       }
     }
-  },
-  "tags": []
+  }
 }

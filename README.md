@@ -1,121 +1,121 @@
-# Ngx Libs Workspace
+# ngx-libs-workspace
 
-[![Build Status](https://app.travis-ci.com/dineeek/ngx-libs-workspace.svg?branch=main)](https://app.travis-ci.com/dineeek/ngx-libs-workspace)
-[![lint:test:build:deploy](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/lint-test-build-deploy.yml/badge.svg)](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/lint-test-build-deploy.yml)
-[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=main&kill_cache=1)
+[![ci](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/ci.yml/badge.svg)](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/ci.yml)
+[![deploy playground](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/deploy-playground.yml/badge.svg)](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/deploy-playground.yml)
+[![CodeQL](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/codeql.yml/badge.svg)](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/codeql.yml)
+[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=main)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_shield)
 
-**[Live workspace demo](https://dineeek.github.io/ngx-libs-workspace)**
+Nx monorepo hosting the [`ngx-pass-code`](./libs/ngx-pass-code) Angular library
+and a playground application used to showcase it.
 
-This project was generated using [Nx](https://nx.dev).
+**[Live playground](https://dineeek.github.io/ngx-libs-workspace)**
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+## Projects
 
-🔎 **Smart, Fast and Extensible Build System**
+- `ngx-pass-code` (`libs/ngx-pass-code`) — publishable Angular library (OTP /
+  pass-code form control).
+- `playground` (`apps/playground`) — demo app deployed to GitHub Pages.
+- `playground-e2e` (`apps/playground-e2e`) — Cypress end-to-end tests.
 
-## Quick Start & Documentation
+## Prerequisites
 
-[Nx Documentation](https://nx.dev/getting-started/intro)
+- Node.js `>=20.19` (see [`.nvmrc`](.nvmrc))
+- pnpm `>=10` (enabled via `corepack`, pinned in `package.json`)
 
-[Mental model is a good starting point for those who like to understand things theoretically first.](https://nx.dev/concepts/mental-model)
+```shell
+corepack enable
+pnpm install --frozen-lockfile
+```
 
-[Interactive Tutorial](https://nx.dev/getting-started/angular-tutorial)
+## Daily commands
 
-## Adding capabilities to your workspace
+All commands are run from the repo root via pnpm. Every command is Nx-cached;
+re-runs return instantly when nothing changed.
 
-Nx supports many plugins which add capabilities for developing different types
-of applications and different tools.
+### Start the playground
 
-These capabilities include generating applications, libraries, etc as well as
-the devtools to test, and build projects as well.
+```shell
+pnpm nx serve playground
+```
 
-Below are our core plugins:
+Open <http://localhost:4200>. The app live-reloads on source changes and
+consumes the library directly from `libs/ngx-pass-code` (no rebuild needed).
 
-- [Angular](https://angular.io)
-  - `ng add @nx/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
+### Lint
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+```shell
+pnpm nx lint ngx-pass-code          # one project
+pnpm nx run-many -t lint            # everything
+pnpm nx affected -t lint            # only what changed vs. main
+```
 
-## Generate an application
+### Test
 
-Run `ng g @nx/angular:app my-app` to generate an application.
+```shell
+pnpm nx test ngx-pass-code          # one project
+pnpm nx test ngx-pass-code --watch  # re-run on change
+pnpm nx run-many -t test            # everything
+pnpm nx affected -t test            # only what changed vs. main
+```
 
-> You can use any of the plugins above to generate applications as well.
+Coverage for the publishable library:
 
-When using Nx, you can create multiple applications and libraries in the same
-workspace.
+```shell
+pnpm ngx-pass-code:test:ci
+```
 
-## Generate a library
+### Build
 
-Run `ng g @nx/angular:lib my-lib` to generate a library.
+```shell
+pnpm nx build ngx-pass-code         # library → dist/libs/ngx-pass-code
+pnpm nx build playground            # app     → dist/apps/playground
+pnpm nx run-many -t build           # everything
+```
 
-> You can also use any of the plugins above to generate libraries as well.
+### Library publish dry-run
 
-Libraries are shareable across libraries and applications. They can be imported
-from `@ngx-libs-workspace/mylib`.
+```shell
+pnpm ngx-pass-code:publish:dry-run
+```
 
-## Development server
+### Workspace graph
 
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The
-app will automatically reload if you change any of the source files.
+```shell
+pnpm nx graph
+```
 
-## Code scaffolding
+## Releasing `ngx-pass-code`
 
-Run `ng g component my-component --project=my-app` to generate a new component.
+Publishing is fully automated:
 
-## Build
+1. Commit to `main` using
+   [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`,
+   `fix:`, `feat!:`, …).
+2. [`release-please`](./.github/workflows/release-please.yml) opens/updates a
+   release PR that bumps `libs/ngx-pass-code/package.json` and the library
+   `CHANGELOG.md`.
+3. Merging the release PR creates a GitHub Release + tag `ngx-pass-code@x.y.z`.
+4. The tag triggers
+   [`publish-ngx-pass-code.yml`](./.github/workflows/publish-ngx-pass-code.yml),
+   which runs `nx build ngx-pass-code --configuration=production` and
+   `npm publish --provenance --access public` using the `NPM_TOKEN` repo secret
+   (OIDC-backed provenance).
 
-Run `ng build my-app` to build the project. The build artifacts will be stored
-in the `dist/` directory. Use the `--prod` flag for a production build.
+See [`libs/ngx-pass-code/README.md`](./libs/ngx-pass-code/README.md) for
+consumer-facing docs.
 
-## Running unit tests
+## Contributing
 
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via
-[Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more
-rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx
-Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their
-preferred framework alongside Nx’s advanced code generation and project
-dependency graph, plus a unified experience for both frontend and backend
-developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+1. Create a feature branch off `main`.
+2. Commit with Conventional Commit messages. A `commit-msg` husky hook runs
+   [commitlint](https://commitlint.js.org) to enforce this.
+3. Before pushing, pre-commit runs Prettier on staged files and
+   `nx affected -t lint` on the affected projects.
+4. Open a PR; CI (`ci.yml`) runs `lint`, `test`, `build` in parallel via
+   `nx affected` and publishes coverage to Coveralls.
 
 ## License
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_large)
+MIT © Dino Klicek. See
+[FOSSA report](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace).

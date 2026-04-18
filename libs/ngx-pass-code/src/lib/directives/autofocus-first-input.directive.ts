@@ -1,25 +1,35 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core'
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  inject,
+  input
+} from '@angular/core'
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[autofocusFirstInput]'
 })
 export class AutofocusFirstInputDirective implements AfterViewInit {
-  @Input() autofocus = false
+  private elementRef: ElementRef<HTMLElement> = inject(ElementRef)
 
-  constructor(private elementRef: ElementRef) {}
+  readonly autofocus = input(false)
 
-  ngAfterViewInit() {
-    if (this.autofocus) {
-      const firstInput = this.elementRef.nativeElement.querySelector(
-        'input'
-      ) as HTMLInputElement
-
-      // wait for control value set so it can be selected and overridden on typing
-      setTimeout(() => {
-        firstInput.focus()
-        firstInput.select()
-      })
+  ngAfterViewInit(): void {
+    if (!this.autofocus()) {
+      return
     }
+
+    const firstInput =
+      this.elementRef.nativeElement.querySelector<HTMLInputElement>('input')
+
+    if (!firstInput) {
+      return
+    }
+
+    setTimeout(() => {
+      firstInput.focus()
+      firstInput.select()
+    })
   }
 }

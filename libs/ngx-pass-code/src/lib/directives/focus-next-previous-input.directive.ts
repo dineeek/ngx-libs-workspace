@@ -1,78 +1,78 @@
-import { Directive, HostListener, Input } from '@angular/core'
+import { Directive, HostListener, input } from '@angular/core'
+
+const BACKSPACE_KEY = 8
+const TAB_KEY = 9
+const DELETE_KEY = 46
+const LEFT_ARROW_KEY = 37
+const RIGHT_ARROW_KEY = 39
+const SPACE_KEY = 32
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[focusNextPreviousInput]'
 })
 export class FocusNextPreviousInputDirective {
-  @Input() autoblur = false
+  readonly autoblur = input(false)
 
-  private BACKSPACE_KEY = 8
-  private TAB_KEY = 9
-  private DELETE_KEY = 46
-  private LEFT_ARROW_KEY = 37
-  private RIGHT_ARROW_KEY = 39
-  private SPACE_KEY = 32
-
-  @HostListener('keyup', ['$event']) onKeyUp(e: any) {
+  @HostListener('keyup', ['$event']) onKeyUp(e: KeyboardEvent): void {
     e.preventDefault()
+    const target = e.target as HTMLInputElement
 
     if (
-      e.keyCode === this.LEFT_ARROW_KEY ||
-      e.keyCode === this.DELETE_KEY ||
-      e.keyCode === this.BACKSPACE_KEY
+      e.keyCode === LEFT_ARROW_KEY ||
+      e.keyCode === DELETE_KEY ||
+      e.keyCode === BACKSPACE_KEY
     ) {
-      this.goPrevious(e)
+      this.goPrevious(target)
       return
     }
 
-    // allow jumping across
-    if (e.keyCode === this.TAB_KEY) {
+    if (e.keyCode === TAB_KEY) {
       return
     }
 
-    if (e.srcElement.maxLength === e.srcElement.value.length) {
-      this.goNext(e)
+    if (target.maxLength === target.value.length) {
+      this.goNext(target)
     }
   }
 
-  private goPrevious(e: any): void {
-    const previousControl = e.srcElement.previousElementSibling
+  @HostListener('keydown', ['$event']) onKeyDown(e: KeyboardEvent): void {
+    const target = e.target as HTMLInputElement
 
-    if (previousControl) {
-      previousControl.focus()
-      previousControl.select()
-    }
-  }
-
-  private goNext(e: any): void {
-    const nextControl = e.srcElement.nextElementSibling
-
-    if (nextControl) {
-      nextControl.focus()
-      nextControl.select()
-    } else if (this.autoblur) {
-      e.srcElement.blur()
-    }
-  }
-
-  @HostListener('keydown', ['$event']) onKeyDown(e: any) {
-    // prevent whitespace
-    if (e.keyCode === this.SPACE_KEY) {
+    if (e.keyCode === SPACE_KEY) {
       e.preventDefault()
       return
     }
 
-    // assure only one number
     if (
-      e.srcElement.type === 'number' &&
-      e.keyCode !== this.DELETE_KEY &&
-      e.keyCode !== this.BACKSPACE_KEY &&
-      e.keyCode !== this.RIGHT_ARROW_KEY &&
-      e.keyCode !== this.LEFT_ARROW_KEY &&
-      e.keyCode !== this.TAB_KEY
+      target.type === 'number' &&
+      e.keyCode !== DELETE_KEY &&
+      e.keyCode !== BACKSPACE_KEY &&
+      e.keyCode !== RIGHT_ARROW_KEY &&
+      e.keyCode !== LEFT_ARROW_KEY &&
+      e.keyCode !== TAB_KEY
     ) {
-      e.srcElement.value = e.srcElement.value.toString().substring(0, 0)
+      target.value = target.value.toString().substring(0, 0)
+    }
+  }
+
+  private goPrevious(target: HTMLInputElement): void {
+    const previous = target.previousElementSibling as HTMLInputElement | null
+
+    if (previous) {
+      previous.focus()
+      previous.select()
+    }
+  }
+
+  private goNext(target: HTMLInputElement): void {
+    const next = target.nextElementSibling as HTMLInputElement | null
+
+    if (next) {
+      next.focus()
+      next.select()
+    } else if (this.autoblur()) {
+      target.blur()
     }
   }
 }

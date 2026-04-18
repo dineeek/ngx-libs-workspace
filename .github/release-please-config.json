@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "include-component-in-tag": true,
+  "separate-pull-requests": true,
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "packages": {
+    "libs/ngx-pass-code": {
+      "package-name": "ngx-pass-code",
+      "tag-separator": "@",
+      "include-v-in-tag": false,
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": []
+    }
+  }
+}

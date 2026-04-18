@@ -1,0 +1,55 @@
+<section class="hero">
+  <p class="hero__eyebrow">Angular · Signal Forms</p>
+  <h1 class="hero__title">ngx-pass-code</h1>
+  <p class="hero__tagline">
+    Reactive Angular custom form control for OTP / pass-code input — one box per
+    character, with validation, autofocus and autoblur. Built for Angular 21
+    Signal Forms.
+  </p>
+
+  <div class="hero__ctas">
+    <a class="btn btn--primary" routerLink="/ngx-pass-code"> Try the demo → </a>
+    <button
+      type="button"
+      class="btn btn--code"
+      (click)="copyInstall()"
+      [attr.aria-label]="'Copy install command'"
+    >
+      <code>{{ installCmd }}</code>
+      <span class="btn--code__hint">Copy</span>
+    </button>
+    <a
+      class="hero__npm"
+      [href]="npmUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View on npm ↗
+    </a>
+  </div>
+</section>
+
+<section class="preview">
+  <img
+    src="assets/ngx_pass_code_example.gif"
+    alt="Animated preview of the ngx-pass-code input component"
+    class="preview__gif"
+    loading="lazy"
+  />
+</section>
+
+<section class="features">
+  <h2 class="features__title">What you get</h2>
+  <ul class="features__list">
+    <li>One input box per character with auto next / previous navigation</li>
+    <li>Plugs into Angular <code>form()</code> via <code>[formField]</code></li>
+    <li>
+      Schema-driven validation (<code>required</code>, <code>pattern</code>,
+      <code>validate</code>)
+    </li>
+    <li>
+      Autofocus first input, autoblur last, <code>type=password</code> masking
+    </li>
+    <li>Standalone, tree-shakable, zero runtime dependencies</li>
+  </ul>
+</section>

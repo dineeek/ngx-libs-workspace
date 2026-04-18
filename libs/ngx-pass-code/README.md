@@ -1,9 +1,7 @@
 # ngx-pass-code
 
-This library was generated with [Nx](https://nx.dev).
-
-Reactive Angular custom form control component for inserting (OTP) code or
-password. Supports Angular version 12+.
+Reactive Angular custom form control for OTP / pass-code input — one box per
+character, with validation, autofocus, and autoblur.
 
 ![Ngx_pass_code](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/ngx_pass_code_example.gif)
 
@@ -12,89 +10,150 @@ password. Supports Angular version 12+.
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="npm version" src="https://img.shields.io/npm/v/ngx-pass-code.svg?style=flat-square"></a>
 </p>
 
-[![Build Status](https://app.travis-ci.com/dineeek/ngx-libs-workspace.svg?branch=main)](https://app.travis-ci.com/dineeek/ngx-libs-workspace)
-[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=ngx-pass-code)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=ngx-pass-code&kill_cache=1)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=main)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_shield)
 
-# Feature
+**[Live demo](https://dineeek.github.io/ngx-libs-workspace)** ·
+**[Stackblitz](https://stackblitz.com/edit/ngx-pass-code)** ·
+**[Changelog](./CHANGELOG.md)**
 
-- Individual character input box.
-- Reactive form control.
-- Plug & play by providing form control.
-- Supports sync validation.
-- No 3rd party dependencies.
+## Features
 
-**[Live workspace demo](https://dineeek.github.io/ngx-libs-workspace)**
+- Individual character input box
+- Plug & play with Angular **Signal Forms** via `FormValueControl`
+  (`[formField]`)
+- Ships `passCodeComplete(path, length)` — opinionated exact-length validator
+  composable into any `form()` schema
+- Schema-driven validation (`required`, `pattern`, `validate`, …) owned by the
+  consumer's `form()`
+- Keyboard navigation: auto next/previous, backspace, arrow keys
+- Paste anywhere — fills left-to-right, sanitizes per `type`, truncates to
+  `length`, focuses the first empty slot (or blurs when `autoblur`)
+- Autofocus first input, autoblur last input
+- Standalone component — no NgModule required in consumer apps
+- Tree-shakable (`sideEffects: false`)
+- No 3rd-party runtime dependencies
 
-**[Stackblitz](https://stackblitz.com/edit/ngx-pass-code)**
+> `@angular/forms/signals` is marked `@experimental 21.0.0`. Consumers of
+> `ngx-pass-code@2.x` adopt the same experimental surface.
 
-# Install
+## Install
 
 ```shell
-npm install ngx-pass-code@latest
+npm install ngx-pass-code
+# or
+pnpm add ngx-pass-code
+# or
+yarn add ngx-pass-code
 ```
 
-# Usage
+## Angular compatibility
+
+| Library version | Angular    | Forms API                               |
+| --------------- | ---------- | --------------------------------------- |
+| `1.x`           | `>=12 <18` | Reactive Forms (`ControlValueAccessor`) |
+| `2.x`           | `>=21 <22` | Signal Forms (`FormValueControl`)       |
+
+Peer dependencies for `2.x`: `@angular/common`, `@angular/core`,
+`@angular/forms` `>=21.0.0 <22.0.0`, `rxjs ^7.8.0`.
+
+## Usage
+
+`PassCodeComponent` implements the Signal Forms
+`FormValueControl<string | number | null>` contract. Bind it with `[formField]`
+to a field produced by `form()`:
 
 ```typescript
-@NgModule({
-  ...,
-  imports: [
-    ...,
-    NgxPassCodeModule
-  ],
+import { Component, signal } from '@angular/core'
+import { form, pattern, FormField } from '@angular/forms/signals'
+import { PassCodeComponent, passCodeComplete } from 'ngx-pass-code'
+
+@Component({
+  selector: 'app-login',
+  imports: [PassCodeComponent, FormField],
+  template: `
+    <ngx-pass-code
+      [formField]="codeForm"
+      [length]="5"
+      type="text"
+      [uppercase]="true"
+      [autofocus]="true"
+    />
+  `
 })
-export class FeatureModule {}
+export class LoginComponent {
+  protected readonly code = signal<string | number | null>(null)
+  protected readonly codeForm = form<string | number | null>(this.code, p => {
+    passCodeComplete(p, 5)
+    pattern(p as never, /^[A-Z0-9]{5}$/)
+  })
+}
 ```
 
-```html
-<ngx-pass-code
-  formControlName="codeControl"
-  [length]="5"
-  type="text"
-  [uppercase]="true"
-></ngx-pass-code>
+The component does not run validators itself; it forwards the field's `errors`
+and `touched` state to the UI and flips to the `invalid-input` class only once
+both are present. Validation rules (`passCodeComplete`, `pattern`, custom
+`validate(...)`) live in your `form()` schema.
+
+## Inputs
+
+All inputs are signal inputs (`input()`):
+
+| Input       | Type                               | Default  | Description                                                                                 |
+| ----------- | ---------------------------------- | -------- | ------------------------------------------------------------------------------------------- |
+| `length`    | `number` (required)                | —        | Number of individual input boxes to render.                                                 |
+| `type`      | `'text' \| 'number' \| 'password'` | `'text'` | Input type. `'password'` hides inserted characters. Used to cast the emitted control value. |
+| `uppercase` | `boolean`                          | `false`  | Uppercase-transform displayed value and control value.                                      |
+| `autofocus` | `boolean`                          | `false`  | Focus the first input on render.                                                            |
+| `autoblur`  | `boolean`                          | `false`  | Remove focus from the last input once it is filled.                                         |
+
+The `value` (model signal), `touched` (model signal), `disabled`, and `errors`
+properties are bound automatically by the `[formField]` directive from the
+parent `form()`. You can still bind `[(value)]` directly if you are not using
+Signal Forms.
+
+### Validation
+
+Validation is entirely driven by the consumer's `form()` schema. The library
+ships `passCodeComplete(path, length)` for the common "every slot must be
+filled" rule — Signal Forms' `required` only checks non-nullish, so a partially
+filled control would otherwise report `Valid`.
+
+```typescript
+import { passCodeComplete } from 'ngx-pass-code'
+import { form, pattern } from '@angular/forms/signals'
+
+form(code, p => {
+  passCodeComplete(p, 5) // all 5 slots filled
+  pattern(p as never, /^[A-Z0-9]{5}$/) // charset
+})
 ```
 
-### Input property decorators:
+`passCodeComplete` emits a `{ kind: 'incomplete' }` error when the concatenated
+value is shorter than `length`.
 
-- #### length
+## Contributing
 
-  Set length of the code (number of inputs). Defaulted to 0.
+Development happens in the parent monorepo — see
+[ngx-libs-workspace](https://github.com/dineeek/ngx-libs-workspace) for setup,
+local commands, and contribution guidelines.
 
-- #### type
+## Releasing
 
-  Set input type property: 'text' | 'number' |'password'. Type 'password' is
-  hiding inserted values. Defined type is also used for casting control value.
-  Defaulted to 'text'.
+Releases are automated via
+[release-please](https://github.com/googleapis/release-please) driven by
+Conventional Commits. Merging a `feat:` / `fix:` / `feat!:` commit to `main`
+opens or updates a release PR; merging the release PR creates a GitHub Release +
+tag `ngx-pass-code@x.y.z` which triggers
+[`publish-ngx-pass-code.yml`](../../.github/workflows/publish-ngx-pass-code.yml)
+to run `npm publish --provenance --access public`.
 
-- #### uppercase
+Local dry-run:
 
-  Set uppercase inputs value transformation. Defaulted to false.
+```shell
+pnpm ngx-pass-code:publish:dry-run
+```
 
-- #### patterns
+## License
 
-  To set pattern validation use Angular Validators.pattern when defining form
-  control. Example: new FormControl('', {validators:
-  Validators.pattern('[a-zA-z0-9]{1}')}). The `{1}` in pattern expression has to
-  be set to 1 because individual inputs.
-
-- #### autofocus - from v1.1.0
-
-  Set focus on the first input code. Defaulted to false.
-
-- #### autoblur - from v1.1.0
-
-  Remove focus from the last input when it is filled. Defaulted to false.
-
-# Contributing
-
-Contributions are more than welcome!
-
-# License
-
-MIT License
-
-Copyright (c) 2022 Dino Klicek
+MIT © Dino Klicek

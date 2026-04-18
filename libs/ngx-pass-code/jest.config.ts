@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'ngx-pass-code',
   preset: '../../jest.preset.js',

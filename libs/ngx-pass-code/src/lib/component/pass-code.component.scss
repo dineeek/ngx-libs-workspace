@@ -7,13 +7,17 @@
   }
 
   input {
-    width: 44px;
+    flex: 0 1 44px;
+    min-width: 32px;
     height: 54px;
     border-radius: 6px;
-    margin: 5px;
+    margin: 4px;
     background: transparent;
     line-height: 2.25rem;
-    font-family: Helvetica Neue, Arial, sans-serif;
+    font-family:
+      Helvetica Neue,
+      Arial,
+      sans-serif;
     font-size: 1.75rem;
     font-weight: 400;
     text-align: center;

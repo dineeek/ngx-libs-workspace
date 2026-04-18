@@ -1,11 +1,12 @@
 {
   "name": "ngx-pass-code",
-  "version": "1.2.0",
+  "version": "2.0.0",
+  "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": "17.3.10",
-    "@angular/core": "17.3.10",
-    "@angular/forms": "17.3.10",
-    "rxjs": "7.8.1"
+    "@angular/common": ">=21.0.0 <22.0.0",
+    "@angular/core": ">=21.0.0 <22.0.0",
+    "@angular/forms": ">=21.0.0 <22.0.0",
+    "rxjs": "^7.8.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -45,8 +46,9 @@
     "password input",
     "reactive",
     "form",
+    "signal forms",
+    "form value control",
     "custom control",
-    "cva",
     "library",
     "no dependencies"
   ],

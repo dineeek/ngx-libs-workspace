@@ -4,20 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/ngx-pass-code/src",
   "prefix": "ngx",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/ngx-pass-code"],
       "options": {
-        "project": "libs/ngx-pass-code/ng-package.json"
+        "project": "libs/ngx-pass-code/ng-package.json",
+        "tsConfig": "libs/ngx-pass-code/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/ngx-pass-code/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/ngx-pass-code/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
@@ -26,34 +26,25 @@
       "outputs": ["{workspaceRoot}/coverage/libs/ngx-pass-code"],
       "options": {
         "jestConfig": "libs/ngx-pass-code/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "tsConfig": "libs/ngx-pass-code/tsconfig.spec.json"
       }
     },
     "test-watch": {
       "executor": "nx:run-commands",
       "options": {
-      "parallel": false,
-      "commands": [
-        "nx run ngx-pass-code:test --watchAll"
-        ]
+        "parallel": false,
+        "commands": ["nx run ngx-pass-code:test --watchAll"]
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "libs/ngx-pass-code/**/*.ts",
           "libs/ngx-pass-code/**/*.html"
         ]
       }
-    },
-    "deploy": {
-      "executor": "ngx-deploy-npm:deploy",
-      "options": {
-        "access": "public",
-        "buildTarget": "production"
-      }
     }
-  },
-  "tags": []
+  }
 }
