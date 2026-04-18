@@ -18,7 +18,8 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/playground/src/favicon.ico",
-          "apps/playground/src/assets"
+          "apps/playground/src/assets",
+          "apps/playground/src/icons"
         ],
         "styles": ["apps/playground/src/styles.scss"],
         "scripts": []
