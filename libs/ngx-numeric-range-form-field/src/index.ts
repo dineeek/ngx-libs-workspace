@@ -1,3 +1,5 @@
 export { NumericRangeFormFieldComponent } from './lib/numeric-range-form-field.component'
 export { numericRangeOrderValid } from './lib/validators/numeric-range-order'
+export { numericRangeBounds } from './lib/validators/numeric-range-bounds'
+export type { NumericRangeBounds } from './lib/validators/numeric-range-bounds'
 export type { INumericRange } from './lib/numeric-range.model'

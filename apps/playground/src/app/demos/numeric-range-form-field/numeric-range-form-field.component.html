@@ -68,8 +68,10 @@
     <header class="demo-card__head">
       <h2 class="demo-card__title">Validated range</h2>
       <p class="demo-card__sub">
-        <code>required(p)</code> + <code>numericRangeOrderValid(p)</code>. The
-        field turns invalid only after the user touches it.
+        <code>required(p)</code> + <code>numericRangeBounds(p, bounds)</code> +
+        <code>numericRangeOrderValid(p)</code>. Bounds are
+        <code>min: 1</code> and <code>max: 10</code> — try entering
+        <code>0</code> or <code>11</code> to trigger the bounds errors.
       </p>
       <ul class="badges">
         @for (b of validatedBadges; track b) {
@@ -81,7 +83,7 @@
     <div class="demo-card__control">
       <ngx-numeric-range-form-field
         [formField]="validatedForm"
-        label="0 – 100"
+        label="Between 1 and 10"
       ></ngx-numeric-range-form-field>
     </div>
 
@@ -105,15 +107,18 @@
 
     @if (validatedForm().touched() && validatedForm().errors().length) {
       <ul class="error-list">
-        @for (err of validatedForm().errors(); track err.kind) {
-          <li>{{ err.kind }}</li>
+        @for (err of validatedForm().errors(); track $index) {
+          <li>{{ err.message || err.kind }}</li>
         }
       </ul>
     }
 
     <div class="demo-card__actions">
       <button type="button" (click)="resetValidated()">Reset</button>
-      <button type="button" (click)="patchValidated()">Set demo value</button>
+      <button type="button" (click)="patchValidated()">Set 2 – 8</button>
+      <button type="button" (click)="patchValidatedOutOfBounds()">
+        Set 0 – 11
+      </button>
     </div>
 
     <ngx-libs-workspace-code-block

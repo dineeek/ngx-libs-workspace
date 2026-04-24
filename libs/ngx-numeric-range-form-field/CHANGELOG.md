@@ -43,6 +43,10 @@ project adheres to [Semantic Versioning](https://semver.org/). Starting with
 
 - `numericRangeOrderValid(path)` validator helper for `form()` schemas. Emits
   `{ kind: 'invalidRange' }` when `maximum < minimum`.
+- `numericRangeBounds(path, { min, max })` validator helper. Emits
+  `{ kind: 'min' }` when either side is below the floor and `{ kind: 'max' }`
+  when either side is above the ceiling; both carry a human-readable `message`.
+  Either bound is optional.
 - CSS custom properties (`--ngx-nrff-*`) for font, colors, radius, padding, and
   the gap between the two inputs — reskin without `::ng-deep`.
 - SVG reset affordance that appears when a value is present and the field is not

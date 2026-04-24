@@ -114,13 +114,43 @@ schema — bind them directly only when using the component without `[formField]
 
 ## Schema validators
 
+The lib ships two helpers that compose into any `form()` schema. Both treat a
+`null` on either side as "not yet set" and pass in that case.
+
+### `numericRangeOrderValid(path)`
+
+Fails with `{ kind: 'invalidRange' }` when `maximum < minimum`.
+
 ```typescript
 import { numericRangeOrderValid } from 'ngx-numeric-range-form-field'
+
+rangeForm = form<INumericRange | null>(this.rangeValue, p => {
+  numericRangeOrderValid(p)
+})
 ```
 
-Composes into any `form()` schema and fails with `{ kind: 'invalidRange' }` when
-`maximum < minimum`. A `null` on either side is treated as "not yet set" and the
-validator passes.
+### `numericRangeBounds(path, { min, max })`
+
+Keeps both sides within consumer-supplied bounds. Emits
+`{ kind: 'min', message: 'Minimum must be at least …' }` when a side is below
+the floor and `{ kind: 'max', message: 'Maximum must not exceed …' }` when a
+side is above the ceiling. Pass `min` or `max` alone for one-sided bounds.
+
+```typescript
+import { numericRangeBounds } from 'ngx-numeric-range-form-field'
+
+rangeForm = form<INumericRange | null>(this.rangeValue, p => {
+  numericRangeBounds(p, { min: 1, max: 10 })
+})
+```
+
+Reading errors in a template:
+
+```html
+@for (err of rangeForm().errors(); track $index) {
+<p class="error">{{ err.message || err.kind }}</p>
+}
+```
 
 ## Styling
 

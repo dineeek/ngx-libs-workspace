@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
 import { disabled, form, readonly, required } from '@angular/forms/signals'
 import {
   INumericRange,
+  numericRangeBounds,
   numericRangeOrderValid
 } from 'ngx-numeric-range-form-field'
 
@@ -31,6 +32,7 @@ export class NumericRangeFormFieldDemoComponent {
     this.validatedValue,
     p => {
       required(p)
+      numericRangeBounds(p, { min: 1, max: 10 })
       numericRangeOrderValid(p)
     }
   )
@@ -48,7 +50,11 @@ export class NumericRangeFormFieldDemoComponent {
   )
 
   protected readonly basicBadges = ['signal forms', 'resettable']
-  protected readonly validatedBadges = ['required', 'range order']
+  protected readonly validatedBadges = [
+    'required',
+    'bounds 1..10',
+    'range order'
+  ]
   protected readonly readonlyBadges = ['readonly']
 
   protected readonly basicSnippet = `readonly value = signal<INumericRange | null>(
@@ -69,6 +75,7 @@ readonly field = form(this.value, p => {
   protected readonly validatedSnippet = `readonly value = signal<INumericRange | null>(null)
 readonly field = form(this.value, p => {
   required(p)
+  numericRangeBounds(p, { min: 1, max: 10 })
   numericRangeOrderValid(p)
 })
 
@@ -76,8 +83,7 @@ readonly field = form(this.value, p => {
  * template
  * <ngx-numeric-range-form-field
  *   [formField]="field"
- *   label="0 – 100"
- *   [required]="true"
+ *   label="Between 1 and 10"
  * />
  */`
 
@@ -112,6 +118,10 @@ readonly field = form(this.value, p => {
   }
 
   protected patchValidated(): void {
-    this.validatedValue.set({ minimum: 0, maximum: 100 })
+    this.validatedValue.set({ minimum: 2, maximum: 8 })
+  }
+
+  protected patchValidatedOutOfBounds(): void {
+    this.validatedValue.set({ minimum: 0, maximum: 11 })
   }
 }
