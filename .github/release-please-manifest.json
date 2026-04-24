@@ -1,3 +1,4 @@
 {
-  "libs/ngx-pass-code": "2.0.0"
+  "libs/ngx-pass-code": "2.0.0",
+  "libs/ngx-numeric-range-form-field": "5.0.0"
 }
