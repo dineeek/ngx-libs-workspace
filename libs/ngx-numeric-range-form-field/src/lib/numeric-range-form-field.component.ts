@@ -2,8 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  ElementRef,
   input,
-  model
+  model,
+  untracked,
+  viewChild
 } from '@angular/core'
 import { FormValueControl, ValidationError } from '@angular/forms/signals'
 import { INumericRange } from './numeric-range.model'
@@ -48,16 +52,50 @@ export class NumericRangeFormFieldComponent implements FormValueControl<INumeric
       this.hasValue()
   )
 
-  protected onMinInput(event: Event): void {
-    this.patch({
-      minimum: toNumberOrNull((event.target as HTMLInputElement).value)
+  private readonly minInputRef =
+    viewChild.required<ElementRef<HTMLInputElement>>('minInput')
+  private readonly maxInputRef =
+    viewChild.required<ElementRef<HTMLInputElement>>('maxInput')
+
+  // Tracks the last numeric value each DOM input emitted so we can tell an
+  // external write (reset / patchValue) apart from a keystroke we just
+  // processed. Without this, syncing the signal back into the input would
+  // clobber transient states like "1." or leading zeros while the user types.
+  private lastMinEmitted: number | null = null
+  private lastMaxEmitted: number | null = null
+
+  constructor() {
+    effect(() => {
+      const v = this.value()
+      const nextMin = v?.minimum ?? null
+      const nextMax = v?.maximum ?? null
+
+      untracked(() => {
+        const minEl = this.minInputRef().nativeElement
+        const maxEl = this.maxInputRef().nativeElement
+
+        if (nextMin !== this.lastMinEmitted) {
+          minEl.value = nextMin === null ? '' : String(nextMin)
+          this.lastMinEmitted = nextMin
+        }
+        if (nextMax !== this.lastMaxEmitted) {
+          maxEl.value = nextMax === null ? '' : String(nextMax)
+          this.lastMaxEmitted = nextMax
+        }
+      })
     })
   }
 
+  protected onMinInput(event: Event): void {
+    const min = toNumberOrNull((event.target as HTMLInputElement).value)
+    this.lastMinEmitted = min
+    this.patch({ minimum: min })
+  }
+
   protected onMaxInput(event: Event): void {
-    this.patch({
-      maximum: toNumberOrNull((event.target as HTMLInputElement).value)
-    })
+    const max = toNumberOrNull((event.target as HTMLInputElement).value)
+    this.lastMaxEmitted = max
+    this.patch({ maximum: max })
   }
 
   protected onBlur(): void {

@@ -17,12 +17,12 @@
 
   <div class="field__control">
     <input
+      #minInput
       class="field__input"
       type="number"
       inputmode="numeric"
       [placeholder]="minPlaceholder()"
       [attr.aria-label]="minPlaceholder()"
-      [value]="value()?.minimum ?? ''"
       [readonly]="readonly() || minReadonly()"
       [disabled]="disabled()"
       (input)="onMinInput($event)"
@@ -30,12 +30,12 @@
     />
     <span class="field__separator" aria-hidden="true">–</span>
     <input
+      #maxInput
       class="field__input"
       type="number"
       inputmode="numeric"
       [placeholder]="maxPlaceholder()"
       [attr.aria-label]="maxPlaceholder()"
-      [value]="value()?.maximum ?? ''"
       [readonly]="readonly() || maxReadonly()"
       [disabled]="disabled()"
       (input)="onMaxInput($event)"

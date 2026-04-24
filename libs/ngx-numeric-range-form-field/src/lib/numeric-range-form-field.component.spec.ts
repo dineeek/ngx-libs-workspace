@@ -182,6 +182,30 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     expect(max.value).toBe('50')
   })
 
+  it('does not re-write the DOM when an input event arrives with an unchanged numeric value', () => {
+    // Simulates the transient "1." state during decimal typing: the string
+    // changed but Number("1.") === Number("1") so the signal shouldn't move.
+    // The effect must not clobber the user's in-flight text.
+    const fixture = createDirect()
+    const [, max] = inputsOf(fixture)
+
+    typeInto(max, '1')
+    fixture.detectChanges()
+    expect(max.value).toBe('1')
+
+    // Force the DOM into a string state jsdom can hold (type='number'
+    // normalizes "1."), then fire an input event that parses to the same
+    // numeric value. Nothing should re-write the DOM.
+    max.value = '01'
+    max.dispatchEvent(new Event('input', { bubbles: true }))
+    fixture.detectChanges()
+    expect(max.value).toBe('01')
+    expect(fixture.componentInstance.value()).toEqual({
+      minimum: null,
+      maximum: 1
+    })
+  })
+
   it('marks touched on blur', () => {
     const fixture = createDirect()
     blur(inputsOf(fixture)[0])
