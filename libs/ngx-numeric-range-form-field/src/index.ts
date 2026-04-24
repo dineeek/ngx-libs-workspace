@@ -2,4 +2,7 @@ export { NumericRangeFormFieldComponent } from './lib/numeric-range-form-field.c
 export { numericRangeOrderValid } from './lib/validators/numeric-range-order'
 export { numericRangeBounds } from './lib/validators/numeric-range-bounds'
 export type { NumericRangeBounds } from './lib/validators/numeric-range-bounds'
+export { numericRangeBothFilled } from './lib/validators/numeric-range-both-filled'
+export { numericRangeWidth } from './lib/validators/numeric-range-width'
+export type { NumericRangeWidthBounds } from './lib/validators/numeric-range-width'
 export type { INumericRange } from './lib/numeric-range.model'

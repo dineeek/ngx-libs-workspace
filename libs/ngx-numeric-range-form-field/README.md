@@ -23,8 +23,8 @@ Angular Material, no third-party runtime dependencies.
 - Two-input composite numeric range rendered as one field
 - Plug & play with Angular **Signal Forms** via `FormValueControl`
   (`[formField]`)
-- Ships `numericRangeOrderValid(path)` — composable range-order validator for
-  any `form()` schema
+- Ships four composable validator helpers — `numericRangeOrderValid`,
+  `numericRangeBounds`, `numericRangeBothFilled`, `numericRangeWidth`
 - Schema-driven validation (`required`, `readonly`, `disabled`, `validate`, …)
   owned by the consumer's `form()` definition
 - Custom outlined field styling — reskin via CSS custom properties without
@@ -114,8 +114,10 @@ schema — bind them directly only when using the component without `[formField]
 
 ## Schema validators
 
-The lib ships two helpers that compose into any `form()` schema. Both treat a
-`null` on either side as "not yet set" and pass in that case.
+The lib ships four helpers that compose into any `form()` schema. Unless noted
+otherwise they treat a `null` on either side as "not yet set" and pass in that
+case — pair them with `required(p)` or `numericRangeBothFilled(p)` when
+"half-filled" should be rejected.
 
 ### `numericRangeOrderValid(path)`
 
@@ -141,6 +143,37 @@ import { numericRangeBounds } from 'ngx-numeric-range-form-field'
 
 rangeForm = form<INumericRange | null>(this.rangeValue, p => {
   numericRangeBounds(p, { min: 1, max: 10 })
+})
+```
+
+### `numericRangeBothFilled(path)`
+
+Fails with `{ kind: 'incomplete' }` until **both** sides are populated.
+`required(p)` alone only checks that the composite value is not `null`, so
+`{ minimum: 5, maximum: null }` passes it — use this helper when you need the
+stronger guarantee.
+
+```typescript
+import { numericRangeBothFilled } from 'ngx-numeric-range-form-field'
+
+rangeForm = form<INumericRange | null>(this.rangeValue, p => {
+  numericRangeBothFilled(p)
+})
+```
+
+### `numericRangeWidth(path, { min, max })`
+
+Constrains the _span_ of the range (`maximum - minimum`), not the endpoints.
+Emits `{ kind: 'minWidth' }` when the span is below `bounds.min` and
+`{ kind: 'maxWidth' }` when it exceeds `bounds.max`; both carry a readable
+`message`. Skipped while either side is `null` or the range is mis-ordered (let
+`numericRangeOrderValid` own that case).
+
+```typescript
+import { numericRangeWidth } from 'ngx-numeric-range-form-field'
+
+rangeForm = form<INumericRange | null>(this.rangeValue, p => {
+  numericRangeWidth(p, { min: 5, max: 30 })
 })
 ```
 

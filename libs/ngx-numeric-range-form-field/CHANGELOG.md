@@ -47,6 +47,14 @@ project adheres to [Semantic Versioning](https://semver.org/). Starting with
   `{ kind: 'min' }` when either side is below the floor and `{ kind: 'max' }`
   when either side is above the ceiling; both carry a human-readable `message`.
   Either bound is optional.
+- `numericRangeBothFilled(path)` validator helper. Emits
+  `{ kind: 'incomplete' }` until both sides are populated — stricter than
+  `required(p)`, which only asserts the composite is not `null`.
+- `numericRangeWidth(path, { min, max })` validator helper. Constrains the
+  _span_ (`maximum - minimum`). Emits `{ kind: 'minWidth' }` when the span is
+  below `bounds.min` and `{ kind: 'maxWidth' }` when it exceeds `bounds.max`.
+  Skipped while either side is `null` or the range is mis-ordered. Either bound
+  is optional.
 - CSS custom properties (`--ngx-nrff-*`) for font, colors, radius, padding, and
   the gap between the two inputs — reskin without `::ng-deep`.
 - SVG reset affordance that appears when a value is present and the field is not
