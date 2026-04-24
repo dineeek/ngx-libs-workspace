@@ -176,21 +176,19 @@
   display: none;
 }
 
-.event-log {
+.error-list {
   list-style: none;
   margin: 0;
-  padding: 10px 12px;
+  padding: 8px 12px;
   font-family: var(--font-mono);
   font-size: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgba(185, 13, 13, 0.06);
+  border: 1px solid rgba(185, 13, 13, 0.3);
   border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  max-height: 120px;
-  overflow-y: auto;
+  color: var(--danger);
 }
 
-.event-log li + li {
+.error-list li + li {
   margin-top: 2px;
 }
 

@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { JsonPipe } from '@angular/common'
-import { ReactiveFormsModule } from '@angular/forms'
 import { RouterLink } from '@angular/router'
 import { FormField } from '@angular/forms/signals'
 import { PassCodeComponent } from 'ngx-pass-code'
-import { NumericRangeFormFieldContainerComponent } from 'ngx-numeric-range-form-field'
+import { NumericRangeFormFieldComponent } from 'ngx-numeric-range-form-field'
 
 import { AppComponent } from './app.component'
 
@@ -25,14 +23,12 @@ import { CodeBlockComponent } from './shared/code-block/code-block.component'
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     JsonPipe,
-    ReactiveFormsModule,
     RouterLink,
     FormField,
     PassCodeComponent,
-    NumericRangeFormFieldContainerComponent,
+    NumericRangeFormFieldComponent,
     TopBarComponent,
     HomeComponent,
     CodeBlockComponent

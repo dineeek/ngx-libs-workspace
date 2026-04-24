@@ -1,0 +1,150 @@
+:host {
+  --ngx-nrff-font-family: inherit;
+  --ngx-nrff-font-size: 0.95rem;
+  --ngx-nrff-label-font-size: 0.8rem;
+  --ngx-nrff-label-color: rgba(0, 0, 0, 0.6);
+  --ngx-nrff-text-color: rgba(0, 0, 0, 0.87);
+  --ngx-nrff-placeholder-color: rgba(0, 0, 0, 0.4);
+  --ngx-nrff-border-color: rgba(0, 0, 0, 0.23);
+  --ngx-nrff-border-hover-color: rgba(0, 0, 0, 0.52);
+  --ngx-nrff-focus-color: #1976d2;
+  --ngx-nrff-error-color: #b3261e;
+  --ngx-nrff-background: transparent;
+  --ngx-nrff-disabled-color: rgba(0, 0, 0, 0.38);
+  --ngx-nrff-radius: 6px;
+  --ngx-nrff-padding-y: 10px;
+  --ngx-nrff-padding-x: 12px;
+  --ngx-nrff-gap: 8px;
+
+  display: block;
+  width: 100%;
+  font-family: var(--ngx-nrff-font-family);
+  font-size: var(--ngx-nrff-font-size);
+  color: var(--ngx-nrff-text-color);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field__label {
+  font-size: var(--ngx-nrff-label-font-size);
+  color: var(--ngx-nrff-label-color);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.field__required {
+  margin-left: 2px;
+  color: var(--ngx-nrff-error-color);
+}
+
+.field__control {
+  display: flex;
+  align-items: center;
+  gap: var(--ngx-nrff-gap);
+  padding: var(--ngx-nrff-padding-y) var(--ngx-nrff-padding-x);
+  background: var(--ngx-nrff-background);
+  border: 1px solid var(--ngx-nrff-border-color);
+  border-radius: var(--ngx-nrff-radius);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.field__control:hover {
+  border-color: var(--ngx-nrff-border-hover-color);
+}
+
+.field__control:focus-within {
+  border-color: var(--ngx-nrff-focus-color);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--ngx-nrff-focus-color) 20%, transparent);
+}
+
+.field--invalid .field__control {
+  border-color: var(--ngx-nrff-error-color);
+}
+
+.field--invalid .field__control:focus-within {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--ngx-nrff-error-color) 20%, transparent);
+}
+
+.field--disabled .field__control {
+  color: var(--ngx-nrff-disabled-color);
+  background: rgba(0, 0, 0, 0.02);
+  cursor: not-allowed;
+}
+
+.field__input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  text-align: left;
+}
+
+.field__input::placeholder {
+  color: var(--ngx-nrff-placeholder-color);
+}
+
+.field__input:read-only {
+  color: var(--ngx-nrff-disabled-color);
+  cursor: default;
+}
+
+.field__input::-webkit-outer-spin-button,
+.field__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.field__input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.field__separator {
+  flex: none;
+  color: var(--ngx-nrff-placeholder-color);
+  user-select: none;
+}
+
+.field__reset {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--ngx-nrff-label-color);
+  cursor: pointer;
+  transition:
+    background 0.1s ease,
+    color 0.1s ease;
+}
+
+.field__reset:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--ngx-nrff-text-color);
+}
+
+.field__reset:focus-visible {
+  outline: 2px solid var(--ngx-nrff-focus-color);
+  outline-offset: 1px;
+}
+
+.field__reset svg {
+  display: block;
+}

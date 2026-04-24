@@ -3,12 +3,9 @@
   "version": "5.0.0",
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/cdk": ">=21.0.0 <22.0.0",
     "@angular/common": ">=21.0.0 <22.0.0",
     "@angular/core": ">=21.0.0 <22.0.0",
-    "@angular/forms": ">=21.0.0 <22.0.0",
-    "@angular/material": ">=21.0.0 <22.0.0",
-    "rxjs": "^7.8.0"
+    "@angular/forms": ">=21.0.0 <22.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -24,29 +21,21 @@
     "type": "git",
     "url": "https://github.com/dineeek/ngx-libs-workspace"
   },
-  "description": "Angular material numeric range form field",
+  "description": "Angular Signal Forms numeric range input — two number fields, one composite value, custom-styled and theme-friendly.",
   "keywords": [
     "ng",
     "angular",
-    "numeric range form field",
-    "numeric",
-    "range",
-    "number",
-    "number range",
-    "angular range",
-    "input range",
-    "angular input range",
     "numeric range",
-    "user range",
+    "number range",
     "range input",
     "form",
     "field",
-    "mat form field",
+    "form field",
+    "signal forms",
+    "form value control",
     "custom control",
-    "cva",
     "library",
-    "ngx",
-    "range control"
+    "ngx"
   ],
   "license": "MIT",
   "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/README.md",

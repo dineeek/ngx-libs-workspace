@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { INumericRange } from 'ngx-numeric-range-form-field'
+import { disabled, form, readonly, required } from '@angular/forms/signals'
+import {
+  INumericRange,
+  numericRangeOrderValid
+} from 'ngx-numeric-range-form-field'
 
 @Component({
   selector: 'ngx-libs-workspace-numeric-range-form-field-demo',
@@ -10,107 +13,105 @@ import { INumericRange } from 'ngx-numeric-range-form-field'
   standalone: false
 })
 export class NumericRangeFormFieldDemoComponent {
-  protected readonly basicForm = new FormGroup({
-    range: new FormControl<INumericRange | null>({ minimum: 10, maximum: 50 })
+  protected readonly basicValue = signal<INumericRange | null>({
+    minimum: 10,
+    maximum: 50
   })
+  protected readonly basicDisabled = signal(false)
+  protected readonly basicForm = form<INumericRange | null>(
+    this.basicValue,
+    p => {
+      numericRangeOrderValid(p)
+      disabled(p, () => this.basicDisabled())
+    }
+  )
 
-  protected readonly validatedForm = new FormGroup({
-    range: new FormControl<INumericRange | null>(null, [
-      Validators.required,
-      Validators.min(0),
-      Validators.max(100)
-    ])
+  protected readonly validatedValue = signal<INumericRange | null>(null)
+  protected readonly validatedForm = form<INumericRange | null>(
+    this.validatedValue,
+    p => {
+      required(p)
+      numericRangeOrderValid(p)
+    }
+  )
+
+  protected readonly readonlyValue = signal<INumericRange | null>({
+    minimum: 1,
+    maximum: 9
   })
+  protected readonly readonlyForm = form<INumericRange | null>(
+    this.readonlyValue,
+    p => {
+      readonly(p, () => true)
+      numericRangeOrderValid(p)
+    }
+  )
 
-  protected readonly readonlyForm = new FormGroup({
-    range: new FormControl<INumericRange | null>({ minimum: 1, maximum: 9 })
-  })
-
-  protected readonly basicBadges = ['reactive', 'resettable']
-  protected readonly validatedBadges = ['required', 'min=0', 'max=100']
+  protected readonly basicBadges = ['signal forms', 'resettable']
+  protected readonly validatedBadges = ['required', 'range order']
   protected readonly readonlyBadges = ['readonly']
 
-  protected readonly basicEvents = signal<string[]>([])
-  protected readonly validatedEvents = signal<string[]>([])
-
-  protected readonly basicSnippet = `form = new FormGroup({
-  range: new FormControl<INumericRange | null>({ minimum: 10, maximum: 50 })
+  protected readonly basicSnippet = `readonly value = signal<INumericRange | null>(
+  { minimum: 10, maximum: 50 }
+)
+readonly field = form(this.value, p => {
+  numericRangeOrderValid(p)
 })
 
 /*
  * template
  * <ngx-numeric-range-form-field
- *   formControlName="range"
+ *   [formField]="field"
  *   label="Pick a range"
- *   (numericRangeChanged)="onChange($event)"
  * />
  */`
 
-  protected readonly validatedSnippet = `form = new FormGroup({
-  range: new FormControl<INumericRange | null>(null, [
-    Validators.required,
-    Validators.min(0),
-    Validators.max(100)
-  ])
+  protected readonly validatedSnippet = `readonly value = signal<INumericRange | null>(null)
+readonly field = form(this.value, p => {
+  required(p)
+  numericRangeOrderValid(p)
 })
 
 /*
  * template
  * <ngx-numeric-range-form-field
- *   formControlName="range"
+ *   [formField]="field"
  *   label="0 – 100"
  *   [required]="true"
  * />
  */`
 
-  protected readonly readonlySnippet = `form = new FormGroup({
-  range: new FormControl<INumericRange | null>({ minimum: 1, maximum: 9 })
+  protected readonly readonlySnippet = `readonly value = signal<INumericRange | null>(
+  { minimum: 1, maximum: 9 }
+)
+readonly field = form(this.value, p => {
+  readonly(p, () => true)
+  numericRangeOrderValid(p)
 })
 
 /*
  * template
  * <ngx-numeric-range-form-field
- *   formControlName="range"
+ *   [formField]="field"
  *   label="Frozen range"
- *   [readonly]="true"
  *   [resettable]="false"
  * />
  */`
 
   protected resetBasic(): void {
-    this.basicForm.reset()
-    this.basicEvents.set([])
+    this.basicValue.set(null)
+    this.basicDisabled.set(false)
   }
 
   protected patchBasic(): void {
-    this.basicForm.patchValue({ range: { minimum: 25, maximum: 75 } })
-  }
-
-  protected onBasicChange(value: INumericRange | null): void {
-    const next = [`change → ${JSON.stringify(value)}`, ...this.basicEvents()]
-    this.basicEvents.set(next.slice(0, 5))
-  }
-
-  protected onBasicBlur(): void {
-    const next = [`blur`, ...this.basicEvents()]
-    this.basicEvents.set(next.slice(0, 5))
+    this.basicValue.set({ minimum: 25, maximum: 75 })
   }
 
   protected resetValidated(): void {
-    this.validatedForm.reset()
-    this.validatedEvents.set([])
+    this.validatedValue.set(null)
   }
 
-  protected onValidatedEnter(): void {
-    const next = [`enter`, ...this.validatedEvents()]
-    this.validatedEvents.set(next.slice(0, 5))
-  }
-
-  protected onValidatedChange(value: INumericRange | null): void {
-    const next = [
-      `change → ${JSON.stringify(value)}`,
-      ...this.validatedEvents()
-    ]
-    this.validatedEvents.set(next.slice(0, 5))
+  protected patchValidated(): void {
+    this.validatedValue.set({ minimum: 0, maximum: 100 })
   }
 }
