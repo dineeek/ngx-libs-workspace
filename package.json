@@ -23,6 +23,8 @@
     "prettier:check": "prettier --check \"**/*.{ts,scss,html}\"",
     "ngx-pass-code:test:ci": "pnpm jest ngx-pass-code --coverage",
     "ngx-pass-code:publish:dry-run": "pnpm nx build ngx-pass-code --configuration=production && npm publish dist/libs/ngx-pass-code --dry-run --access public",
+    "ngx-numeric-range-form-field:test:ci": "pnpm jest ngx-numeric-range-form-field --coverage",
+    "ngx-numeric-range-form-field:publish:dry-run": "pnpm nx build ngx-numeric-range-form-field --configuration=production && npm publish dist/libs/ngx-numeric-range-form-field --dry-run --access public",
     "playground:build:prod": "nx build playground --prod --base-href ."
   },
   "private": true,
