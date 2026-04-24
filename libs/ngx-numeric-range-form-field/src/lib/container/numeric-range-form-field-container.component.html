@@ -1,0 +1,56 @@
+<mat-form-field
+  [appearance]="appearance"
+  [floatLabel]="floatLabel"
+  class="numeric-range-field"
+>
+  <mat-label>{{ label }}</mat-label>
+  <ngx-numeric-range-form-field-control
+    id="numeric-range-form-control"
+    [formControl]="control"
+    [minPlaceholder]="minPlaceholder"
+    [maxPlaceholder]="maxPlaceholder"
+    [readonly]="readonly"
+    [minReadonly]="minReadonly"
+    [maxReadonly]="maxReadonly"
+    [required]="required"
+    (blurred)="onBlur()"
+    (enterPressed)="onEnterPressed()"
+    (numericRangeChanged)="onRangeValuesChanged($event)"
+    [dynamicSyncValidators]="dynamicSyncValidators"
+  ></ngx-numeric-range-form-field-control>
+
+  @if (
+    resettable &&
+    !readonly &&
+    !minReadonly &&
+    !maxReadonly &&
+    (minimumControl.value !== null || maximumControl.value !== null) &&
+    !formGroup.disabled
+  ) {
+    <mat-icon (click)="onReset()" color="primary" class="pointer" matSuffix
+      >close</mat-icon
+    >
+  }
+
+  @if (
+    minimumControl.hasError('required') || maximumControl.hasError('required')
+  ) {
+    <mat-error>{{ requiredErrorMessage }}</mat-error>
+  }
+
+  @if (minimumControl.hasError('min') || maximumControl.hasError('min')) {
+    <mat-error>{{ minimumErrorMessage }}</mat-error>
+  }
+
+  @if (minimumControl.hasError('max') || maximumControl.hasError('max')) {
+    <mat-error>{{ maximumErrorMessage }}</mat-error>
+  }
+
+  @if (
+    formGroup.hasError('notValidRange') &&
+    !minimumControl.errors &&
+    !maximumControl.errors
+  ) {
+    <mat-error>{{ invalidRangeErrorMessage }}</mat-error>
+  }
+</mat-form-field>

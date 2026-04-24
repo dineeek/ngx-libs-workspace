@@ -37,12 +37,20 @@ export default [
           prefix: 'ngx',
           style: 'kebab-case'
         }
+      ],
+      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_' }
+      ],
+      '@typescript-eslint/no-unused-expressions': [
+        'error',
+        { allowTernary: true }
       ]
     }
   },
   {
     files: ['**/*.html'],
-    // Override or add rules here
     rules: {}
   }
 ]

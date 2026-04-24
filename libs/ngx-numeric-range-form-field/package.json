@@ -1,9 +1,56 @@
 {
   "name": "ngx-numeric-range-form-field",
-  "version": "0.0.1",
+  "version": "5.0.0",
+  "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": "^21.2.0",
-    "@angular/core": "^21.2.0"
+    "@angular/cdk": ">=21.0.0 <22.0.0",
+    "@angular/common": ">=21.0.0 <22.0.0",
+    "@angular/core": ">=21.0.0 <22.0.0",
+    "@angular/forms": ">=21.0.0 <22.0.0",
+    "@angular/material": ">=21.0.0 <22.0.0",
+    "rxjs": "^7.8.0"
   },
-  "sideEffects": false
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "author": {
+    "name": "Dino Klicek",
+    "email": "dineeek@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dineeek/ngx-libs-workspace"
+  },
+  "description": "Angular material numeric range form field",
+  "keywords": [
+    "ng",
+    "angular",
+    "numeric range form field",
+    "numeric",
+    "range",
+    "number",
+    "number range",
+    "angular range",
+    "input range",
+    "angular input range",
+    "numeric range",
+    "user range",
+    "range input",
+    "form",
+    "field",
+    "mat form field",
+    "custom control",
+    "cva",
+    "library",
+    "ngx",
+    "range control"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/README.md",
+  "bugs": {
+    "url": "https://github.com/dineeek/ngx-libs-workspace/issues"
+  }
 }
