@@ -1,0 +1,50 @@
+{
+  "name": "ngx-numeric-range-form-field",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ngx-numeric-range-form-field/src",
+  "prefix": "ngx",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/ngx-numeric-range-form-field"],
+      "options": {
+        "project": "libs/ngx-numeric-range-form-field/ng-package.json",
+        "tsConfig": "libs/ngx-numeric-range-form-field/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ngx-numeric-range-form-field/tsconfig.lib.prod.json"
+        },
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/ngx-numeric-range-form-field"],
+      "options": {
+        "jestConfig": "libs/ngx-numeric-range-form-field/jest.config.ts",
+        "passWithNoTests": true,
+        "tsConfig": "libs/ngx-numeric-range-form-field/tsconfig.spec.json"
+      }
+    },
+    "test-watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": ["nx run ngx-numeric-range-form-field:test --watchAll"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ngx-numeric-range-form-field/**/*.ts",
+          "libs/ngx-numeric-range-form-field/**/*.html"
+        ]
+      }
+    }
+  }
+}

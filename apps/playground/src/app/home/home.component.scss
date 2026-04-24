@@ -138,6 +138,71 @@
   color: var(--text);
 }
 
+.more-libs {
+  margin-top: 56px;
+}
+
+.more-libs__title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.lib-card {
+  display: block;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+  color: inherit;
+  transition:
+    border-color 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.lib-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.lib-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.lib-card__name {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.lib-card__arrow {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.lib-card__desc {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.lib-card__desc code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 12px;
+  color: var(--text);
+}
+
 @media (max-width: 540px) {
   .hero__title {
     font-size: 36px;

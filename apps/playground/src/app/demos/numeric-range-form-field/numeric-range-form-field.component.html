@@ -1,0 +1,161 @@
+<a class="back-link" routerLink="/">← Back to home</a>
+
+<header class="demo-header">
+  <h1 class="demo-header__title">ngx-numeric-range-form-field demo</h1>
+  <p class="demo-header__tagline">
+    Numeric range input built on Angular 21 <code>@angular/forms/signals</code>.
+    Two number fields share a composite value and plug into a parent
+    <code>form()</code> schema via <code>[formField]</code>. No
+    <code>ControlValueAccessor</code>, no Angular Material.
+  </p>
+</header>
+
+<section class="demo-grid">
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Basic range</h2>
+      <p class="demo-card__sub">
+        Defaulted value, reset affordance,
+        <code>numericRangeOrderValid</code> enforces max ≥ min.
+      </p>
+      <ul class="badges">
+        @for (b of basicBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-numeric-range-form-field
+        [formField]="basicForm"
+        label="Pick a range"
+      ></ngx-numeric-range-form-field>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="basicForm().valid()"
+        [class.chip--err]="!basicForm().valid()"
+      >
+        {{ basicForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="basicForm().touched()"
+        [class.chip--muted]="!basicForm().touched()"
+      >
+        {{ basicForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ basicValue() | json }}</li>
+    </ul>
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetBasic()">Reset</button>
+      <button type="button" (click)="basicDisabled.set(!basicDisabled())">
+        {{ basicDisabled() ? 'Enable' : 'Disable' }}
+      </button>
+      <button type="button" (click)="patchBasic()">Set demo value</button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="basicSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Validated range</h2>
+      <p class="demo-card__sub">
+        <code>required(p)</code> + <code>numericRangeBounds(p, bounds)</code> +
+        <code>numericRangeOrderValid(p)</code>. Bounds are
+        <code>min: 1</code> and <code>max: 10</code> — try entering
+        <code>0</code> or <code>11</code> to trigger the bounds errors.
+      </p>
+      <ul class="badges">
+        @for (b of validatedBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-numeric-range-form-field
+        [formField]="validatedForm"
+        label="Between 1 and 10"
+      ></ngx-numeric-range-form-field>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="validatedForm().valid()"
+        [class.chip--err]="!validatedForm().valid()"
+      >
+        {{ validatedForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="validatedForm().touched()"
+        [class.chip--muted]="!validatedForm().touched()"
+      >
+        {{ validatedForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ validatedValue() | json }}</li>
+    </ul>
+
+    @if (validatedForm().touched() && validatedForm().errors().length) {
+      <ul class="error-list">
+        @for (err of validatedForm().errors(); track $index) {
+          <li>{{ err.message || err.kind }}</li>
+        }
+      </ul>
+    }
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetValidated()">Reset</button>
+      <button type="button" (click)="patchValidated()">Set 2 – 8</button>
+      <button type="button" (click)="patchValidatedOutOfBounds()">
+        Set 0 – 11
+      </button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="validatedSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Read-only range</h2>
+      <p class="demo-card__sub">
+        Display-only. <code>readonly</code> locks input and hides the reset
+        button.
+      </p>
+      <ul class="badges">
+        @for (b of readonlyBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-numeric-range-form-field
+        [formField]="readonlyForm"
+        label="Frozen range"
+        [resettable]="false"
+      ></ngx-numeric-range-form-field>
+    </div>
+
+    <ul class="chips">
+      <li class="chip chip--value">value: {{ readonlyValue() | json }}</li>
+    </ul>
+
+    <ngx-libs-workspace-code-block
+      [code]="readonlySnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+</section>

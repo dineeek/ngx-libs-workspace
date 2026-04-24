@@ -1,0 +1,67 @@
+<div
+  class="field"
+  [class.field--invalid]="isInvalid()"
+  [class.field--disabled]="disabled()"
+  [class.field--readonly]="readonly()"
+  role="group"
+  [attr.aria-label]="label() || null"
+>
+  @if (label()) {
+    <span class="field__label">
+      {{ label() }}
+      @if (required()) {
+        <span class="field__required" aria-hidden="true">*</span>
+      }
+    </span>
+  }
+
+  <div class="field__control">
+    <input
+      #minInput
+      class="field__input"
+      type="number"
+      inputmode="numeric"
+      [placeholder]="minPlaceholder()"
+      [attr.aria-label]="minPlaceholder()"
+      [readonly]="readonly() || minReadonly()"
+      [disabled]="disabled()"
+      (input)="onMinInput($event)"
+      (blur)="onBlur()"
+    />
+    <span class="field__separator" aria-hidden="true">–</span>
+    <input
+      #maxInput
+      class="field__input"
+      type="number"
+      inputmode="numeric"
+      [placeholder]="maxPlaceholder()"
+      [attr.aria-label]="maxPlaceholder()"
+      [readonly]="readonly() || maxReadonly()"
+      [disabled]="disabled()"
+      (input)="onMaxInput($event)"
+      (blur)="onBlur()"
+    />
+
+    @if (canReset()) {
+      <button
+        type="button"
+        class="field__reset"
+        (click)="reset()"
+        aria-label="Reset range"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    }
+  </div>
+</div>
