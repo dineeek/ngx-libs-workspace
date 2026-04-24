@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "ngx-pass-code": ["libs/ngx-pass-code/src/index.ts"]
+      "ngx-pass-code": ["libs/ngx-pass-code/src/index.ts"],
+      "ngx-numeric-range-form-field": [
+        "libs/ngx-numeric-range-form-field/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
