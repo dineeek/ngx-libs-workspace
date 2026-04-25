@@ -6,7 +6,7 @@ tooltip, "Read more" button, or any other reveal affordance only shows when the
 visible content is actually clipped. Built for Angular 21 / signals / zoneless.
 No `@angular/material` peer dependency.
 
-![ngx-overflow-tooltip](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-overflow-tooltip/screenshots/02-multi-line.png)
+![ngx-overflow-tooltip](./screenshots/02-multi-line.png)
 
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-overflow-tooltip"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-overflow-tooltip.svg?style=flat-square"></a>
@@ -55,10 +55,10 @@ hasn't been touched since 2022 (Angular 11). The closely-named
 
 ## At a glance
 
-|                                                                                                                                             |                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Single-line rows**<br/>![rows](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-overflow-tooltip/screenshots/01-rows.png) | **Multi-line clamp**<br/>![multi](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-overflow-tooltip/screenshots/02-multi-line.png) |
-| **Live content**<br/>![live](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-overflow-tooltip/screenshots/03-live.png)     |                                                                                                                                                    |
+|                                                             |                                                                    |
+| ----------------------------------------------------------- | ------------------------------------------------------------------ |
+| **Single-line rows**<br/>![rows](./screenshots/01-rows.png) | **Multi-line clamp**<br/>![multi](./screenshots/02-multi-line.png) |
+| **Live content**<br/>![live](./screenshots/03-live.png)     |                                                                    |
 
 ## Install
 
