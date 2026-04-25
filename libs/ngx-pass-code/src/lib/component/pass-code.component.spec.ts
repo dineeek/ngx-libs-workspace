@@ -592,6 +592,26 @@ describe('PassCodeComponent — directive behaviour', () => {
     expect(blurSpy).not.toHaveBeenCalled()
   })
 
+  it('focusNextPreviousInput: type="number" keydown of a digit key clears the slot', () => {
+    fixture.componentInstance.type.set('number')
+    fixture.detectChanges()
+    const first = inputsOf(fixture)[0]
+    first.value = '5'
+    first.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 49 }))
+    fixture.detectChanges()
+    expect(first.value).toBe('')
+  })
+
+  it('focusNextPreviousInput: type="number" keydown of Backspace does not clear the slot', () => {
+    fixture.componentInstance.type.set('number')
+    fixture.detectChanges()
+    const first = inputsOf(fixture)[0]
+    first.value = '5'
+    first.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 8 }))
+    fixture.detectChanges()
+    expect(first.value).toBe('5')
+  })
+
   it('space key is suppressed in keydown', () => {
     const first = inputsOf(fixture)[0]
     const event = new KeyboardEvent('keydown', {
@@ -758,6 +778,46 @@ describe('PassCodeComponent — paste', () => {
     fixture.detectChanges()
     expect(ev.defaultPrevented).toBe(false)
     expect(fixture.componentInstance.value()).toBeNull()
+  })
+
+  it('treats a clipboard sanitised to empty as a no-op', () => {
+    const fixture = createDirect(h => h.length.set(5))
+    pasteInto(inputsOf(fixture)[0], '   --__   ')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toBeNull()
+    expect(inputsOf(fixture).map(i => i.value)).toStrictEqual([
+      '',
+      '',
+      '',
+      '',
+      ''
+    ])
+  })
+
+  it('autoblur=true: pasting a full-length string blurs the last slot', async () => {
+    const fixture = createDirect(h => {
+      h.length.set(5)
+      h.autoblur.set(true)
+    })
+    const last = inputsOf(fixture)[4]
+    const blurSpy = jest.spyOn(last, 'blur')
+    pasteInto(inputsOf(fixture)[0], '12345')
+    fixture.detectChanges()
+    await Promise.resolve()
+    expect(blurSpy).toHaveBeenCalled()
+  })
+
+  it('autoblur=false: pasting a full-length string focuses the last slot', async () => {
+    const fixture = createDirect(h => {
+      h.length.set(5)
+      h.autoblur.set(false)
+    })
+    const last = inputsOf(fixture)[4]
+    const focusSpy = jest.spyOn(last, 'focus')
+    pasteInto(inputsOf(fixture)[0], '12345')
+    fixture.detectChanges()
+    await Promise.resolve()
+    expect(focusSpy).toHaveBeenCalled()
   })
 })
 

@@ -60,6 +60,12 @@ describe('PhoneFlagComponent', () => {
     expect(flag?.getAttribute('aria-label')).toBe('DE flag')
   })
 
+  it('renders the unknown placeholder when country has no flag asset', () => {
+    const fixture = create(h => h.country.set('XX' as CountryCode))
+    const flag = (fixture.nativeElement as HTMLElement).querySelector('.flag')
+    expect(flag?.classList.contains('flag--unknown')).toBe(true)
+  })
+
   it('updates the rendered flag when country input changes', () => {
     const fixture = create(h => h.country.set('US'))
     const before = (fixture.nativeElement as HTMLElement).querySelector(

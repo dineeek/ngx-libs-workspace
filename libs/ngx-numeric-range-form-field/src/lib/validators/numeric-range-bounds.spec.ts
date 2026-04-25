@@ -123,4 +123,24 @@ describe('numericRangeBounds', () => {
     value.set({ minimum: 1, maximum: 10 })
     expect(field().valid()).toBe(true)
   })
+
+  it('emits "min" when only the maximum side is below the floor', () => {
+    const { field } = makeField(
+      { minimum: 5, maximum: 0 },
+      { min: 1, max: 100 }
+    )
+    expect(field().valid()).toBe(false)
+    const errs = field().errors()
+    expect(errs.some(e => e.kind === 'min')).toBe(true)
+  })
+
+  it('emits "max" when only the minimum side is above the ceiling', () => {
+    const { field } = makeField(
+      { minimum: 99, maximum: 100 },
+      { min: 0, max: 50 }
+    )
+    expect(field().valid()).toBe(false)
+    const errs = field().errors()
+    expect(errs.some(e => e.kind === 'max')).toBe(true)
+  })
 })

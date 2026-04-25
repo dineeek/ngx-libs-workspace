@@ -337,6 +337,60 @@ describe('PhoneFormFieldComponent — direct binding', () => {
     )
     expect(opts.length).toBe(2)
   })
+
+  it('emits +<dialCode><digits> for input that AsYouType cannot parse yet', () => {
+    const fixture = createDirect()
+    typeInto(numberInput(fixture), '2')
+    fixture.detectChanges()
+    const v = fixture.componentInstance.value()
+    expect(v).toBe('+12')
+  })
+
+  it('emits +<digits> verbatim when the user types a leading +', () => {
+    const fixture = createDirect()
+    typeInto(numberInput(fixture), '+4')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toBe('+4')
+  })
+
+  it('emits null when the typed input has no digits and no leading +', () => {
+    const fixture = createDirect()
+    typeInto(numberInput(fixture), 'abc')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toBeNull()
+  })
+
+  it('clears the displayed input when the model is externally set to null', () => {
+    const fixture = createDirect()
+    typeInto(numberInput(fixture), '2015550123')
+    fixture.detectChanges()
+    expect(numberInput(fixture).value).not.toBe('')
+
+    fixture.componentInstance.value.set(null)
+    fixture.detectChanges()
+    expect(numberInput(fixture).value).toBe('')
+  })
+
+  it('preserves the typed + when changing country with format=false', () => {
+    const fixture = createDirect(h => h.format.set(false))
+    typeInto(numberInput(fixture), '+12015550123')
+    fixture.detectChanges()
+
+    trigger(fixture).click()
+    fixture.detectChanges()
+    const opts = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('.picker__option')
+    ) as HTMLLIElement[]
+    const gb = opts.find(o =>
+      o.textContent?.toLowerCase().includes('united kingdom')
+    )!
+    gb.click()
+    fixture.detectChanges()
+
+    const v = fixture.componentInstance.value()
+    expect(v).toBeTruthy()
+    expect(v!.startsWith('+')).toBe(true)
+  })
 })
 
 describe('PhoneFormFieldComponent — schema-driven [formField]', () => {

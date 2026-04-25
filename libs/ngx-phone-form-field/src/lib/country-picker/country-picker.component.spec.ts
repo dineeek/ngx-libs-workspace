@@ -265,4 +265,152 @@ describe('PhoneCountryPickerComponent', () => {
     fixture.detectChanges()
     expect(options(fixture)).toHaveLength(2)
   })
+
+  it('renders the placeholder trigger when no country is selected', () => {
+    const fixture = create(h => h.selected.set(null))
+    const dial = trigger(fixture).querySelector('.picker__dial')
+    expect(dial?.classList.contains('picker__dial--placeholder')).toBe(true)
+  })
+
+  it('opens on ArrowDown when the trigger has focus', () => {
+    const fixture = create()
+    trigger(fixture).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown' })
+    )
+    fixture.detectChanges()
+    expect(popover(fixture)).not.toBeNull()
+  })
+
+  it('opens on Enter when the trigger has focus', () => {
+    const fixture = create()
+    trigger(fixture).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter' })
+    )
+    fixture.detectChanges()
+    expect(popover(fixture)).not.toBeNull()
+  })
+
+  it('opens on Space when the trigger has focus', () => {
+    const fixture = create()
+    trigger(fixture).dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }))
+    fixture.detectChanges()
+    expect(popover(fixture)).not.toBeNull()
+  })
+
+  it('ignores trigger keydown when disabled', () => {
+    const fixture = create(h => h.disabled.set(true))
+    trigger(fixture).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter' })
+    )
+    fixture.detectChanges()
+    expect(popover(fixture)).toBeNull()
+  })
+
+  it('Home jumps the active option to the first row', () => {
+    const fixture = create()
+    trigger(fixture).click()
+    fixture.detectChanges()
+
+    const search = searchInput(fixture)!
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }))
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }))
+    fixture.detectChanges()
+
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home' }))
+    fixture.detectChanges()
+
+    const idx = options(fixture).findIndex(o =>
+      o.classList.contains('picker__option--active')
+    )
+    expect(idx).toBe(0)
+  })
+
+  it('End jumps the active option to the last row', () => {
+    const fixture = create()
+    trigger(fixture).click()
+    fixture.detectChanges()
+
+    searchInput(fixture)!.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'End' })
+    )
+    fixture.detectChanges()
+
+    const idx = options(fixture).findIndex(o =>
+      o.classList.contains('picker__option--active')
+    )
+    expect(idx).toBe(SAMPLE.length - 1)
+  })
+
+  it('ignores unhandled keys without throwing', () => {
+    const fixture = create()
+    trigger(fixture).click()
+    fixture.detectChanges()
+    expect(() =>
+      searchInput(fixture)!.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'a' })
+      )
+    ).not.toThrow()
+  })
+
+  it('updates the active option on mouseenter', () => {
+    const fixture = create()
+    trigger(fixture).click()
+    fixture.detectChanges()
+
+    const opts = options(fixture)
+    opts[2]!.dispatchEvent(new Event('mouseenter', { bubbles: true }))
+    fixture.detectChanges()
+
+    expect(opts[2]!.classList.contains('picker__option--active')).toBe(true)
+  })
+
+  it('closes on a document-level Escape keydown', () => {
+    const fixture = create()
+    trigger(fixture).click()
+    fixture.detectChanges()
+    expect(popover(fixture)).not.toBeNull()
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    fixture.detectChanges()
+    expect(popover(fixture)).toBeNull()
+  })
+
+  it('clamps activeIndex to 0 after filtering shrinks the list past it', () => {
+    const fixture = create()
+    trigger(fixture).click()
+    fixture.detectChanges()
+
+    // Move active to last row.
+    searchInput(fixture)!.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'End' })
+    )
+    fixture.detectChanges()
+
+    // Filter so only one option remains — active must clamp into range.
+    const search = searchInput(fixture)!
+    search.value = 'germ'
+    search.dispatchEvent(new Event('input', { bubbles: true }))
+    fixture.detectChanges()
+
+    const idx = options(fixture).findIndex(o =>
+      o.classList.contains('picker__option--active')
+    )
+    expect(idx).toBe(0)
+  })
+
+  it('Enter with no active option is a no-op', () => {
+    const fixture = create(h => h.selected.set(null))
+    trigger(fixture).click()
+    fixture.detectChanges()
+
+    const search = searchInput(fixture)!
+    search.value = 'nonexistentcountryxyz'
+    search.dispatchEvent(new Event('input', { bubbles: true }))
+    fixture.detectChanges()
+
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+    fixture.detectChanges()
+
+    expect(fixture.componentInstance.emitted()).toBeNull()
+  })
 })

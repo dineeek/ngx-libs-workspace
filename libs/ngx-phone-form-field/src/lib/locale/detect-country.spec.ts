@@ -54,4 +54,9 @@ describe('detectCountry', () => {
     // it takes; what matters is we get the explicit fallback or a real country.
     expect(['JP', 'ES', 'US']).toContain(result)
   })
+
+  it('falls back when navigator.language is not a string', () => {
+    setLanguage(undefined)
+    expect(detectCountry('DE')).toBe('DE')
+  })
 })
