@@ -19,6 +19,13 @@
       "include-v-in-tag": false,
       "changelog-path": "CHANGELOG.md",
       "extra-files": []
+    },
+    "libs/ngx-phone-form-field": {
+      "package-name": "ngx-phone-form-field",
+      "tag-separator": "@",
+      "include-v-in-tag": false,
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": []
     }
   }
 }
