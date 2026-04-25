@@ -22,29 +22,32 @@ themable via CSS custom properties, and free of Angular Material, CDK and
 
 ## The libraries
 
-| Library                                                                                                                                                                                                                                                                                      | What it is                                                                                                                         | npm                                                                                                                                                                                                                                                                                                                       | Demo                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| [**ngx-pass-code**](./libs/ngx-pass-code)<br/><sub>OTP / pass-code input — one box per character, with paste-anywhere, autofocus/autoblur, and `text` / `number` / `password` modes.</sub>                                                                                                   | <img src="./libs/ngx-pass-code/screenshots/02-text-filled.png" width="220" alt="ngx-pass-code preview" />                          | [![npm](https://img.shields.io/npm/v/ngx-pass-code.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-pass-code) [![dl](https://img.shields.io/npm/dw/ngx-pass-code.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-pass-code)                                                             | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-pass-code)                |
-| [**ngx-numeric-range-form-field**](./libs/ngx-numeric-range-form-field)<br/><sub>Composite numeric range — two number inputs, one value. Four composable validators for order, bounds, completeness and span.</sub>                                                                          | <img src="./libs/ngx-numeric-range-form-field/screenshots/02-filled.png" width="220" alt="ngx-numeric-range-form-field preview" /> | [![npm](https://img.shields.io/npm/v/ngx-numeric-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-numeric-range-form-field) [![dl](https://img.shields.io/npm/dw/ngx-numeric-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-numeric-range-form-field) | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-numeric-range-form-field) |
-| [**ngx-phone-form-field**](./libs/ngx-phone-form-field)<br/><sub>International phone field — country picker with flags + national-number input as a single E.164 string. Powered by `libphonenumber-js/max`.</sub>                                                                           | <img src="./libs/ngx-phone-form-field/screenshots/02-filled.png" width="220" alt="ngx-phone-form-field preview" />                 | [![npm](https://img.shields.io/npm/v/ngx-phone-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-phone-form-field) [![dl](https://img.shields.io/npm/dw/ngx-phone-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-phone-form-field)                                 | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-phone-form-field)         |
-| [**ngx-time-range-form-field**](./libs/ngx-time-range-form-field)<br/><sub>Composite time range — two `<input type="time">` fields, one value. Four composable validators for order, bounds, completeness and span; mixed `HH:mm` / `HH:mm:ss` precision normalised before comparison.</sub> | <img src="./libs/ngx-time-range-form-field/screenshots/02-filled.png" width="220" alt="ngx-time-range-form-field preview" />       | [![npm](https://img.shields.io/npm/v/ngx-time-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-time-range-form-field) [![dl](https://img.shields.io/npm/dw/ngx-time-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-time-range-form-field)             | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-time-range-form-field)    |
+| Library                                                                                                                                                                                                                                                                                                                                    | What it is                                                                                                                         | npm                                                                                                                                                                                                                                                                                                                       | Demo                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [**ngx-pass-code**](./libs/ngx-pass-code)<br/><sub>OTP / pass-code input — one box per character, with paste-anywhere, autofocus/autoblur, and `text` / `number` / `password` modes.</sub>                                                                                                                                                 | <img src="./libs/ngx-pass-code/screenshots/02-text-filled.png" width="220" alt="ngx-pass-code preview" />                          | [![npm](https://img.shields.io/npm/v/ngx-pass-code.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-pass-code) [![dl](https://img.shields.io/npm/dw/ngx-pass-code.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-pass-code)                                                             | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-pass-code)                |
+| [**ngx-numeric-range-form-field**](./libs/ngx-numeric-range-form-field)<br/><sub>Composite numeric range — two number inputs, one value. Four composable validators for order, bounds, completeness and span.</sub>                                                                                                                        | <img src="./libs/ngx-numeric-range-form-field/screenshots/02-filled.png" width="220" alt="ngx-numeric-range-form-field preview" /> | [![npm](https://img.shields.io/npm/v/ngx-numeric-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-numeric-range-form-field) [![dl](https://img.shields.io/npm/dw/ngx-numeric-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-numeric-range-form-field) | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-numeric-range-form-field) |
+| [**ngx-phone-form-field**](./libs/ngx-phone-form-field)<br/><sub>International phone field — country picker with flags + national-number input as a single E.164 string. Powered by `libphonenumber-js/max`.</sub>                                                                                                                         | <img src="./libs/ngx-phone-form-field/screenshots/02-filled.png" width="220" alt="ngx-phone-form-field preview" />                 | [![npm](https://img.shields.io/npm/v/ngx-phone-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-phone-form-field) [![dl](https://img.shields.io/npm/dw/ngx-phone-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-phone-form-field)                                 | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-phone-form-field)         |
+| [**ngx-time-range-form-field**](./libs/ngx-time-range-form-field)<br/><sub>Composite time range — two `<input type="time">` fields, one value. Four composable validators for order, bounds, completeness and span; mixed `HH:mm` / `HH:mm:ss` precision normalised before comparison.</sub>                                               | <img src="./libs/ngx-time-range-form-field/screenshots/02-filled.png" width="220" alt="ngx-time-range-form-field preview" />       | [![npm](https://img.shields.io/npm/v/ngx-time-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-time-range-form-field) [![dl](https://img.shields.io/npm/dw/ngx-time-range-form-field.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-time-range-form-field)             | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-time-range-form-field)    |
+| [**ngx-overflow-tooltip**](./libs/ngx-overflow-tooltip)<br/><sub>Headless directive — flags whether a host element's text is ellipsized via `ResizeObserver` + `MutationObserver`, exposes an `isTruncated` signal so any tooltip surface (Material, custom popover, plain `title`) only fires when the content is actually clipped.</sub> | <img src="./libs/ngx-overflow-tooltip/screenshots/02-multi-line.png" width="220" alt="ngx-overflow-tooltip preview" />             | [![npm](https://img.shields.io/npm/v/ngx-overflow-tooltip.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-overflow-tooltip) [![dl](https://img.shields.io/npm/dw/ngx-overflow-tooltip.svg?style=flat-square&label=)](https://www.npmjs.com/package/ngx-overflow-tooltip)                                 | [try it ↗](https://dineeek.github.io/ngx-libs-workspace/ngx-overflow-tooltip)         |
 
 ---
 
 ## What every lib in here gives you
 
-- Plugs into `@angular/forms/signals` via `FormValueControl` + `[formField]` —
-  no `ControlValueAccessor`, no NgModule.
-- Schema-driven validation (`required`, `readonly`, `disabled`, `validate`, …)
-  owned by the consumer's `form()` definition.
-- Outlined styling reskinnable via CSS custom properties — no `::ng-deep`, no
-  global CSS leaks.
-- Standalone components, OnPush change detection, signal-based inputs
-  end-to-end.
+- Standalone — no module to register, no peer dep on Angular Material, CDK or
+  any third-party runtime.
+- Signal-based inputs end-to-end. Form-field libs implement `FormValueControl`
+  and plug into a parent `form()` schema via `[formField]`; the directive lib
+  (`ngx-overflow-tooltip`) exposes its state as a public signal.
+- Form-field libs ship outlined styling reskinnable via CSS custom properties —
+  no `::ng-deep`, no global CSS leaks. Schema-driven validation (`required`,
+  `readonly`, `disabled`, `validate`, …) is owned by the consumer's `form()`
+  definition.
+- OnPush change detection, zoneless-friendly setup.
 - Tree-shakable (`sideEffects: false`), npm-published with provenance.
 
-> `@angular/forms/signals` is marked `@experimental 21.0.0`. Consumers adopt the
-> same experimental surface.
+> The form-field libs target `@angular/forms/signals`, which is marked
+> `@experimental 21.0.0`. Consumers adopt the same experimental surface.
 
 ---
 
@@ -59,7 +62,8 @@ ngx-libs-workspace/
    ├─ ngx-pass-code/                    # publishable
    ├─ ngx-numeric-range-form-field/     # publishable
    ├─ ngx-phone-form-field/             # publishable
-   └─ ngx-time-range-form-field/        # publishable
+   ├─ ngx-time-range-form-field/        # publishable
+   └─ ngx-overflow-tooltip/             # publishable
 ```
 
 ---
@@ -72,7 +76,7 @@ pnpm install --frozen-lockfile
 pnpm nx serve playground   # → http://localhost:4200
 ```
 
-The playground live-reloads on source changes and consumes all four libraries
+The playground live-reloads on source changes and consumes all five libraries
 directly from `libs/` — no rebuild needed.
 
 > Requires Node.js `>=20.19` (see [`.nvmrc`](.nvmrc)) and pnpm `>=10` (pinned in
