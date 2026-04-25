@@ -329,6 +329,50 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     expect(reset?.getAttribute('aria-label')).toBe('Reset range')
   })
 
+  it('forwards step / autocomplete / per-side min,max,name attributes to the inputs', async () => {
+    @Component({
+      standalone: true,
+      imports: [NumericRangeFormFieldComponent],
+      template: `
+        <ngx-numeric-range-form-field
+          [step]="0.5"
+          autocomplete="off"
+          [minMin]="0"
+          [minMax]="100"
+          [maxMin]="0"
+          [maxMax]="100"
+          minName="rangeFrom"
+          maxName="rangeTo"
+        />
+      `,
+      changeDetection: ChangeDetectionStrategy.OnPush
+    })
+    class AttrHostComponent {}
+
+    await TestBed.configureTestingModule({
+      imports: [AttrHostComponent]
+    }).compileComponents()
+    const fixture = TestBed.createComponent(AttrHostComponent)
+    fixture.detectChanges()
+
+    const [min, max] = inputsOf(fixture)
+    expect(min.getAttribute('step')).toBe('0.5')
+    expect(min.getAttribute('autocomplete')).toBe('off')
+    expect(min.getAttribute('min')).toBe('0')
+    expect(min.getAttribute('max')).toBe('100')
+    expect(min.getAttribute('name')).toBe('rangeFrom')
+    expect(max.getAttribute('name')).toBe('rangeTo')
+  })
+
+  it('omits step / autocomplete / min / max / name attributes by default', () => {
+    const fixture = createDirect()
+    const [min, max] = inputsOf(fixture)
+    for (const attr of ['step', 'autocomplete', 'min', 'max', 'name']) {
+      expect(min.getAttribute(attr)).toBeNull()
+      expect(max.getAttribute(attr)).toBeNull()
+    }
+  })
+
   it('honours custom minLabel / maxLabel / resetLabel overrides', () => {
     const fixture = createDirect(h => {
       h.value.set({ minimum: 1, maximum: 2 })

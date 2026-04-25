@@ -34,6 +34,19 @@ export class NumericRangeFormFieldComponent implements FormValueControl<INumeric
   readonly resettable = input(true)
   readonly required = input(false)
 
+  // Native numeric-input attributes forwarded to both inputs.
+  readonly step = input<number | string | null>(null)
+  readonly autocomplete = input<string | null>(null)
+  // Per-input form-field name (useful inside a <form> with native submit).
+  readonly minName = input<string | null>(null)
+  readonly maxName = input<string | null>(null)
+  // Per-side native HTML `min` / `max` attributes — purely for the browser's
+  // built-in spinner range; validation remains schema-driven.
+  readonly minMin = input<number | string | null>(null)
+  readonly minMax = input<number | string | null>(null)
+  readonly maxMin = input<number | string | null>(null)
+  readonly maxMax = input<number | string | null>(null)
+
   protected readonly resolvedMinLabel = computed(
     () => this.minLabel() ?? this.minPlaceholder()
   )

@@ -25,6 +25,11 @@
       [attr.aria-label]="resolvedMinLabel()"
       [readonly]="readonly() || minReadonly()"
       [disabled]="disabled()"
+      [attr.name]="minName()"
+      [attr.autocomplete]="autocomplete()"
+      [attr.step]="step()"
+      [attr.min]="minMin()"
+      [attr.max]="minMax()"
       (input)="onMinInput($event)"
       (blur)="onBlur()"
     />
@@ -38,6 +43,11 @@
       [attr.aria-label]="resolvedMaxLabel()"
       [readonly]="readonly() || maxReadonly()"
       [disabled]="disabled()"
+      [attr.name]="maxName()"
+      [attr.autocomplete]="autocomplete()"
+      [attr.step]="step()"
+      [attr.min]="maxMin()"
+      [attr.max]="maxMax()"
       (input)="onMaxInput($event)"
       (blur)="onBlur()"
     />
