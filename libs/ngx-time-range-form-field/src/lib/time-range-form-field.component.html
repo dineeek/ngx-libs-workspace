@@ -1,0 +1,77 @@
+<div
+  class="field"
+  [class.field--invalid]="isInvalid()"
+  [class.field--disabled]="disabled()"
+  [class.field--readonly]="readonly()"
+  role="group"
+  [attr.aria-labelledby]="label() ? labelId : null"
+>
+  @if (label()) {
+    <span class="field__label" [id]="labelId">
+      {{ label() }}
+      @if (required()) {
+        <span class="field__required" aria-hidden="true">*</span>
+      }
+    </span>
+  }
+
+  <div class="field__control">
+    <input
+      #startInput
+      class="field__input"
+      type="time"
+      [id]="startInputId"
+      [placeholder]="startPlaceholder()"
+      [attr.aria-label]="composedStartLabel()"
+      [readonly]="readonly() || startReadonly()"
+      [disabled]="disabled()"
+      [attr.name]="startName()"
+      [attr.autocomplete]="autocomplete()"
+      [attr.step]="step()"
+      [attr.min]="startMin()"
+      [attr.max]="startMax()"
+      (input)="onStartInput($event)"
+      (blur)="onBlur()"
+    />
+    <span class="field__separator" aria-hidden="true">–</span>
+    <input
+      #endInput
+      class="field__input"
+      type="time"
+      [id]="endInputId"
+      [placeholder]="endPlaceholder()"
+      [attr.aria-label]="composedEndLabel()"
+      [readonly]="readonly() || endReadonly()"
+      [disabled]="disabled()"
+      [attr.name]="endName()"
+      [attr.autocomplete]="autocomplete()"
+      [attr.step]="step()"
+      [attr.min]="endMin()"
+      [attr.max]="endMax()"
+      (input)="onEndInput($event)"
+      (blur)="onBlur()"
+    />
+
+    @if (canReset()) {
+      <button
+        type="button"
+        class="field__reset"
+        (click)="reset()"
+        [attr.aria-label]="resetLabel()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    }
+  </div>
+</div>

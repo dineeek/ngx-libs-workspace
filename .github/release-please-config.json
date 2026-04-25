@@ -26,6 +26,13 @@
       "include-v-in-tag": false,
       "changelog-path": "CHANGELOG.md",
       "extra-files": []
+    },
+    "libs/ngx-time-range-form-field": {
+      "package-name": "ngx-time-range-form-field",
+      "tag-separator": "@",
+      "include-v-in-tag": false,
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": []
     }
   }
 }
