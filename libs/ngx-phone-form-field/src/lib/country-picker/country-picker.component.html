@@ -68,7 +68,6 @@
         @let isActive = i === activeIndex();
         @let isSelected = entry.iso2 === selected();
         <li
-          #activeOption
           [id]="listboxId + '-opt-' + i"
           class="picker__option"
           [class.picker__option--active]="isActive"

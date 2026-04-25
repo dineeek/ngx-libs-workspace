@@ -193,9 +193,14 @@ export class PhoneFormFieldComponent implements FormValueControl<
     if (parsed?.country) {
       this.selectedCountry.set(parsed.country)
     }
+    // Strip the leading dial code from the raw value as the last-resort
+    // fallback so an unparseable external write (`'+1abc'`, partial typing
+    // emitted by the consumer) still shows *something* instead of clearing
+    // the input while the model holds a value.
+    const rawNational = v.replace(/^\+\d+/, '')
     const display = this.format()
-      ? (parsed?.formatNational() ?? parsed?.nationalNumber ?? '')
-      : (parsed?.nationalNumber ?? v.replace(/^\+\d+/, ''))
+      ? (parsed?.formatNational() ?? parsed?.nationalNumber ?? rawNational)
+      : (parsed?.nationalNumber ?? rawNational)
     this.displayValue.set(display)
     this.writeDom(display)
   }

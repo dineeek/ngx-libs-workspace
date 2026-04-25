@@ -39,8 +39,6 @@ export class PhoneCountryPickerComponent {
 
   private readonly searchInputRef =
     viewChild<ElementRef<HTMLInputElement>>('searchInput')
-  private readonly activeOptionRef =
-    viewChild<ElementRef<HTMLLIElement>>('activeOption')
 
   protected readonly listboxId = `ngx-pff-listbox-${++idCounter}`
 
@@ -82,11 +80,20 @@ export class PhoneCountryPickerComponent {
     effect(() => {
       // Keep the activeIndex in range as the filtered list changes.
       const len = this.filtered().length
+      // Read activeIndex reactively so the scroll re-runs when the highlight
+      // moves via keyboard navigation, not just when the filtered list changes.
+      const idx = this.activeIndex()
       untracked(() => {
-        if (this.activeIndex() >= len) {
+        if (idx >= len) {
           this.activeIndex.set(len > 0 ? 0 : -1)
         }
-        const node = this.activeOptionRef()?.nativeElement
+        // Look up the active option directly via class instead of a singular
+        // viewChild bound to a template ref repeated on every <li> — that
+        // pattern returns the *first* match in document order, so the scroll
+        // never targeted the actually-active row.
+        const node = this.host.nativeElement.querySelector(
+          '.picker__option--active'
+        ) as HTMLLIElement | null
         if (node && typeof node.scrollIntoView === 'function') {
           node.scrollIntoView({ block: 'nearest' })
         }
