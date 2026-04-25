@@ -18,5 +18,12 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@v4
         with:
+          # Use a PAT instead of GITHUB_TOKEN so tag pushes that release-please
+          # makes are seen as "real" pushes — GitHub intentionally suppresses
+          # workflow triggers for events caused by GITHUB_TOKEN, which would
+          # otherwise leave each lib's `publish-*.yml` un-triggered after a
+          # release PR merge. With this PAT, the publish workflow fires
+          # automatically on the new tag.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           config-file: .github/release-please-config.json
           manifest-file: .github/release-please-manifest.json
