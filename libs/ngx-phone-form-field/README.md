@@ -96,12 +96,49 @@ export class PhoneDemoComponent {
 }
 ```
 
-The emitted value type is `string | null` — always a valid
-[E.164](https://en.wikipedia.org/wiki/E.164) string when set (e.g.
-`'+12015550123'`), `null` when the input is empty.
+The emitted value type is `string | null`:
+
+- **Empty input** — `null`.
+- **Fully valid** — a real [E.164](https://en.wikipedia.org/wiki/E.164) string
+  (e.g. `'+12015550123'`).
+- **In-progress typing** — a partial `+<dialcode><digits>` string while the user
+  is still entering enough digits for `libphonenumber-js` to recognise a number
+  (e.g. `'+12'` after typing the second digit). This lets consumers observe
+  progress in real time; pair the component with the `phoneValid()` validator
+  below if you need strict E.164 validity before accepting the value.
 
 If `initialCountry` is omitted, the field auto-detects the country from
 `navigator.language` and falls back to `'US'`.
+
+## Country codes & line types
+
+Anywhere this lib accepts a country (the `[countries]` input, `initialCountry`,
+the `phoneCountryIn` validator) it expects an **ISO 3166-1 alpha-2** code typed
+as `CountryCode` from
+[`libphonenumber-js`](https://www.npmjs.com/package/libphonenumber-js) — that's
+the same alphabet libphonenumber understands when it parses numbers, so the lib
+doesn't fork or re-define the set.
+
+Both types are **re-exported** from this package so you don't need to add
+`libphonenumber-js` as a direct dependency of your app:
+
+```typescript
+import { CountryCode, NumberType } from 'ngx-phone-form-field'
+//                                       ^ originally from libphonenumber-js/max
+
+const ALLOWED: readonly CountryCode[] = ['US', 'GB', 'DE', 'FR', 'JP', 'HR']
+const PHONE_TYPES: readonly NumberType[] = ['MOBILE', 'FIXED_LINE_OR_MOBILE']
+```
+
+| Type          | Re-exported from        | Used by                                                                                            |
+| ------------- | ----------------------- | -------------------------------------------------------------------------------------------------- |
+| `CountryCode` | `libphonenumber-js/max` | `[countries]`, `initialCountry`, `phoneCountryIn(path, countries)`, the `IPhoneCountry.iso2` field |
+| `NumberType`  | `libphonenumber-js/max` | `phoneTypeIn(path, types)` — values like `'MOBILE'`, `'FIXED_LINE'`, `'TOLL_FREE'`, etc.           |
+
+If you'd rather import directly from libphonenumber-js (e.g. you already use it
+elsewhere),
+`import type { CountryCode, NumberType } from 'libphonenumber-js/max'` is
+interchangeable.
 
 ## Restricting the country list
 
@@ -237,9 +274,16 @@ phoneForm = form<string | null>(this.phoneValue, p => {
 
 ### `phoneCountryIn(path, countries)`
 
-Restricts the parsed country to a whitelist of ISO 3166-1 alpha-2 codes. Fails
-with `{ kind: 'disallowedCountry' }`. Combine with `[countries]` on the
-component to also constrain the picker.
+Restricts the parsed country to a whitelist of
+[`CountryCode`](#country-codes--line-types) values. Fails with
+`{ kind: 'disallowedCountry' }`. Combine with `[countries]` on the component to
+also constrain the picker.
+
+**Note:** unparseable input (e.g. random text) is treated as "no detected
+country, therefore not allowed" and also fails with `disallowedCountry`. If
+you'd prefer unparseable values to surface as `invalidPhone` instead, compose
+this validator with `phoneValid(p)` first — `phoneValid` will own the
+parseability check and `phoneCountryIn` will only see input it can reason about.
 
 ![disallowed-country error](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-phone-form-field/screenshots/06-error-disallowed-country.png)
 

@@ -91,9 +91,9 @@ export class PhoneCountryPickerComponent {
         // viewChild bound to a template ref repeated on every <li> — that
         // pattern returns the *first* match in document order, so the scroll
         // never targeted the actually-active row.
-        const node = this.host.nativeElement.querySelector<HTMLLIElement>(
+        const node = this.host.nativeElement.querySelector(
           '.picker__option--active'
-        )
+        ) as HTMLLIElement | null
         if (node && typeof node.scrollIntoView === 'function') {
           node.scrollIntoView({ block: 'nearest' })
         }
