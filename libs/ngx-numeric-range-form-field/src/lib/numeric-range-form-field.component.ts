@@ -22,11 +22,24 @@ export class NumericRangeFormFieldComponent implements FormValueControl<INumeric
   readonly label = input('')
   readonly minPlaceholder = input('From')
   readonly maxPlaceholder = input('To')
+  // Decoupled from the placeholder so a11y can use a stable description
+  // even when the visible placeholder is empty or localised separately.
+  // Default to the placeholder when not overridden.
+  readonly minLabel = input<string | null>(null)
+  readonly maxLabel = input<string | null>(null)
+  readonly resetLabel = input('Reset range')
   readonly readonly = input(false)
   readonly minReadonly = input(false)
   readonly maxReadonly = input(false)
   readonly resettable = input(true)
   readonly required = input(false)
+
+  protected readonly resolvedMinLabel = computed(
+    () => this.minLabel() ?? this.minPlaceholder()
+  )
+  protected readonly resolvedMaxLabel = computed(
+    () => this.maxLabel() ?? this.maxPlaceholder()
+  )
 
   readonly value = model<INumericRange | null>(null)
   readonly disabled = input(false)

@@ -21,9 +21,14 @@ import { numericRangeOrderValid } from './validators/numeric-range-order'
       [label]="label()"
       [disabled]="disabled()"
       [readonly]="readonly()"
+      [minReadonly]="minReadonly()"
+      [maxReadonly]="maxReadonly()"
       [resettable]="resettable()"
       [required]="required()"
       [errors]="errors()"
+      [minLabel]="minLabel()"
+      [maxLabel]="maxLabel()"
+      [resetLabel]="resetLabel()"
       [(touched)]="touched"
     />
   `,
@@ -35,9 +40,14 @@ class DirectHostComponent {
   label = signal('')
   disabled = signal(false)
   readonly = signal(false)
+  minReadonly = signal(false)
+  maxReadonly = signal(false)
   resettable = signal(true)
   required = signal(false)
   errors = signal<readonly ValidationError.WithOptionalFieldTree[]>([])
+  minLabel = signal<string | null>(null)
+  maxLabel = signal<string | null>(null)
+  resetLabel = signal('Reset range')
 }
 
 @Component({
@@ -302,6 +312,37 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     )
     const field = (fixture.nativeElement as HTMLElement).querySelector('.field')
     expect(field?.classList.contains('field--invalid')).toBe(false)
+  })
+
+  it('falls back to placeholders for input aria-labels by default', () => {
+    const fixture = createDirect()
+    const [min, max] = inputsOf(fixture)
+    expect(min.getAttribute('aria-label')).toBe('From')
+    expect(max.getAttribute('aria-label')).toBe('To')
+  })
+
+  it('uses resetLabel as the reset button aria-label', () => {
+    const fixture = createDirect(h => h.value.set({ minimum: 1, maximum: 2 }))
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset?.getAttribute('aria-label')).toBe('Reset range')
+  })
+
+  it('honours custom minLabel / maxLabel / resetLabel overrides', () => {
+    const fixture = createDirect(h => {
+      h.value.set({ minimum: 1, maximum: 2 })
+      h.minLabel.set('Lower bound')
+      h.maxLabel.set('Upper bound')
+      h.resetLabel.set('Clear range')
+    })
+    const [min, max] = inputsOf(fixture)
+    expect(min.getAttribute('aria-label')).toBe('Lower bound')
+    expect(max.getAttribute('aria-label')).toBe('Upper bound')
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset?.getAttribute('aria-label')).toBe('Clear range')
   })
 })
 

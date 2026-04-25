@@ -22,7 +22,7 @@
       type="number"
       inputmode="numeric"
       [placeholder]="minPlaceholder()"
-      [attr.aria-label]="minPlaceholder()"
+      [attr.aria-label]="resolvedMinLabel()"
       [readonly]="readonly() || minReadonly()"
       [disabled]="disabled()"
       (input)="onMinInput($event)"
@@ -35,7 +35,7 @@
       type="number"
       inputmode="numeric"
       [placeholder]="maxPlaceholder()"
-      [attr.aria-label]="maxPlaceholder()"
+      [attr.aria-label]="resolvedMaxLabel()"
       [readonly]="readonly() || maxReadonly()"
       [disabled]="disabled()"
       (input)="onMaxInput($event)"
@@ -47,7 +47,7 @@
         type="button"
         class="field__reset"
         (click)="reset()"
-        aria-label="Reset range"
+        [attr.aria-label]="resetLabel()"
       >
         <svg
           viewBox="0 0 24 24"
