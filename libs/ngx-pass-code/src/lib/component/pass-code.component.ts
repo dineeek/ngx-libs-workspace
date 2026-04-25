@@ -14,7 +14,7 @@ import { FormValueControl, ValidationError } from '@angular/forms/signals'
 
 import { AutofocusFirstInputDirective } from '../directives/autofocus-first-input.directive'
 import { FocusNextPreviousInputDirective } from '../directives/focus-next-previous-input.directive'
-import { TransformInputValueDirective } from '../directives/transform-uppercase.directive'
+import { TransformInputValueDirective } from '../directives/transform-input-value.directive'
 
 type PassCodeType = 'text' | 'number' | 'password'
 type PassCodeValue = string | number | null

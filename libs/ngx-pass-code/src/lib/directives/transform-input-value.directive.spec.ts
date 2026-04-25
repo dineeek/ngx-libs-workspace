@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { TransformInputValueDirective } from './transform-uppercase.directive'
+import { TransformInputValueDirective } from './transform-input-value.directive'
 
 @Component({
   standalone: true,
