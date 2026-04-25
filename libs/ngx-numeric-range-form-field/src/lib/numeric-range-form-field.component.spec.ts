@@ -396,6 +396,75 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     expect(group?.getAttribute('aria-labelledby')).toBeNull()
   })
 
+  it('minReadonly disables only the minimum input and hides the reset button', () => {
+    const fixture = createDirect(h => {
+      h.minReadonly.set(true)
+      h.value.set({ minimum: 1, maximum: 9 })
+    })
+    const [min, max] = inputsOf(fixture)
+    expect(min.readOnly).toBe(true)
+    expect(max.readOnly).toBe(false)
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).toBeNull()
+  })
+
+  it('maxReadonly disables only the maximum input and hides the reset button', () => {
+    const fixture = createDirect(h => {
+      h.maxReadonly.set(true)
+      h.value.set({ minimum: 1, maximum: 9 })
+    })
+    const [min, max] = inputsOf(fixture)
+    expect(min.readOnly).toBe(false)
+    expect(max.readOnly).toBe(true)
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).toBeNull()
+  })
+
+  it('reset button stays visible when neither side is readonly and a value exists', () => {
+    const fixture = createDirect(h => h.value.set({ minimum: 1, maximum: 9 }))
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).not.toBeNull()
+  })
+
+  it('hides the reset button when the field is disabled', () => {
+    const fixture = createDirect(h => {
+      h.value.set({ minimum: 1, maximum: 9 })
+      h.disabled.set(true)
+    })
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).toBeNull()
+  })
+
+  it('parses scientific notation as a finite number', () => {
+    const fixture = createDirect()
+    const [min] = inputsOf(fixture)
+    typeInto(min, '1e3')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toEqual({
+      minimum: 1000,
+      maximum: null
+    })
+  })
+
+  it('parses decimal input', () => {
+    const fixture = createDirect()
+    const [, max] = inputsOf(fixture)
+    typeInto(max, '3.14')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toEqual({
+      minimum: null,
+      maximum: 3.14
+    })
+  })
+
   it('honours custom minLabel / maxLabel / resetLabel overrides', () => {
     const fixture = createDirect(h => {
       h.value.set({ minimum: 1, maximum: 2 })
