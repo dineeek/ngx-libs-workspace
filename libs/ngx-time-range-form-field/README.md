@@ -5,7 +5,7 @@ A reactive Angular custom form control for a composite **time range** — two
 **Angular 21 Signal Forms** (`FormValueControl`) with no `ControlValueAccessor`,
 no Angular Material, no third-party runtime dependencies.
 
-![ngx-time-range-form-field](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/screenshots/02-filled.png)
+![ngx-time-range-form-field](./screenshots/02-filled.png)
 
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-time-range-form-field"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-time-range-form-field.svg?style=flat-square"></a>
@@ -46,10 +46,10 @@ no Angular Material, no third-party runtime dependencies.
 
 ## At a glance
 
-|                                                                                                                                                   |                                                                                                                                                                 |
-| ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Empty**<br/>![empty](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/screenshots/01-empty.png)           | **Filled**<br/>![filled](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/screenshots/02-filled.png)                      |
-| **Read-only**<br/>![readonly](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/screenshots/03-readonly.png) | **Invalid order**<br/>![invalid](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/screenshots/04-error-invalid-range.png) |
+|                                                              |                                                                            |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| **Empty**<br/>![empty](./screenshots/01-empty.png)           | **Filled**<br/>![filled](./screenshots/02-filled.png)                      |
+| **Read-only**<br/>![readonly](./screenshots/03-readonly.png) | **Invalid order**<br/>![invalid](./screenshots/04-error-invalid-range.png) |
 
 ## Install
 
@@ -147,7 +147,7 @@ case — pair them with `required(p)` or `timeRangeBothFilled(p)` when
 Fails with `{ kind: 'invalidRange' }` when `end < start`. Mixed-precision
 strings (`'17:00'` vs `'17:00:00'`) are normalised before comparison.
 
-![invalid range](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/screenshots/04-error-invalid-range.png)
+![invalid range](./screenshots/04-error-invalid-range.png)
 
 ```typescript
 import { timeRangeOrderValid } from 'ngx-time-range-form-field'
@@ -164,7 +164,7 @@ Keeps both sides within consumer-supplied time-of-day bounds (`HH:mm` or
 `{ kind: 'max' }` when a side is later than the ceiling. Pass `min` or `max`
 alone for one-sided bounds.
 
-![bounds error](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/screenshots/05-error-bounds.png)
+![bounds error](./screenshots/05-error-bounds.png)
 
 ```typescript
 import { timeRangeBounds } from 'ngx-time-range-form-field'
