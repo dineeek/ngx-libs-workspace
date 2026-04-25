@@ -7,6 +7,7 @@ import { PassCodeComponent } from 'ngx-pass-code'
 import { NumericRangeFormFieldComponent } from 'ngx-numeric-range-form-field'
 import { PhoneFormFieldComponent } from 'ngx-phone-form-field'
 import { TimeRangeFormFieldComponent } from 'ngx-time-range-form-field'
+import { OverflowTooltipDirective } from 'ngx-overflow-tooltip'
 
 import { AppComponent } from './app.component'
 
@@ -15,6 +16,7 @@ import { PassCodeDemoComponent } from './demos/pass-code/pass-code.component'
 import { NumericRangeFormFieldDemoComponent } from './demos/numeric-range-form-field/numeric-range-form-field.component'
 import { PhoneFormFieldDemoComponent } from './demos/phone-form-field/phone-form-field.component'
 import { TimeRangeFormFieldDemoComponent } from './demos/time-range-form-field/time-range-form-field.component'
+import { OverflowTooltipDemoComponent } from './demos/overflow-tooltip/overflow-tooltip.component'
 import { TopBarComponent } from './shared/top-bar/top-bar.component'
 import { HomeComponent } from './home/home.component'
 import { CodeBlockComponent } from './shared/code-block/code-block.component'
@@ -25,7 +27,8 @@ import { CodeBlockComponent } from './shared/code-block/code-block.component'
     PassCodeDemoComponent,
     NumericRangeFormFieldDemoComponent,
     PhoneFormFieldDemoComponent,
-    TimeRangeFormFieldDemoComponent
+    TimeRangeFormFieldDemoComponent,
+    OverflowTooltipDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { CodeBlockComponent } from './shared/code-block/code-block.component'
     NumericRangeFormFieldComponent,
     PhoneFormFieldComponent,
     TimeRangeFormFieldComponent,
+    OverflowTooltipDirective,
     TopBarComponent,
     HomeComponent,
     CodeBlockComponent

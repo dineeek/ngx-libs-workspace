@@ -1,0 +1,145 @@
+<a class="back-link" routerLink="/">← Back to home</a>
+
+<header class="demo-header">
+  <h1 class="demo-header__title">ngx-overflow-tooltip demo</h1>
+  <p class="demo-header__tagline">
+    A standalone Angular directive that flags whether an element's text is
+    ellipsized. Re-measures via <code>ResizeObserver</code> on layout changes
+    and <code>MutationObserver</code> on content changes, with rAF coalescing.
+    Headless — compose with any tooltip surface, or just toggle a "Read more"
+    affordance.
+  </p>
+</header>
+
+<section class="demo-grid">
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Single-line ellipsis</h2>
+      <p class="demo-card__sub">
+        Each cell uses <code>text-overflow: ellipsis</code>. The ⓘ badge and the
+        native <code>title</code> attribute only attach when the directive's
+        <code>isTruncated()</code> signal is true.
+      </p>
+    </header>
+
+    <div class="rows">
+      @for (row of singleLineRows(); track row.id) {
+        <div class="row">
+          <span
+            ngxOverflowTooltip
+            #nameOft="ngxOverflowTooltip"
+            class="cell cell--name"
+            [title]="nameOft.isTruncated() ? row.name : ''"
+          >
+            {{ row.name }}
+          </span>
+          @if (nameOft.isTruncated()) {
+            <span class="cell-badge" aria-label="truncated">ⓘ</span>
+          }
+          <span
+            ngxOverflowTooltip
+            #idOft="ngxOverflowTooltip"
+            class="cell cell--id"
+            [title]="idOft.isTruncated() ? row.id : ''"
+          >
+            {{ row.id }}
+          </span>
+          @if (idOft.isTruncated()) {
+            <span class="cell-badge" aria-label="truncated">ⓘ</span>
+          }
+        </div>
+      }
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="singleSnippet"
+      language="markup"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Multi-line clamp</h2>
+      <p class="demo-card__sub">
+        <code>[ngxOverflowTooltip]="'multi'"</code> only watches vertical
+        overflow. The "Read more" toggle appears only when the clamped text
+        actually has hidden content.
+      </p>
+    </header>
+
+    <p
+      [ngxOverflowTooltip]="'multi'"
+      #multiOft="ngxOverflowTooltip"
+      class="clamp"
+      [class.clamp--expanded]="multiExpanded()"
+    >
+      {{ description() }}
+    </p>
+
+    @if (multiOft.isTruncated() || multiExpanded()) {
+      <button type="button" class="reveal-btn" (click)="toggleMultiExpanded()">
+        {{ multiExpanded() ? 'Show less' : 'Read more' }}
+      </button>
+    }
+
+    <ngx-libs-workspace-code-block
+      [code]="multiSnippet"
+      language="markup"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">MutationObserver in action</h2>
+      <p class="demo-card__sub">
+        Type into the input — the rendered <code>&lt;span&gt;</code> is
+        re-measured on every text change so the truncation badge appears /
+        disappears live, without you wiring an extra
+        <code>(input)</code> handler.
+      </p>
+    </header>
+
+    <input
+      type="text"
+      class="live-input"
+      [value]="liveText()"
+      (input)="setLive($event)"
+      placeholder="Type something long…"
+      aria-label="Live content"
+    />
+
+    <div class="live-row">
+      <span ngxOverflowTooltip #liveOft="ngxOverflowTooltip" class="cell">
+        {{ liveText() }}
+      </span>
+      <span
+        class="badge"
+        [class.badge--ok]="!liveOft.isTruncated()"
+        [class.badge--err]="liveOft.isTruncated()"
+      >
+        {{ liveOft.isTruncated() ? 'truncated' : 'fits' }}
+      </span>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="liveSnippet"
+      language="markup"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Composition with Angular Material</h2>
+      <p class="demo-card__sub">
+        Recommended pairing — <code>MatTooltip</code> only fires when the
+        directive's signal flips. The lib itself does not depend on
+        <code>@angular/material</code>.
+      </p>
+    </header>
+
+    <ngx-libs-workspace-code-block
+      [code]="matTooltipSnippet"
+      language="markup"
+    ></ngx-libs-workspace-code-block>
+  </article>
+</section>

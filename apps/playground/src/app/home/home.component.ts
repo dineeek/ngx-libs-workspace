@@ -67,6 +67,16 @@ export class HomeComponent {
       preview: 'assets/preview-time-range.png',
       npmUrl: 'https://www.npmjs.com/package/ngx-time-range-form-field',
       bullets: ['timeRangeOrderValid', 'timeRangeBounds', 'timeRangeWidth']
+    },
+    {
+      name: 'ngx-overflow-tooltip',
+      npm: 'ngx-overflow-tooltip',
+      route: '/ngx-overflow-tooltip',
+      tagline:
+        'Headless directive that flags when text is ellipsized — ResizeObserver + MutationObserver, isTruncated signal. Compose with any tooltip surface.',
+      preview: 'assets/preview-overflow-tooltip.png',
+      npmUrl: 'https://www.npmjs.com/package/ngx-overflow-tooltip',
+      bullets: ['isTruncated signal', 'auto / single / multi', 'no Material dep']
     }
   ]
 
