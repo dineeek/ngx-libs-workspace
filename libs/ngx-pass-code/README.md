@@ -139,6 +139,26 @@ SMS notification. Pair with `inputmode="numeric"` on mobile to get the digit
 keypad without forcing `type="number"` (which drops leading zeros — see note
 below).
 
+### Numeric mode and leading zeros
+
+`type="number"` casts the control value to a JavaScript `number`, so a code like
+`01234` is emitted as `1234` and re-rendered into 4 slots, not 5. For PIN or OTP
+flows where leading zeros must be preserved, prefer:
+
+```html
+<ngx-pass-code
+  [formField]="codeForm"
+  [length]="6"
+  type="text"
+  inputmode="numeric"
+  autocomplete="one-time-code"
+/>
+```
+
+`type="text"` keeps the value a `string` (`'012345'`), `inputmode="numeric"`
+still gives the digit-only keypad on mobile, and paste-anywhere stripping is
+unchanged for the text mode.
+
 ## Theming
 
 All visual properties of the slot inputs are exposed as CSS custom properties on
@@ -191,6 +211,21 @@ form(code, p => {
 
 `passCodeComplete` emits a `{ kind: 'incomplete' }` error when the concatenated
 value is shorter than `length`.
+
+## Public directives
+
+`PassCodeComponent` is the recommended entry point — it imports the directives
+below internally. They are also exported from the package barrel for advanced
+use cases (e.g. building your own slot layout):
+
+| Symbol                            | Selector                   | Purpose                                                                                                         |
+| --------------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `AutofocusFirstInputDirective`    | `[autofocusFirstInput]`    | On `AfterViewInit`, focuses the first descendant `<input>` when its `autofocus` input is `true`.                |
+| `FocusNextPreviousInputDirective` | `[focusNextPreviousInput]` | Per-slot keyboard navigation — advances on filled, retreats on Backspace/Delete/ArrowLeft, optional `autoblur`. |
+| `TransformInputValueDirective`    | `[transformInputValue]`    | Toggles `text-transform: uppercase` on the host input when its `uppercase` input is `true`.                     |
+
+These directives assume sibling `<input>` elements with `maxlength="1"`. Any
+restructuring of the slot layout must preserve that contract.
 
 ## Contributing
 
