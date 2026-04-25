@@ -6,6 +6,13 @@ are generated automatically by
 [release-please](https://github.com/googleapis/release-please) from
 [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [2.1.0](https://github.com/dineeek/ngx-libs-workspace/compare/ngx-pass-code@2.0.0...ngx-pass-code@2.1.0) (2026-04-25)
+
+
+### Features
+
+* **ngx-pass-code:** quality-pass — autofill, theming, tests, docs ([#48](https://github.com/dineeek/ngx-libs-workspace/issues/48)) ([d84255f](https://github.com/dineeek/ngx-libs-workspace/commit/d84255f173fe3404d15584d0cb3501596dd9bd76))
+
 ## [2.0.0] - 2026-04-18
 
 ### ⚠ BREAKING CHANGES
