@@ -6,15 +6,20 @@
 [![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=main)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdineeek%2Fngx-libs-workspace?ref=badge_shield)
 
-Nx monorepo hosting the [`ngx-pass-code`](./libs/ngx-pass-code) Angular library
-and a playground application used to showcase it.
+Nx monorepo hosting two publishable Angular libraries —
+[`ngx-pass-code`](./libs/ngx-pass-code) and
+[`ngx-numeric-range-form-field`](./libs/ngx-numeric-range-form-field) — and a
+playground application used to showcase them.
 
 **[Live playground](https://dineeek.github.io/ngx-libs-workspace)**
 
 ## Projects
 
 - `ngx-pass-code` (`libs/ngx-pass-code`) — publishable Angular library (OTP /
-  pass-code form control).
+  pass-code form control built on Signal Forms).
+- `ngx-numeric-range-form-field` (`libs/ngx-numeric-range-form-field`) —
+  publishable Angular library (composite numeric-range form control built on
+  Signal Forms).
 - `playground` (`apps/playground`) — demo app deployed to GitHub Pages.
 - `playground-e2e` (`apps/playground-e2e`) — Cypress end-to-end tests.
 
@@ -40,43 +45,49 @@ pnpm nx serve playground
 ```
 
 Open <http://localhost:4200>. The app live-reloads on source changes and
-consumes the library directly from `libs/ngx-pass-code` (no rebuild needed).
+consumes both libraries directly from `libs/` (no rebuild needed).
 
 ### Lint
 
 ```shell
-pnpm nx lint ngx-pass-code          # one project
-pnpm nx run-many -t lint            # everything
-pnpm nx affected -t lint            # only what changed vs. main
+pnpm nx lint ngx-pass-code                    # one project
+pnpm nx lint ngx-numeric-range-form-field     # one project
+pnpm nx run-many -t lint                      # everything
+pnpm nx affected -t lint                      # only what changed vs. main
 ```
 
 ### Test
 
 ```shell
-pnpm nx test ngx-pass-code          # one project
-pnpm nx test ngx-pass-code --watch  # re-run on change
-pnpm nx run-many -t test            # everything
-pnpm nx affected -t test            # only what changed vs. main
+pnpm nx test ngx-pass-code                            # one project
+pnpm nx test ngx-pass-code --watch                    # re-run on change
+pnpm nx test ngx-numeric-range-form-field             # one project
+pnpm nx test ngx-numeric-range-form-field --watch     # re-run on change
+pnpm nx run-many -t test                              # everything
+pnpm nx affected -t test                              # only what changed vs. main
 ```
 
-Coverage for the publishable library:
+Coverage for the publishable libraries:
 
 ```shell
 pnpm ngx-pass-code:test:ci
+pnpm ngx-numeric-range-form-field:test:ci
 ```
 
 ### Build
 
 ```shell
-pnpm nx build ngx-pass-code         # library → dist/libs/ngx-pass-code
-pnpm nx build playground            # app     → dist/apps/playground
-pnpm nx run-many -t build           # everything
+pnpm nx build ngx-pass-code                   # library → dist/libs/ngx-pass-code
+pnpm nx build ngx-numeric-range-form-field    # library → dist/libs/ngx-numeric-range-form-field
+pnpm nx build playground                      # app     → dist/apps/playground
+pnpm nx run-many -t build                     # everything
 ```
 
 ### Library publish dry-run
 
 ```shell
 pnpm ngx-pass-code:publish:dry-run
+pnpm ngx-numeric-range-form-field:publish:dry-run
 ```
 
 ### Workspace graph
@@ -85,25 +96,32 @@ pnpm ngx-pass-code:publish:dry-run
 pnpm nx graph
 ```
 
-## Releasing `ngx-pass-code`
+## Releasing libraries
 
-Publishing is fully automated:
+Publishing is fully automated for both libraries:
 
 1. Commit to `main` using
    [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`,
-   `fix:`, `feat!:`, …).
+   `fix:`, `feat!:`, …). The commit's affected files determine which library
+   gets a release PR.
 2. [`release-please`](./.github/workflows/release-please.yml) opens/updates a
-   release PR that bumps `libs/ngx-pass-code/package.json` and the library
+   release PR per library, bumping the relevant `libs/<lib>/package.json` and
    `CHANGELOG.md`.
-3. Merging the release PR creates a GitHub Release + tag `ngx-pass-code@x.y.z`.
-4. The tag triggers
-   [`publish-ngx-pass-code.yml`](./.github/workflows/publish-ngx-pass-code.yml),
-   which runs `nx build ngx-pass-code --configuration=production` and
+3. Merging a release PR creates a GitHub Release + tag in the form
+   `<lib-name>@x.y.z` (e.g. `ngx-pass-code@2.0.1`,
+   `ngx-numeric-range-form-field@5.0.1`).
+4. The tag triggers the matching publish workflow —
+   [`publish-ngx-pass-code.yml`](./.github/workflows/publish-ngx-pass-code.yml)
+   or
+   [`publish-ngx-numeric-range-form-field.yml`](./.github/workflows/publish-ngx-numeric-range-form-field.yml)
+   — which runs `nx build <lib> --configuration=production` and
    `npm publish --provenance --access public` using the `NPM_TOKEN` repo secret
    (OIDC-backed provenance).
 
-See [`libs/ngx-pass-code/README.md`](./libs/ngx-pass-code/README.md) for
-consumer-facing docs.
+Consumer-facing docs:
+
+- [`libs/ngx-pass-code/README.md`](./libs/ngx-pass-code/README.md)
+- [`libs/ngx-numeric-range-form-field/README.md`](./libs/ngx-numeric-range-form-field/README.md)
 
 ## Contributing
 

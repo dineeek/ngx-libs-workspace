@@ -211,4 +211,4 @@ on the host (or anywhere in the cascade) to restyle:
 
 ## License
 
-MIT License — Copyright (c) 2022 Dino Klicek
+MIT License — Copyright (c) 2022-2026 Dino Klicek
