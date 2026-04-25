@@ -1,0 +1,90 @@
+<button
+  #trigger
+  type="button"
+  class="picker__trigger"
+  [class.picker__trigger--open]="open()"
+  [disabled]="disabled()"
+  (click)="toggle()"
+  (keydown)="onTriggerKeydown($event)"
+  role="combobox"
+  [attr.aria-expanded]="open()"
+  [attr.aria-controls]="listboxId"
+  aria-haspopup="listbox"
+  [attr.aria-label]="
+    selectedEntry()
+      ? selectedEntry()!.name + ' (+' + selectedEntry()!.dialCode + ')'
+      : 'Select country'
+  "
+>
+  @if (selectedEntry(); as entry) {
+    <ngx-phone-flag [country]="entry.iso2" [title]="entry.name" />
+    <span class="picker__dial">+{{ entry.dialCode }}</span>
+  } @else {
+    <ngx-phone-flag [country]="null" />
+    <span class="picker__dial picker__dial--placeholder">+ –</span>
+  }
+  <span class="picker__caret" aria-hidden="true">
+    <svg viewBox="0 0 12 8" width="10" height="7">
+      <path
+        d="M1 1l5 5 5-5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </span>
+</button>
+
+@if (open()) {
+  <div class="picker__popover" role="dialog" aria-label="Country picker">
+    <input
+      #searchInput
+      type="search"
+      class="picker__search"
+      [placeholder]="searchPlaceholder()"
+      [value]="searchTerm()"
+      (input)="onSearchInput($event)"
+      (keydown)="onSearchKeydown($event)"
+      autocomplete="off"
+      [attr.aria-controls]="listboxId"
+      aria-autocomplete="list"
+      [attr.aria-activedescendant]="
+        activeIndex() >= 0 ? listboxId + '-opt-' + activeIndex() : null
+      "
+    />
+
+    <ul
+      class="picker__list"
+      role="listbox"
+      [id]="listboxId"
+      [attr.aria-label]="searchPlaceholder()"
+    >
+      @if (filtered().length === 0) {
+        <li class="picker__empty" role="presentation">No matches</li>
+      }
+      @for (entry of filtered(); track entry.iso2; let i = $index) {
+        @let isActive = i === activeIndex();
+        @let isSelected = entry.iso2 === selected();
+        <li
+          #activeOption
+          [id]="listboxId + '-opt-' + i"
+          class="picker__option"
+          [class.picker__option--active]="isActive"
+          [class.picker__option--selected]="isSelected"
+          role="option"
+          tabindex="-1"
+          [attr.aria-selected]="isSelected"
+          (click)="select(entry.iso2)"
+          (keydown.enter)="select(entry.iso2)"
+          (mouseenter)="onOptionMouseEnter(i)"
+        >
+          <ngx-phone-flag [country]="entry.iso2" [title]="entry.name" />
+          <span class="picker__name">{{ entry.name }}</span>
+          <span class="picker__option-dial">+{{ entry.dialCode }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+}

@@ -25,6 +25,8 @@
     "ngx-pass-code:publish:dry-run": "pnpm nx build ngx-pass-code --configuration=production && npm publish dist/libs/ngx-pass-code --dry-run --access public",
     "ngx-numeric-range-form-field:test:ci": "pnpm jest ngx-numeric-range-form-field --coverage",
     "ngx-numeric-range-form-field:publish:dry-run": "pnpm nx build ngx-numeric-range-form-field --configuration=production && npm publish dist/libs/ngx-numeric-range-form-field --dry-run --access public",
+    "ngx-phone-form-field:test:ci": "pnpm jest ngx-phone-form-field --coverage",
+    "ngx-phone-form-field:publish:dry-run": "pnpm nx build ngx-phone-form-field --configuration=production && npm publish dist/libs/ngx-phone-form-field --dry-run --access public",
     "playground:build:prod": "nx build playground --prod --base-href ."
   },
   "private": true,
@@ -38,6 +40,8 @@
     "@angular/platform-browser-dynamic": "21.2.9",
     "@angular/router": "21.2.9",
     "@nx/angular": "22.6.5",
+    "country-flag-icons": "^1.6.16",
+    "libphonenumber-js": "^1.12.42",
     "prismjs": "^1.30.0",
     "rxjs": "7.8.2",
     "tslib": "^2.3.0",

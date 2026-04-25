@@ -1,0 +1,51 @@
+{
+  "name": "ngx-phone-form-field",
+  "version": "1.0.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": ">=21.0.0 <22.0.0",
+    "@angular/core": ">=21.0.0 <22.0.0",
+    "@angular/forms": ">=21.0.0 <22.0.0"
+  },
+  "dependencies": {
+    "country-flag-icons": "^1.6.16",
+    "libphonenumber-js": "^1.12.42",
+    "tslib": "^2.3.0"
+  },
+  "author": {
+    "name": "Dino Klicek",
+    "email": "dineeek@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dineeek/ngx-libs-workspace"
+  },
+  "description": "Angular Signal Forms international phone number input — country picker with flags, AsYouType formatting, E.164 output, custom-styled and theme-friendly.",
+  "keywords": [
+    "ng",
+    "angular",
+    "phone",
+    "tel",
+    "telephone",
+    "phone number",
+    "international",
+    "country picker",
+    "e164",
+    "form",
+    "field",
+    "form field",
+    "signal forms",
+    "form value control",
+    "custom control",
+    "library",
+    "ngx"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-phone-form-field/README.md",
+  "bugs": {
+    "url": "https://github.com/dineeek/ngx-libs-workspace/issues"
+  }
+}

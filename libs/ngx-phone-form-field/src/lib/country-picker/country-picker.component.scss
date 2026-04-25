@@ -1,0 +1,157 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+.picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px 0 2px;
+  margin: -4px 0;
+  height: calc(var(--ngx-pff-font-size) * 1.6 + 8px);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--ngx-pff-border-color);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  border-radius: 0;
+  transition: background-color 0.1s ease;
+}
+
+.picker__trigger:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.picker__trigger:focus-visible {
+  background: rgba(0, 0, 0, 0.05);
+  outline: 2px solid var(--ngx-pff-focus-color);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+
+.picker__trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.picker__dial {
+  font-feature-settings: 'tnum' 1;
+  font-size: 0.95em;
+  white-space: nowrap;
+  color: var(--ngx-pff-text-color);
+}
+
+.picker__dial--placeholder {
+  color: var(--ngx-pff-placeholder-color);
+}
+
+.picker__caret {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ngx-pff-label-color);
+  transition: transform 0.15s ease;
+}
+
+.picker__trigger--open .picker__caret {
+  transform: rotate(180deg);
+}
+
+.picker__popover {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 6px);
+  left: 0;
+  width: max(280px, 100%);
+  max-height: var(--ngx-pff-popover-max-height);
+  display: flex;
+  flex-direction: column;
+  background: var(--ngx-pff-popover-background);
+  border: 1px solid var(--ngx-pff-border-color);
+  border-radius: var(--ngx-pff-radius);
+  box-shadow: var(--ngx-pff-popover-shadow);
+  overflow: hidden;
+}
+
+.picker__search {
+  flex: none;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--ngx-pff-border-color);
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  outline: none;
+}
+
+.picker__search:focus {
+  border-bottom-color: var(--ngx-pff-focus-color);
+}
+
+.picker__list {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.picker__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  cursor: pointer;
+  font-size: 0.95em;
+  color: var(--ngx-pff-text-color);
+}
+
+.picker__option--active {
+  background: color-mix(in srgb, var(--ngx-pff-focus-color) 10%, transparent);
+}
+
+.picker__option--selected {
+  font-weight: 600;
+}
+
+.picker__option--selected::after {
+  content: '✓';
+  margin-left: auto;
+  color: var(--ngx-pff-focus-color);
+  font-weight: 700;
+}
+
+.picker__option ngx-phone-flag {
+  --ngx-pff-flag-width: 1.4em;
+}
+
+.picker__name {
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.picker__option-dial {
+  flex: none;
+  color: var(--ngx-pff-label-color);
+  font-feature-settings: 'tnum' 1;
+}
+
+.picker__option--selected .picker__option-dial {
+  color: var(--ngx-pff-text-color);
+}
+
+.picker__empty {
+  padding: 12px 14px;
+  font-size: 0.9em;
+  color: var(--ngx-pff-placeholder-color);
+}
+
+.picker__trigger ngx-phone-flag {
+  --ngx-pff-flag-width: 1.4em;
+}
