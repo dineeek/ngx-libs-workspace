@@ -19,7 +19,8 @@ export type TimeRangeBounds = {
  * consumer-supplied bounds. A value on either side earlier than `bounds.min`
  * emits `{ kind: 'min' }`; a value later than `bounds.max` emits
  * `{ kind: 'max' }`. `null` on either side is treated as "not yet set" and
- * passes. Comparison is lexicographic (exact for zero-padded times).
+ * passes. Mixed-precision strings are normalised to `HH:mm:ss` before
+ * comparison, so bounds like `min: '09:00'` work for `'09:00:00'` values.
  */
 export function timeRangeBounds<
   TValue extends ITimeRange | null | undefined,
@@ -34,6 +35,11 @@ export function timeRangeBounds<
       return null
     }
 
+    const minBound =
+      bounds.min === undefined ? undefined : toComparable(bounds.min)
+    const maxBound =
+      bounds.max === undefined ? undefined : toComparable(bounds.max)
+
     const sides: ReadonlyArray<{
       label: 'Start' | 'End'
       value: string | null
@@ -45,15 +51,16 @@ export function timeRangeBounds<
 
     for (const side of sides) {
       if (side.value === null) continue
+      const candidate = toComparable(side.value)
 
-      if (bounds.min !== undefined && side.value < bounds.min) {
+      if (minBound !== undefined && candidate < minBound) {
         errors.push({
           kind: 'min',
           message: `${side.label} must be at or after ${bounds.min}`
         } as ValidationError.WithoutFieldTree)
       }
 
-      if (bounds.max !== undefined && side.value > bounds.max) {
+      if (maxBound !== undefined && candidate > maxBound) {
         errors.push({
           kind: 'max',
           message: `${side.label} must be at or before ${bounds.max}`
@@ -63,4 +70,8 @@ export function timeRangeBounds<
 
     return errors.length ? errors : null
   })
+}
+
+function toComparable(t: string): string {
+  return t.length === 5 ? `${t}:00` : t
 }

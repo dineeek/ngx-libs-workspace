@@ -9,8 +9,9 @@ import { ITimeRange } from '../time-range.model'
 
 /**
  * Signal Forms validator that flags a time range whose end is earlier than
- * its start. No-op when either side is `null`. Comparison is lexicographic,
- * which is exact for zero-padded `HH:mm` / `HH:mm:ss` values.
+ * its start. No-op when either side is `null`. Mixed-precision values are
+ * normalised to `HH:mm:ss` first so a bare `'17:00'` compares equal to
+ * `'17:00:00'`.
  */
 export function timeRangeOrderValid<
   TValue extends ITimeRange | null | undefined,
@@ -27,7 +28,7 @@ export function timeRangeOrderValid<
       return null
     }
 
-    if (end < start) {
+    if (toComparable(end) < toComparable(start)) {
       return {
         kind: 'invalidRange',
         message: 'End must be at or after start'
@@ -36,4 +37,8 @@ export function timeRangeOrderValid<
 
     return null
   })
+}
+
+function toComparable(t: string): string {
+  return t.length === 5 ? `${t}:00` : t
 }
