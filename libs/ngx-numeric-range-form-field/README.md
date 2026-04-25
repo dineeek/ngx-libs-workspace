@@ -5,6 +5,8 @@ number inputs (minimum, maximum) exposed as a single value. Built on **Angular
 21 Signal Forms** (`FormValueControl`) with no `ControlValueAccessor`, no
 Angular Material, no third-party runtime dependencies.
 
+![ngx-numeric-range-form-field](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/ngx-numeric-range-form-field-example.png)
+
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-numeric-range-form-field"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-numeric-range-form-field.svg?style=flat-square"></a>
     <a href="https://www.npmjs.com/package/ngx-numeric-range-form-field"><img alt="npm version" src="https://img.shields.io/npm/v/ngx-numeric-range-form-field.svg?style=flat-square"></a>
