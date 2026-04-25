@@ -1,82 +1,94 @@
 <section class="hero">
-  <p class="hero__eyebrow">Angular · Signal Forms</p>
-  <h1 class="hero__title">ngx-pass-code</h1>
+  <p class="hero__eyebrow">Angular · Signal Forms · Standalone</p>
+  <h1 class="hero__title">ngx-libs-workspace</h1>
   <p class="hero__tagline">
-    Reactive Angular custom form control for OTP / pass-code input — one box per
-    character, with validation, autofocus and autoblur. Built for Angular 21
-    Signal Forms.
+    A small family of reactive Angular form controls built on
+    <code>@angular/forms/signals</code>. Plug & play with
+    <code>FormValueControl</code> and <code>[formField]</code>. No Angular
+    Material, no CDK, no <code>ControlValueAccessor</code> — just standalone
+    components themed via CSS custom properties.
   </p>
-
-  <div class="hero__ctas">
-    <a class="btn btn--primary" routerLink="/ngx-pass-code"> Try the demo → </a>
-    <button
-      type="button"
-      class="btn btn--code"
-      (click)="copyInstall()"
-      [attr.aria-label]="'Copy install command'"
-    >
-      <code>{{ installCmd }}</code>
-      <span class="btn--code__hint">Copy</span>
-    </button>
+  <p class="hero__meta">
     <a
-      class="hero__npm"
-      [href]="npmUrl"
+      class="hero__link"
+      href="https://github.com/dineeek/ngx-libs-workspace"
       target="_blank"
       rel="noopener noreferrer"
     >
-      View on npm ↗
+      View on GitHub ↗
     </a>
-  </div>
+    <span class="hero__sep">·</span>
+    <span class="hero__compat">Angular 21</span>
+  </p>
 </section>
 
-<section class="preview">
-  <img
-    src="assets/ngx_pass_code_example.gif"
-    alt="Animated preview of the ngx-pass-code input component"
-    class="preview__gif"
-    loading="lazy"
-  />
+<section class="libs">
+  @for (lib of libs; track lib.name) {
+    <article class="lib">
+      <a class="lib__preview" [routerLink]="lib.route">
+        <img [src]="lib.preview" [alt]="lib.name + ' preview'" loading="lazy" />
+      </a>
+
+      <div class="lib__body">
+        <header class="lib__head">
+          <a class="lib__name" [routerLink]="lib.route">{{ lib.name }}</a>
+          <ul class="lib__badges">
+            @for (b of lib.bullets; track b) {
+              <li class="lib__badge">{{ b }}</li>
+            }
+          </ul>
+        </header>
+
+        <p class="lib__tagline">{{ lib.tagline }}</p>
+
+        <div class="lib__cta">
+          <a class="lib__btn lib__btn--primary" [routerLink]="lib.route">
+            Try the demo →
+          </a>
+          <button
+            type="button"
+            class="lib__btn lib__btn--code"
+            (click)="copyInstall(lib.npm)"
+            [attr.aria-label]="'Copy install command for ' + lib.npm"
+          >
+            <code>{{ 'npm install ' + lib.npm }}</code>
+            <span class="lib__btn-hint">
+              {{ copiedNpm() === lib.npm ? '✓ copied' : 'Copy' }}
+            </span>
+          </button>
+          <a
+            class="lib__npm"
+            [href]="lib.npmUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            npm ↗
+          </a>
+        </div>
+      </div>
+    </article>
+  }
 </section>
 
-<section class="features">
-  <h2 class="features__title">What you get</h2>
-  <ul class="features__list">
-    <li>One input box per character with auto next / previous navigation</li>
-    <li>Plugs into Angular <code>form()</code> via <code>[formField]</code></li>
+<section class="shared">
+  <h2 class="shared__title">What every lib in here gives you</h2>
+  <ul class="shared__list">
     <li>
-      Schema-driven validation (<code>required</code>, <code>pattern</code>,
-      <code>validate</code>)
+      Plugs into <code>@angular/forms/signals</code> via
+      <code>FormValueControl</code> + <code>[formField]</code>
     </li>
     <li>
-      Autofocus first input, autoblur last, <code>type=password</code> masking
+      Schema-driven validation (<code>required</code>, <code>readonly</code>,
+      <code>disabled</code>, <code>validate</code>, …) owned by the consumer's
+      <code>form()</code>
     </li>
-    <li>Standalone, tree-shakable, zero runtime dependencies</li>
+    <li>
+      Custom outlined styling — restyle via CSS custom properties without
+      <code>::ng-deep</code>
+    </li>
+    <li>
+      Standalone components, tree-shakable (<code>sideEffects: false</code>)
+    </li>
+    <li>OnPush change detection, signal-based inputs end-to-end</li>
   </ul>
-</section>
-
-<section class="more-libs">
-  <h2 class="more-libs__title">More from this workspace</h2>
-  <a class="lib-card" routerLink="/ngx-numeric-range-form-field">
-    <div class="lib-card__head">
-      <span class="lib-card__name">ngx-numeric-range-form-field</span>
-      <span class="lib-card__arrow">→</span>
-    </div>
-    <p class="lib-card__desc">
-      Signal-Forms numeric range input — two number fields share a composite
-      value, plug into <code>[formField]</code>, and ship with four composable
-      validator helpers. Zero runtime dependencies.
-    </p>
-  </a>
-
-  <a class="lib-card" routerLink="/ngx-phone-form-field">
-    <div class="lib-card__head">
-      <span class="lib-card__name">ngx-phone-form-field</span>
-      <span class="lib-card__arrow">→</span>
-    </div>
-    <p class="lib-card__desc">
-      Signal-Forms international phone input — country picker with flags +
-      national-number input, AsYouType formatting, E.164 output. Powered by
-      <code>libphonenumber-js</code>.
-    </p>
-  </a>
 </section>
