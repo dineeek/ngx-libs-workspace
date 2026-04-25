@@ -107,18 +107,37 @@ both are present. Validation rules (`passCodeComplete`, `pattern`, custom
 
 All inputs are signal inputs (`input()`):
 
-| Input       | Type                               | Default  | Description                                                                                 |
-| ----------- | ---------------------------------- | -------- | ------------------------------------------------------------------------------------------- |
-| `length`    | `number` (required)                | —        | Number of individual input boxes to render.                                                 |
-| `type`      | `'text' \| 'number' \| 'password'` | `'text'` | Input type. `'password'` hides inserted characters. Used to cast the emitted control value. |
-| `uppercase` | `boolean`                          | `false`  | Uppercase-transform displayed value and control value.                                      |
-| `autofocus` | `boolean`                          | `false`  | Focus the first input on render.                                                            |
-| `autoblur`  | `boolean`                          | `false`  | Remove focus from the last input once it is filled.                                         |
+| Input          | Type                                                                                  | Default  | Description                                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `length`       | `number` (required)                                                                   | —        | Number of individual input boxes to render.                                                                                                            |
+| `type`         | `'text' \| 'number' \| 'password'`                                                    | `'text'` | Input type. `'password'` hides inserted characters. Used to cast the emitted control value.                                                            |
+| `uppercase`    | `boolean`                                                                             | `false`  | Uppercase-transform displayed value and control value.                                                                                                 |
+| `autofocus`    | `boolean`                                                                             | `false`  | Focus the first input on render.                                                                                                                       |
+| `autoblur`     | `boolean`                                                                             | `false`  | Remove focus from the last input once it is filled.                                                                                                    |
+| `autocomplete` | `string`                                                                              | `''`     | Mirrored to the `autocomplete` attribute on every slot. Use `'one-time-code'` to opt into Safari/iOS SMS-OTP autofill. Empty string = no attribute.    |
+| `inputmode`    | `'text' \| 'numeric' \| 'decimal' \| 'tel' \| 'search' \| 'email' \| 'url' \| 'none'` | `''`     | Mirrored to the `inputmode` attribute on every slot. Use `'numeric'` to get the digits-only on-screen keyboard on mobile. Empty string = no attribute. |
 
 The `value` (model signal), `touched` (model signal), `disabled`, and `errors`
 properties are bound automatically by the `[formField]` directive from the
 parent `form()`. You can still bind `[(value)]` directly if you are not using
 Signal Forms.
+
+### SMS one-time-code autofill
+
+```html
+<ngx-pass-code
+  [formField]="codeForm"
+  [length]="6"
+  type="text"
+  inputmode="numeric"
+  autocomplete="one-time-code"
+/>
+```
+
+`autocomplete="one-time-code"` lets Safari/iOS surface the OTP straight from the
+SMS notification. Pair with `inputmode="numeric"` on mobile to get the digit
+keypad without forcing `type="number"` (which drops leading zeros — see note
+below).
 
 ## Validation
 

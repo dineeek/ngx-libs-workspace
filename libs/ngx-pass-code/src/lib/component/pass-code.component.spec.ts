@@ -16,6 +16,16 @@ import {
 import { PassCodeComponent } from './pass-code.component'
 
 type Type = 'text' | 'number' | 'password'
+type InputMode =
+  | 'text'
+  | 'numeric'
+  | 'decimal'
+  | 'tel'
+  | 'search'
+  | 'email'
+  | 'url'
+  | 'none'
+  | ''
 
 @Component({
   standalone: true,
@@ -30,6 +40,8 @@ type Type = 'text' | 'number' | 'password'
       [autoblur]="autoblur()"
       [disabled]="disabled()"
       [errors]="errors()"
+      [autocomplete]="autocomplete()"
+      [inputmode]="inputmode()"
       [(touched)]="touched"
     />
   `,
@@ -45,6 +57,8 @@ class DirectHostComponent {
   autoblur = signal(false)
   disabled = signal(false)
   errors = signal<readonly ValidationError.WithOptionalFieldTree[]>([])
+  autocomplete = signal('')
+  inputmode = signal<InputMode>('')
 }
 
 @Component({
@@ -210,6 +224,40 @@ describe('PassCodeComponent — static configuration', () => {
     const fixture = createDirect(h => h.length.set(0))
     expect(inputsOf(fixture)).toHaveLength(0)
     expect(fixture.componentInstance.value()).toBeNull()
+  })
+
+  it('omits autocomplete attribute when input is empty (default)', () => {
+    const fixture = createDirect(h => h.length.set(3))
+    for (const el of inputsOf(fixture)) {
+      expect(el.hasAttribute('autocomplete')).toBe(false)
+    }
+  })
+
+  it('propagates autocomplete to every slot when set', () => {
+    const fixture = createDirect(h => {
+      h.length.set(3)
+      h.autocomplete.set('one-time-code')
+    })
+    for (const el of inputsOf(fixture)) {
+      expect(el.getAttribute('autocomplete')).toBe('one-time-code')
+    }
+  })
+
+  it('omits inputmode attribute when input is empty (default)', () => {
+    const fixture = createDirect(h => h.length.set(3))
+    for (const el of inputsOf(fixture)) {
+      expect(el.hasAttribute('inputmode')).toBe(false)
+    }
+  })
+
+  it('propagates inputmode to every slot when set', () => {
+    const fixture = createDirect(h => {
+      h.length.set(3)
+      h.inputmode.set('numeric')
+    })
+    for (const el of inputsOf(fixture)) {
+      expect(el.getAttribute('inputmode')).toBe('numeric')
+    }
   })
 })
 

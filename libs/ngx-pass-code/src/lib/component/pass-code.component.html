@@ -17,6 +17,8 @@
       [uppercase]="uppercase()"
       [disabled]="disabled()"
       [class.invalid-input]="isInvalid()"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.inputmode]="inputmode() || null"
       maxlength="1"
       focusNextPreviousInput
       transformInputValue

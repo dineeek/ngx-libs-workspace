@@ -18,6 +18,16 @@ import { TransformInputValueDirective } from '../directives/transform-uppercase.
 
 type PassCodeType = 'text' | 'number' | 'password'
 type PassCodeValue = string | number | null
+type PassCodeInputMode =
+  | 'text'
+  | 'numeric'
+  | 'decimal'
+  | 'tel'
+  | 'search'
+  | 'email'
+  | 'url'
+  | 'none'
+  | ''
 
 @Component({
   selector: 'ngx-pass-code',
@@ -36,6 +46,8 @@ export class PassCodeComponent implements FormValueControl<PassCodeValue> {
   readonly uppercase = input(false)
   readonly autofocus = input(false)
   readonly autoblur = input(false)
+  readonly autocomplete = input<string>('')
+  readonly inputmode = input<PassCodeInputMode>('')
 
   readonly value = model<PassCodeValue>(null)
   readonly disabled = input(false)
