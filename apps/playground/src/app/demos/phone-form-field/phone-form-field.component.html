@@ -1,0 +1,196 @@
+<a class="back-link" routerLink="/">← Back to home</a>
+
+<header class="demo-header">
+  <h1 class="demo-header__title">ngx-phone-form-field demo</h1>
+  <p class="demo-header__tagline">
+    International phone number input built on Angular 21
+    <code>@angular/forms/signals</code>. Country picker (with flags + search)
+    and national-number input share a single E.164 string value via
+    <code>[formField]</code>. AsYouType formatting via
+    <code>libphonenumber-js/max</code>. No <code>ControlValueAccessor</code>, no
+    Angular Material.
+  </p>
+</header>
+
+<section class="demo-grid">
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Basic phone</h2>
+      <p class="demo-card__sub">
+        All countries available, auto-detected initial country. Validator:
+        <code>phoneValid(p)</code>.
+      </p>
+      <ul class="badges">
+        @for (b of basicBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-phone-form-field
+        [formField]="basicForm"
+        label="Mobile number"
+        initialCountry="US"
+      ></ngx-phone-form-field>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="basicForm().valid()"
+        [class.chip--err]="!basicForm().valid()"
+      >
+        {{ basicForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="basicForm().touched()"
+        [class.chip--muted]="!basicForm().touched()"
+      >
+        {{ basicForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ basicValue() | json }}</li>
+    </ul>
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetBasic()">Reset</button>
+      <button type="button" (click)="patchBasicUS()">Set US number</button>
+      <button type="button" (click)="patchBasicUK()">Set UK number</button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="basicSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Restricted countries</h2>
+      <p class="demo-card__sub">
+        Country picker shows only {{ subsetExampleCount }} curated countries.
+        <code>phoneCountryIn(p, allowed)</code> rejects numbers from anywhere
+        else. Try the "Set Italy number" button to see the rejection.
+      </p>
+      <ul class="badges">
+        @for (b of restrictedBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-phone-form-field
+        [formField]="restrictedForm"
+        [countries]="restrictedCountries"
+        label="Phone (US, GB, DE, FR, JP, HR)"
+        initialCountry="GB"
+      ></ngx-phone-form-field>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="restrictedForm().valid()"
+        [class.chip--err]="!restrictedForm().valid()"
+      >
+        {{ restrictedForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="restrictedForm().touched()"
+        [class.chip--muted]="!restrictedForm().touched()"
+      >
+        {{ restrictedForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ restrictedValue() | json }}</li>
+    </ul>
+
+    @if (restrictedForm().touched() && restrictedForm().errors().length) {
+      <ul class="error-list">
+        @for (err of restrictedForm().errors(); track $index) {
+          <li>{{ err.message || err.kind }}</li>
+        }
+      </ul>
+    }
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetRestricted()">Reset</button>
+      <button type="button" (click)="setRestrictedAllowed()">
+        Set UK number
+      </button>
+      <button type="button" (click)="setRestrictedDisallowed()">
+        Set Italy number
+      </button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="restrictedSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Mobile-only</h2>
+      <p class="demo-card__sub">
+        <code>required(p)</code> + <code>phoneValid(p)</code> +
+        <code>phoneTypeIn(p, ['MOBILE'])</code>. Try the landline button — it
+        validates as a phone number but fails the mobile-only check.
+      </p>
+      <ul class="badges">
+        @for (b of mobileBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-phone-form-field
+        [formField]="mobileForm"
+        label="Mobile only"
+        initialCountry="GB"
+      ></ngx-phone-form-field>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="mobileForm().valid()"
+        [class.chip--err]="!mobileForm().valid()"
+      >
+        {{ mobileForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="mobileForm().touched()"
+        [class.chip--muted]="!mobileForm().touched()"
+      >
+        {{ mobileForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ mobileValue() | json }}</li>
+    </ul>
+
+    @if (mobileForm().touched() && mobileForm().errors().length) {
+      <ul class="error-list">
+        @for (err of mobileForm().errors(); track $index) {
+          <li>{{ err.message || err.kind }}</li>
+        }
+      </ul>
+    }
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetMobile()">Reset</button>
+      <button type="button" (click)="setMobileMobile()">Set UK mobile</button>
+      <button type="button" (click)="setMobileLandline()">
+        Set UK landline
+      </button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="mobileSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+</section>

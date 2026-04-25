@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { HomeComponent } from './home/home.component'
 import { PassCodeDemoComponent } from './demos/pass-code/pass-code.component'
 import { NumericRangeFormFieldDemoComponent } from './demos/numeric-range-form-field/numeric-range-form-field.component'
+import { PhoneFormFieldDemoComponent } from './demos/phone-form-field/phone-form-field.component'
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -11,6 +12,7 @@ const routes: Routes = [
     path: 'ngx-numeric-range-form-field',
     component: NumericRangeFormFieldDemoComponent
   },
+  { path: 'ngx-phone-form-field', component: PhoneFormFieldDemoComponent },
   { path: '**', redirectTo: '' }
 ]
 
