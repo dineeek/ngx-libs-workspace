@@ -33,6 +33,13 @@
       "include-v-in-tag": false,
       "changelog-path": "CHANGELOG.md",
       "extra-files": []
+    },
+    "libs/ngx-overflow-tooltip": {
+      "package-name": "ngx-overflow-tooltip",
+      "tag-separator": "@",
+      "include-v-in-tag": false,
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": []
     }
   }
 }
