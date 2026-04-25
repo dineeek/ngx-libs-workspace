@@ -128,5 +128,7 @@ function toNumberOrNull(raw: string): number | null {
     return null
   }
   const parsed = Number(raw)
-  return Number.isNaN(parsed) ? null : parsed
+  // Reject NaN *and* ±Infinity — `Number.isNaN(Infinity) === false` so the
+  // previous check let `Infinity` through as a real range bound.
+  return Number.isFinite(parsed) ? parsed : null
 }

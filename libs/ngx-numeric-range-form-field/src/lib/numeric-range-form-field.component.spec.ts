@@ -166,6 +166,22 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     })
   })
 
+  it('rejects Infinity as input — emits null for that side', () => {
+    const fixture = createDirect()
+    const [min] = inputsOf(fixture)
+    typeInto(min, 'Infinity')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toBeNull()
+  })
+
+  it('rejects -Infinity as input — emits null for that side', () => {
+    const fixture = createDirect()
+    const [, max] = inputsOf(fixture)
+    typeInto(max, '-Infinity')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toBeNull()
+  })
+
   it('emits null when both inputs are cleared', () => {
     const fixture = createDirect(h => h.value.set({ minimum: 1, maximum: 2 }))
     const [min, max] = inputsOf(fixture)
