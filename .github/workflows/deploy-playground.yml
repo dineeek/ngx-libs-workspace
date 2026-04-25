@@ -31,6 +31,9 @@ jobs:
 
       - run: pnpm playground:build:prod
 
+      - name: Copy index.html to 404.html for SPA fallback
+        run: cp dist/apps/playground/index.html dist/apps/playground/404.html
+
       - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v5
