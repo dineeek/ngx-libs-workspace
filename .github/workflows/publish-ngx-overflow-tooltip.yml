@@ -1,0 +1,48 @@
+name: publish ngx-overflow-tooltip
+
+on:
+  push:
+    tags:
+      - 'ngx-overflow-tooltip@*'
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Publish as dry-run (no upload to npm)'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-ngx-overflow-tooltip
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm nx build ngx-overflow-tooltip --configuration=production
+
+      - name: Publish to npm
+        working-directory: dist/libs/ngx-overflow-tooltip
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DRY_RUN_FLAG:
+            ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run ==
+            true && '--dry-run' || '' }}
+        run: npm publish --provenance --access public $DRY_RUN_FLAG

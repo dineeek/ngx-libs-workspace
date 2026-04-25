@@ -160,7 +160,7 @@ pnpm nx graph
 
 ## Releasing libraries
 
-Publishing is fully automated for all three libraries:
+Publishing is fully automated for every library in this workspace:
 
 1. Commit to `main` using
    [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`,
@@ -175,6 +175,8 @@ Publishing is fully automated for all three libraries:
    - [`publish-ngx-pass-code.yml`](./.github/workflows/publish-ngx-pass-code.yml)
    - [`publish-ngx-numeric-range-form-field.yml`](./.github/workflows/publish-ngx-numeric-range-form-field.yml)
    - [`publish-ngx-phone-form-field.yml`](./.github/workflows/publish-ngx-phone-form-field.yml)
+   - [`publish-ngx-time-range-form-field.yml`](./.github/workflows/publish-ngx-time-range-form-field.yml)
+   - [`publish-ngx-overflow-tooltip.yml`](./.github/workflows/publish-ngx-overflow-tooltip.yml)
 
    Each runs `nx build <lib> --configuration=production` and
    `npm publish --provenance --access public` using the `NPM_TOKEN` repo secret
