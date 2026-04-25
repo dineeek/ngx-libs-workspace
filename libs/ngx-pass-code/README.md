@@ -139,6 +139,37 @@ SMS notification. Pair with `inputmode="numeric"` on mobile to get the digit
 keypad without forcing `type="number"` (which drops leading zeros — see note
 below).
 
+## Theming
+
+All visual properties of the slot inputs are exposed as CSS custom properties on
+the component host. Override them with any CSS selector that targets
+`ngx-pass-code` — no `::ng-deep` needed.
+
+| Custom property                  | Default                               |
+| -------------------------------- | ------------------------------------- |
+| `--ngx-pass-code-slot-width`     | `44px`                                |
+| `--ngx-pass-code-slot-min-width` | `32px`                                |
+| `--ngx-pass-code-slot-height`    | `54px`                                |
+| `--ngx-pass-code-slot-gap`       | `4px`                                 |
+| `--ngx-pass-code-slot-radius`    | `6px`                                 |
+| `--ngx-pass-code-slot-bg`        | `transparent`                         |
+| `--ngx-pass-code-color`          | `#0c0c0d`                             |
+| `--ngx-pass-code-border-color`   | `#aeaeb5`                             |
+| `--ngx-pass-code-border-width`   | `2px`                                 |
+| `--ngx-pass-code-invalid-color`  | `#b90d0d`                             |
+| `--ngx-pass-code-font-family`    | `'Helvetica Neue', Arial, sans-serif` |
+| `--ngx-pass-code-font-size`      | `1.75rem`                             |
+| `--ngx-pass-code-font-weight`    | `400`                                 |
+
+```css
+ngx-pass-code {
+  --ngx-pass-code-slot-width: 56px;
+  --ngx-pass-code-slot-height: 64px;
+  --ngx-pass-code-border-color: #4a90e2;
+  --ngx-pass-code-invalid-color: #e94e3b;
+}
+```
+
 ## Validation
 
 Validation is entirely driven by the consumer's `form()` schema. The library

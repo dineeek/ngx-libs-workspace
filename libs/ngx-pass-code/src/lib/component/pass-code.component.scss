@@ -1,4 +1,18 @@
 :host {
+  --ngx-pass-code-slot-width: 44px;
+  --ngx-pass-code-slot-min-width: 32px;
+  --ngx-pass-code-slot-height: 54px;
+  --ngx-pass-code-slot-gap: 4px;
+  --ngx-pass-code-slot-radius: 6px;
+  --ngx-pass-code-slot-bg: transparent;
+  --ngx-pass-code-color: #0c0c0d;
+  --ngx-pass-code-border-color: #aeaeb5;
+  --ngx-pass-code-border-width: 2px;
+  --ngx-pass-code-invalid-color: #b90d0d;
+  --ngx-pass-code-font-family: 'Helvetica Neue', Arial, sans-serif;
+  --ngx-pass-code-font-size: 1.75rem;
+  --ngx-pass-code-font-weight: 400;
+
   .container {
     display: flex;
     flex-flow: row nowrap;
@@ -7,41 +21,38 @@
   }
 
   input {
-    flex: 0 1 44px;
-    min-width: 32px;
-    height: 54px;
-    border-radius: 6px;
-    margin: 4px;
-    background: transparent;
+    flex: 0 1 var(--ngx-pass-code-slot-width);
+    min-width: var(--ngx-pass-code-slot-min-width);
+    height: var(--ngx-pass-code-slot-height);
+    border-radius: var(--ngx-pass-code-slot-radius);
+    margin: var(--ngx-pass-code-slot-gap);
+    background: var(--ngx-pass-code-slot-bg);
     line-height: 2.25rem;
-    font-family:
-      Helvetica Neue,
-      Arial,
-      sans-serif;
-    font-size: 1.75rem;
-    font-weight: 400;
+    font-family: var(--ngx-pass-code-font-family);
+    font-size: var(--ngx-pass-code-font-size);
+    font-weight: var(--ngx-pass-code-font-weight);
     text-align: center;
-    color: #0c0c0d;
-    border: 2px solid #aeaeb5;
+    color: var(--ngx-pass-code-color);
+    border: var(--ngx-pass-code-border-width) solid
+      var(--ngx-pass-code-border-color);
     transition: box-shadow linear 0.2s;
   }
 
   input:focus {
     outline: none;
-    box-shadow: 0 0 12px #aeaeb5;
+    box-shadow: 0 0 12px var(--ngx-pass-code-border-color);
   }
 
   .invalid-input {
-    border: 2px solid #b90d0d;
+    border-color: var(--ngx-pass-code-invalid-color);
   }
 
   .invalid-input:focus {
     outline: none;
-    border-color: #b90d0d;
-    box-shadow: 0 0 12px #b90d0d;
+    border-color: var(--ngx-pass-code-invalid-color);
+    box-shadow: 0 0 12px var(--ngx-pass-code-invalid-color);
   }
 
-  //focus - border-color: #1040c1;
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
