@@ -6,6 +6,7 @@ import {
 } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import {
+  disabled,
   form,
   FormField,
   pattern,
@@ -83,8 +84,10 @@ class FormHostComponent {
   uppercase = signal(false)
   autofocus = signal(false)
   autoblur = signal(false)
+  isDisabled = signal(false)
   codeForm = form<string | number | null>(this.value, p => {
     required(p)
+    disabled(p, () => this.isDisabled())
   })
 }
 
@@ -436,6 +439,13 @@ describe('PassCodeComponent — FormValueControl integration', () => {
     await fixture.whenStable()
     for (const el of inputsOf(fixture)) {
       expect(el.disabled).toBe(false)
+    }
+
+    fixture.componentInstance.isDisabled.set(true)
+    fixture.detectChanges()
+    await fixture.whenStable()
+    for (const el of inputsOf(fixture)) {
+      expect(el.disabled).toBe(true)
     }
   })
 
