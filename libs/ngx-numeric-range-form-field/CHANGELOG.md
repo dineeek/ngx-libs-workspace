@@ -6,6 +6,13 @@ project adheres to [Semantic Versioning](https://semver.org/). Starting with
 [release-please](https://github.com/googleapis/release-please) from
 [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [5.1.0](https://github.com/dineeek/ngx-libs-workspace/compare/ngx-numeric-range-form-field@5.0.0...ngx-numeric-range-form-field@5.1.0) (2026-04-25)
+
+
+### Features
+
+* **ngx-numeric-range-form-field:** quality-pass — fix ±Infinity, expose label/native/error-kind APIs, a11y wiring ([#44](https://github.com/dineeek/ngx-libs-workspace/issues/44)) ([783cb2c](https://github.com/dineeek/ngx-libs-workspace/commit/783cb2c3237c883828a72bed811e71177b1a84f9))
+
 ## [5.0.0] - 2026-04-24
 
 ### ⚠ BREAKING CHANGES
