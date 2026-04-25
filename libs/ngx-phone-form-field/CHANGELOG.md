@@ -8,11 +8,29 @@ entries are generated automatically by
 
 ## [1.1.0](https://github.com/dineeek/ngx-libs-workspace/compare/ngx-phone-form-field@1.0.0...ngx-phone-form-field@1.1.0) (2026-04-25)
 
+Quality-pass on top of the 1.0.0 release. See PR
+[#47](https://github.com/dineeek/ngx-libs-workspace/pull/47) for the full diff.
 
-### Features
+### Bug fixes
 
-* **ngx-phone-form-field:** introduce phone form field lib at v1.0.0 ([a1c1242](https://github.com/dineeek/ngx-libs-workspace/commit/a1c12422fc083edda13f8ea9d34d03057c7fda80))
-* **ngx-phone-form-field:** quality-pass — fix active scroll, fix unparseable display, doc accuracy ([#47](https://github.com/dineeek/ngx-libs-workspace/issues/47)) ([496a579](https://github.com/dineeek/ngx-libs-workspace/commit/496a579f3c4313bbae5fe6f639786252b8831aef))
+- Country picker scroll now follows the actually-active option during keyboard
+  navigation, instead of always targeting the first row in the list.
+- External writes that `libphonenumber-js` cannot parse (e.g. `+1abc`) no longer
+  blank the input — the national-number side strips the leading dial code as a
+  fallback so the UI stays in sync with the model.
+
+### Documentation
+
+- New "Country codes & line types" section: `CountryCode` / `NumberType` are
+  re-exported from `libphonenumber-js/max`, with a table mapping each type to
+  the inputs and validators that consume it.
+- `phoneCountryIn` JSDoc + README now disclose that unparseable input also fails
+  as `disallowedCountry`, and how to compose with `phoneValid()` to route
+  unparseable through `invalidPhone` instead.
+- Replaced the inaccurate "always a valid E.164" emission claim with the
+  accurate three-state contract: `null` / valid E.164 / partial
+  `+<dialcode><digits>` during typing.
+- Added `CHANGELOG.md` (this file) so the README's changelog link resolves.
 
 ## [1.0.0] - 2026-04-25
 
