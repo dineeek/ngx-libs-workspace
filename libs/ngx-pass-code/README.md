@@ -1,25 +1,29 @@
 # ngx-pass-code
 
-Reactive Angular custom form control for OTP / pass-code input — one box per
-character, with validation, autofocus, and autoblur.
+A reactive Angular custom form control for **OTP / pass-code** input — one box
+per character, with validation, autofocus, autoblur and paste-anywhere support.
+Built on **Angular 21 Signal Forms** (`FormValueControl`) with no
+`ControlValueAccessor`, no Angular Material, no third-party runtime
+dependencies.
 
-![Ngx_pass_code](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/ngx_pass_code_example.gif)
+![ngx-pass-code](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/screenshots/02-text-filled.png)
 
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-pass-code.svg?style=flat-square"></a>
     <a href="https://www.npmjs.com/package/ngx-pass-code"><img alt="npm version" src="https://img.shields.io/npm/v/ngx-pass-code.svg?style=flat-square"></a>
 </p>
 
+[![CI](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dineeek/ngx-libs-workspace/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/dineeek/ngx-libs-workspace/badge.svg?branch=main)](https://coveralls.io/github/dineeek/ngx-libs-workspace?branch=main)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-**[Live demo](https://dineeek.github.io/ngx-libs-workspace)** ·
+**[Live demo](https://dineeek.github.io/ngx-libs-workspace/ngx-pass-code)** ·
 **[Stackblitz](https://stackblitz.com/edit/ngx-pass-code)** ·
 **[Changelog](./CHANGELOG.md)**
 
 ## Features
 
-- Individual character input box
+- One input box per character
 - Plug & play with Angular **Signal Forms** via `FormValueControl`
   (`[formField]`)
 - Ships `passCodeComplete(path, length)` — opinionated exact-length validator
@@ -29,22 +33,26 @@ character, with validation, autofocus, and autoblur.
 - Keyboard navigation: auto next/previous, backspace, arrow keys
 - Paste anywhere — fills left-to-right, sanitizes per `type`, truncates to
   `length`, focuses the first empty slot (or blurs when `autoblur`)
-- Autofocus first input, autoblur last input
+- Autofocus the first input, autoblur the last input on completion
+- Three input modes: `text`, `number`, `password` (masked)
 - Standalone component — no NgModule required in consumer apps
 - Tree-shakable (`sideEffects: false`)
-- No 3rd-party runtime dependencies
+- Zero runtime dependencies
 
 > `@angular/forms/signals` is marked `@experimental 21.0.0`. Consumers of
 > `ngx-pass-code@2.x` adopt the same experimental surface.
+
+## At a glance
+
+|                                                                                                                                           |                                                                                                                                               |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Empty (autofocused)**<br/>![empty](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/screenshots/01-empty.png) | **Text code**<br/>![text](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/screenshots/02-text-filled.png)          |
+| **Number PIN**<br/>![number](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/screenshots/03-number.png)        | **Password (masked)**<br/>![password](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/screenshots/04-password.png) |
 
 ## Install
 
 ```shell
 npm install ngx-pass-code
-# or
-pnpm add ngx-pass-code
-# or
-yarn add ngx-pass-code
 ```
 
 ## Angular compatibility
@@ -112,12 +120,14 @@ properties are bound automatically by the `[formField]` directive from the
 parent `form()`. You can still bind `[(value)]` directly if you are not using
 Signal Forms.
 
-### Validation
+## Validation
 
 Validation is entirely driven by the consumer's `form()` schema. The library
 ships `passCodeComplete(path, length)` for the common "every slot must be
 filled" rule — Signal Forms' `required` only checks non-nullish, so a partially
 filled control would otherwise report `Valid`.
+
+![incomplete state](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-pass-code/screenshots/05-incomplete.png)
 
 ```typescript
 import { passCodeComplete } from 'ngx-pass-code'
