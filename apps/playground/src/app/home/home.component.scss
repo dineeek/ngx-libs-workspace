@@ -133,12 +133,22 @@
   gap: 6px;
 }
 
+.lib__head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
 .lib__name {
   font-family: var(--font-mono);
   font-size: 18px;
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.01em;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .lib__name:hover {
@@ -239,9 +249,10 @@
 }
 
 .lib__npm {
+  flex: 0 0 auto;
   font-size: 13px;
   color: var(--text-muted);
-  margin-left: auto;
+  white-space: nowrap;
 }
 
 .lib__npm:hover {
@@ -321,10 +332,5 @@
     word-break: break-all;
     overflow-wrap: anywhere;
     min-width: 0;
-  }
-
-  .lib__npm {
-    margin-left: 0;
-    text-align: center;
   }
 }

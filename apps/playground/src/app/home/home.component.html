@@ -31,7 +31,17 @@
 
       <div class="lib__body">
         <header class="lib__head">
-          <a class="lib__name" [routerLink]="lib.route">{{ lib.name }}</a>
+          <div class="lib__head-row">
+            <a class="lib__name" [routerLink]="lib.route">{{ lib.name }}</a>
+            <a
+              class="lib__npm"
+              [href]="lib.npmUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              npm ↗
+            </a>
+          </div>
           <ul class="lib__badges">
             @for (b of lib.bullets; track b) {
               <li class="lib__badge">{{ b }}</li>
@@ -56,14 +66,6 @@
               {{ copiedNpm() === lib.npm ? '✓ copied' : 'Copy' }}
             </span>
           </button>
-          <a
-            class="lib__npm"
-            [href]="lib.npmUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            npm ↗
-          </a>
         </div>
       </div>
     </article>
