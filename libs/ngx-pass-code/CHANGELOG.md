@@ -8,10 +8,49 @@ are generated automatically by
 
 ## [2.1.0](https://github.com/dineeek/ngx-libs-workspace/compare/ngx-pass-code@2.0.0...ngx-pass-code@2.1.0) (2026-04-25)
 
+Quality pass — adoption-focused additions plus a few internal cleanups
+([#48](https://github.com/dineeek/ngx-libs-workspace/pull/48)).
 
-### Features
+### Added
 
-* **ngx-pass-code:** quality-pass — autofill, theming, tests, docs ([#48](https://github.com/dineeek/ngx-libs-workspace/issues/48)) ([d84255f](https://github.com/dineeek/ngx-libs-workspace/commit/d84255f173fe3404d15584d0cb3501596dd9bd76))
+- `autocomplete` input mirrored to every slot. Set
+  `autocomplete="one-time-code"` to opt into Safari/iOS SMS one-time-code
+  autofill. Defaults to `''` (attribute omitted).
+- `inputmode` input mirrored to every slot. Set `inputmode="numeric"` to get the
+  digit-only on-screen keyboard on mobile without forcing `type="number"`.
+  Defaults to `''` (attribute omitted).
+- CSS custom properties for theming:
+  `--ngx-pass-code-slot-{width,min-width, height,gap,radius,bg}`,
+  `--ngx-pass-code-{color,border-color,border-width, invalid-color,font-family,font-size,font-weight}`.
+  Defaults preserve the existing visuals exactly.
+- Public-directives section in the README + a numeric-mode caveat documenting
+  that `type="number"` drops leading zeros, with the recommended
+  `type="text" + inputmode="numeric"` workaround.
+
+### Fixed
+
+- Replaced the inline `onclick="select()"` slot handler with a typed Angular
+  `(click)` binding that calls `select()` on the target input — playing nicely
+  with zone-less change detection and component testing.
+
+### Tests
+
+- Added standalone specs for `passCodeComplete` (incomplete vs valid across
+  null, short, exact, long values; reactive updates),
+  `FocusNextPreviousInputDirective` (next/prev focus, autoblur, Tab/Space edges,
+  `type="number"` keydown clear), and `TransformInputValueDirective`
+  (`text-transform` toggle).
+- Fixed the form-integration "disabled propagation" spec, which previously
+  asserted `false` and never bound `disabled()` into the schema. It now wires
+  `disabled(p, …)` and verifies that flipping the source signal disables every
+  slot.
+
+### Misc
+
+- Renamed `transform-uppercase.directive.ts` →
+  `transform-input-value.directive.ts` so the file name lines up with the
+  selector / class. Public API (`TransformInputValueDirective` from
+  `ngx-pass-code`) is unchanged.
 
 ## [2.0.0] - 2026-04-18
 
