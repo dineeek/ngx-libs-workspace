@@ -2,6 +2,11 @@
   "libs/ngx-pass-code": "2.1.0",
   "libs/ngx-numeric-range-form-field": "5.1.0",
   "libs/ngx-phone-form-field": "1.1.0",
+<<<<<<< HEAD
+  "libs/ngx-time-range-form-field": "0.1.0",
+  "libs/ngx-overflow-tooltip": "0.1.1"
+=======
   "libs/ngx-time-range-form-field": "0.1.1",
   "libs/ngx-overflow-tooltip": "0.1.0"
+>>>>>>> origin/main
 }
