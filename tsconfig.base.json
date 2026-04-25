@@ -22,7 +22,8 @@
       "ngx-phone-form-field": ["libs/ngx-phone-form-field/src/index.ts"],
       "ngx-time-range-form-field": [
         "libs/ngx-time-range-form-field/src/index.ts"
-      ]
+      ],
+      "ngx-overflow-tooltip": ["libs/ngx-overflow-tooltip/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
