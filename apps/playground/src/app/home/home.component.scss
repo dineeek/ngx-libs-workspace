@@ -178,6 +178,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .lib__btn {
@@ -192,6 +193,8 @@
   font-size: 13px;
   cursor: pointer;
   white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
   transition:
     background 0.1s ease,
     border-color 0.1s ease,
@@ -300,6 +303,24 @@
   .lib__cta {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .lib__btn {
+    justify-content: center;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .lib__btn--code {
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .lib__btn--code code {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    min-width: 0;
   }
 
   .lib__npm {
