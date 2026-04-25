@@ -360,6 +360,17 @@ describe('PhoneFormFieldComponent — direct binding', () => {
     expect(fixture.componentInstance.value()).toBeNull()
   })
 
+  it('keeps a stripped fallback in the input when an external value cannot be parsed', () => {
+    const fixture = createDirect()
+    // Externally write a value libphonenumber-js cannot parse.
+    fixture.componentInstance.value.set('+1abc')
+    fixture.detectChanges()
+    // The input should NOT be blank — the previous behaviour was to clear
+    // it whenever parsing failed, leaving the model populated but the UI
+    // empty.
+    expect(numberInput(fixture).value).toBe('abc')
+  })
+
   it('clears the displayed input when the model is externally set to null', () => {
     const fixture = createDirect()
     typeInto(numberInput(fixture), '2015550123')
