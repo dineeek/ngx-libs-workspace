@@ -11,7 +11,7 @@
       (input)="onSlotInput(i, $event)"
       (paste)="onSlotPaste($event)"
       (blur)="onSlotBlur()"
-      onclick="select()"
+      (click)="onSlotClick($event)"
       [autoblur]="autoblur()"
       [type]="type()"
       [uppercase]="uppercase()"

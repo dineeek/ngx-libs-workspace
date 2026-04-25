@@ -183,4 +183,8 @@ export class PassCodeComponent implements FormValueControl<PassCodeValue> {
   protected onSlotBlur(): void {
     this.touched.set(true)
   }
+
+  protected onSlotClick(event: MouseEvent): void {
+    ;(event.target as HTMLInputElement).select()
+  }
 }

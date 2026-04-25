@@ -259,6 +259,18 @@ describe('PassCodeComponent — static configuration', () => {
       expect(el.getAttribute('inputmode')).toBe('numeric')
     }
   })
+
+  it('clicking a filled slot selects its existing content', () => {
+    const fixture = createDirect(h => {
+      h.length.set(3)
+      h.value.set('abc')
+    })
+    const [first] = inputsOf(fixture)
+    const selectSpy = jest.spyOn(first, 'select')
+    first.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    fixture.detectChanges()
+    expect(selectSpy).toHaveBeenCalled()
+  })
 })
 
 describe('PassCodeComponent — value (ModelSignal) sync', () => {
