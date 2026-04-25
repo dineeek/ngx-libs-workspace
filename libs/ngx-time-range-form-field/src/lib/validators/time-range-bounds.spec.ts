@@ -137,10 +137,45 @@ describe('timeRangeBounds', () => {
   })
 
   it('compares HH:mm:ss precision correctly against an HH:mm bound', () => {
-    // '09:00:00' >= '09:00' lexicographically, so this is in-bounds.
+    // After normalisation '09:00:00' equals '09:00:00', so this is in-bounds.
     const { field } = makeField(
       { start: '09:00:00', end: '17:00:00' },
       { min: '09:00', max: '17:00' }
+    )
+    expect(field().valid()).toBe(true)
+  })
+
+  it('compares HH:mm value precision correctly against an HH:mm:ss bound', () => {
+    // Reverse case: bound has seconds, value does not.
+    const { field } = makeField(
+      { start: '09:00', end: '17:00' },
+      { min: '09:00:00', max: '17:00:00' }
+    )
+    expect(field().valid()).toBe(true)
+  })
+
+  it('skips a side silently when it is malformed (leading whitespace)', () => {
+    // Without the strict parser this would have lex-compared ' 09:00' < '08:00'
+    // and produced a false `min` error. The strict parser must reject it.
+    const { field } = makeField(
+      { start: ' 09:00', end: '17:00' },
+      { min: '08:00', max: '20:00' }
+    )
+    expect(field().valid()).toBe(true)
+  })
+
+  it('skips a side silently when it is out of range (e.g. 24:00)', () => {
+    const { field } = makeField(
+      { start: '24:00', end: '17:00' },
+      { min: '00:00', max: '23:59' }
+    )
+    expect(field().valid()).toBe(true)
+  })
+
+  it('skips silently when a bound itself is malformed', () => {
+    const { field } = makeField(
+      { start: '09:00', end: '17:00' },
+      { min: 'noon', max: '20:00' }
     )
     expect(field().valid()).toBe(true)
   })

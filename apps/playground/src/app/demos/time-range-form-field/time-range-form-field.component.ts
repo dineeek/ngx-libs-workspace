@@ -31,7 +31,7 @@ export class TimeRangeFormFieldDemoComponent {
     p => {
       required(p)
       timeRangeBounds(p, { min: '08:00', max: '20:00' })
-      timeRangeWidth(p, { minMinutes: 30, maxMinutes: 480 })
+      timeRangeWidth(p, { min: 30, max: 480 })
       timeRangeOrderValid(p)
     }
   )
@@ -76,7 +76,7 @@ readonly field = form(this.value, p => {
 readonly field = form(this.value, p => {
   required(p)
   timeRangeBounds(p, { min: '08:00', max: '20:00' })
-  timeRangeWidth(p, { minMinutes: 30, maxMinutes: 480 })
+  timeRangeWidth(p, { min: 30, max: 480 })
   timeRangeOrderValid(p)
 })
 

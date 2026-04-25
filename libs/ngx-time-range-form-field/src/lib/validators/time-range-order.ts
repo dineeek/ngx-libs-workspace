@@ -6,12 +6,14 @@ import {
   ValidationError
 } from '@angular/forms/signals'
 import { ITimeRange } from '../time-range.model'
+import { parseTimeToSeconds } from './internal/parse-time'
 
 /**
  * Signal Forms validator that flags a time range whose end is earlier than
- * its start. No-op when either side is `null`. Mixed-precision values are
- * normalised to `HH:mm:ss` first so a bare `'17:00'` compares equal to
- * `'17:00:00'`.
+ * its start. No-op when either side is `null` or fails strict
+ * `HH:mm` / `HH:mm:ss` parsing — malformed strings are a contract violation
+ * the component-side parser rejects, so this helper stays silent rather
+ * than producing a misleading order error from a corrupt comparison.
  */
 export function timeRangeOrderValid<
   TValue extends ITimeRange | null | undefined,
@@ -28,7 +30,13 @@ export function timeRangeOrderValid<
       return null
     }
 
-    if (toComparable(end) < toComparable(start)) {
+    const startSeconds = parseTimeToSeconds(start)
+    const endSeconds = parseTimeToSeconds(end)
+    if (startSeconds === null || endSeconds === null) {
+      return null
+    }
+
+    if (endSeconds < startSeconds) {
       return {
         kind: 'invalidRange',
         message: 'End must be at or after start'
@@ -37,8 +45,4 @@ export function timeRangeOrderValid<
 
     return null
   })
-}
-
-function toComparable(t: string): string {
-  return t.length === 5 ? `${t}:00` : t
 }

@@ -189,21 +189,23 @@ rangeForm = form<ITimeRange | null>(this.rangeValue, p => {
 })
 ```
 
-### `timeRangeWidth(path, { minMinutes, maxMinutes })`
+### `timeRangeWidth(path, { min, max })`
 
 Constrains the _span_ of the range (`end - start`, in minutes), not the
-endpoints. Emits `{ kind: 'minWidth' }` when the span is below
-`bounds.minMinutes` and `{ kind: 'maxWidth' }` when it exceeds
-`bounds.maxMinutes`; both carry a readable `message`. Skipped while either side
-is `null` or the range is mis-ordered (let `timeRangeOrderValid` own that case).
-Fractional values are accepted for sub-minute precision.
+endpoints. Emits `{ kind: 'minWidth' }` when the span is below `bounds.min` and
+`{ kind: 'maxWidth' }` when it exceeds `bounds.max`; both carry a readable
+`message`. Skipped while either side is `null` or the range is mis-ordered (let
+`timeRangeOrderValid` own that case). Fractional values are accepted for
+sub-minute precision. The `{ min, max }` shape mirrors `numericRangeWidth` from
+the sibling `ngx-numeric-range-form-field` lib — the unit (minutes) is
+documented here.
 
 ```typescript
 import { timeRangeWidth } from 'ngx-time-range-form-field'
 
 // At least 30 min, at most 8 hours.
 rangeForm = form<ITimeRange | null>(this.rangeValue, p => {
-  timeRangeWidth(p, { minMinutes: 30, maxMinutes: 480 })
+  timeRangeWidth(p, { min: 30, max: 480 })
 })
 ```
 

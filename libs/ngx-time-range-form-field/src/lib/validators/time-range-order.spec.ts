@@ -66,4 +66,24 @@ describe('timeRangeOrderValid', () => {
     value.set({ start: '09:00', end: '17:00' })
     expect(field().valid()).toBe(true)
   })
+
+  it('skips silently when a side is malformed (e.g. leading whitespace)', () => {
+    // Whitespace-padded strings are a contract violation the component-side
+    // parser rejects. The validator must not produce a misleading order
+    // error from a corrupt comparison — it should pass instead.
+    const { field } = makeField({ start: ' 09:00', end: '17:00' })
+    expect(field().valid()).toBe(true)
+  })
+
+  it('skips silently when a side is out of range (e.g. 24:00)', () => {
+    const { field } = makeField({ start: '24:00', end: '23:00' })
+    expect(field().valid()).toBe(true)
+  })
+
+  it('treats HH:mm and HH:mm:ss as equal when the seconds are zero', () => {
+    // Reverse mixed-precision case: start has seconds, end does not, but
+    // they represent the same instant — must not flag as out-of-order.
+    const { field } = makeField({ start: '09:00:00', end: '09:00' })
+    expect(field().valid()).toBe(true)
+  })
 })

@@ -21,7 +21,10 @@ reset behaviour, no Material peer dep.
 
 **Validators (Signal Forms):** `timeRangeOrderValid`, `timeRangeBothFilled`,
 `timeRangeBounds`, `timeRangeWidth`. Mixed-precision (`HH:mm` vs `HH:mm:ss`) is
-normalised before comparison. Width is expressed in minutes for clarity.
+normalised to seconds before comparison; malformed wire strings short-circuit to
+a no-op rather than producing misleading order/bounds errors. Width is expressed
+in minutes via the `{ min, max }` shape that mirrors the sibling
+`numericRangeWidth`.
 
 ## ngx-overflow-tooltip — TODO
 

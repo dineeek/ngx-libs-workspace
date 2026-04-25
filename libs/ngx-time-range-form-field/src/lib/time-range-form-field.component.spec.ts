@@ -458,6 +458,17 @@ describe('TimeRangeFormFieldComponent — direct binding', () => {
     expect(reset).toBeNull()
   })
 
+  it('composes <group> <custom side> when both a visible label and per-side overrides are set', () => {
+    const fixture = createDirect(h => {
+      h.label.set('Working hours')
+      h.startLabel.set('Open')
+      h.endLabel.set('Close')
+    })
+    const [start, end] = inputsOf(fixture)
+    expect(start.getAttribute('aria-label')).toBe('Working hours Open')
+    expect(end.getAttribute('aria-label')).toBe('Working hours Close')
+  })
+
   it('honours custom startLabel / endLabel / resetLabel overrides', () => {
     const fixture = createDirect(h => {
       h.value.set({ start: '09:00', end: '17:00' })

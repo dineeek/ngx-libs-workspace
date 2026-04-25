@@ -6,6 +6,7 @@ import {
   ValidationError
 } from '@angular/forms/signals'
 import { ITimeRange } from '../time-range.model'
+import { parseTimeToSeconds } from './internal/parse-time'
 
 export type TimeRangeBounds = {
   /** Earliest allowable time-of-day (`HH:mm` or `HH:mm:ss`). */
@@ -18,9 +19,11 @@ export type TimeRangeBounds = {
  * Signal Forms validator that keeps both sides of a time range within
  * consumer-supplied bounds. A value on either side earlier than `bounds.min`
  * emits `{ kind: 'min' }`; a value later than `bounds.max` emits
- * `{ kind: 'max' }`. `null` on either side is treated as "not yet set" and
- * passes. Mixed-precision strings are normalised to `HH:mm:ss` before
- * comparison, so bounds like `min: '09:00'` work for `'09:00:00'` values.
+ * `{ kind: 'max' }`. `null` on either side, or a malformed wire string on
+ * either side or in the bounds themselves, is treated as "not yet set" and
+ * passes — the component-side parser already rejects malformed entries the
+ * user could type. Mixed-precision strings (`HH:mm` vs `HH:mm:ss`) are
+ * normalised to seconds before comparison.
  */
 export function timeRangeBounds<
   TValue extends ITimeRange | null | undefined,
@@ -35,10 +38,10 @@ export function timeRangeBounds<
       return null
     }
 
-    const minBound =
-      bounds.min === undefined ? undefined : toComparable(bounds.min)
-    const maxBound =
-      bounds.max === undefined ? undefined : toComparable(bounds.max)
+    const minSeconds =
+      bounds.min === undefined ? null : parseTimeToSeconds(bounds.min)
+    const maxSeconds =
+      bounds.max === undefined ? null : parseTimeToSeconds(bounds.max)
 
     const sides: ReadonlyArray<{
       label: 'Start' | 'End'
@@ -51,16 +54,17 @@ export function timeRangeBounds<
 
     for (const side of sides) {
       if (side.value === null) continue
-      const candidate = toComparable(side.value)
+      const candidateSeconds = parseTimeToSeconds(side.value)
+      if (candidateSeconds === null) continue
 
-      if (minBound !== undefined && candidate < minBound) {
+      if (minSeconds !== null && candidateSeconds < minSeconds) {
         errors.push({
           kind: 'min',
           message: `${side.label} must be at or after ${bounds.min}`
         } as ValidationError.WithoutFieldTree)
       }
 
-      if (maxBound !== undefined && candidate > maxBound) {
+      if (maxSeconds !== null && candidateSeconds > maxSeconds) {
         errors.push({
           kind: 'max',
           message: `${side.label} must be at or before ${bounds.max}`
@@ -70,8 +74,4 @@ export function timeRangeBounds<
 
     return errors.length ? errors : null
   })
-}
-
-function toComparable(t: string): string {
-  return t.length === 5 ? `${t}:00` : t
 }
