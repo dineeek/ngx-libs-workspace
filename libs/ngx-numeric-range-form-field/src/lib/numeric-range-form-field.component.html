@@ -4,10 +4,10 @@
   [class.field--disabled]="disabled()"
   [class.field--readonly]="readonly()"
   role="group"
-  [attr.aria-label]="label() || null"
+  [attr.aria-labelledby]="label() ? labelId : null"
 >
   @if (label()) {
-    <span class="field__label">
+    <span class="field__label" [id]="labelId">
       {{ label() }}
       @if (required()) {
         <span class="field__required" aria-hidden="true">*</span>
@@ -21,8 +21,9 @@
       class="field__input"
       type="number"
       inputmode="numeric"
+      [id]="minInputId"
       [placeholder]="minPlaceholder()"
-      [attr.aria-label]="resolvedMinLabel()"
+      [attr.aria-label]="composedMinLabel()"
       [readonly]="readonly() || minReadonly()"
       [disabled]="disabled()"
       [attr.name]="minName()"
@@ -39,8 +40,9 @@
       class="field__input"
       type="number"
       inputmode="numeric"
+      [id]="maxInputId"
       [placeholder]="maxPlaceholder()"
-      [attr.aria-label]="resolvedMaxLabel()"
+      [attr.aria-label]="composedMaxLabel()"
       [readonly]="readonly() || maxReadonly()"
       [disabled]="disabled()"
       [attr.name]="maxName()"

@@ -54,6 +54,25 @@ export class NumericRangeFormFieldComponent implements FormValueControl<INumeric
     () => this.maxLabel() ?? this.maxPlaceholder()
   )
 
+  // Stable per-instance IDs so the visible label can be associated with
+  // the group via aria-labelledby. Each input keeps its own aria-label
+  // composed as "<group> <side>" so a screen reader announces the full
+  // descriptor without hidden DOM trickery.
+  protected readonly labelId = `ngx-nrff-label-${++idCounter}`
+  protected readonly minInputId = `${this.labelId}-min`
+  protected readonly maxInputId = `${this.labelId}-max`
+
+  protected readonly composedMinLabel = computed(() => {
+    const group = this.label()
+    const side = this.resolvedMinLabel()
+    return group ? `${group} ${side}` : side
+  })
+  protected readonly composedMaxLabel = computed(() => {
+    const group = this.label()
+    const side = this.resolvedMaxLabel()
+    return group ? `${group} ${side}` : side
+  })
+
   readonly value = model<INumericRange | null>(null)
   readonly disabled = input(false)
   readonly touched = model(false)
@@ -148,6 +167,8 @@ export class NumericRangeFormFieldComponent implements FormValueControl<INumeric
     this.value.set(next)
   }
 }
+
+let idCounter = 0
 
 function toNumberOrNull(raw: string): number | null {
   if (raw === '') {

@@ -373,6 +373,29 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     }
   })
 
+  it('associates the visible label with the group via aria-labelledby and composes per-input aria-labels', () => {
+    const fixture = createDirect(h => h.label.set('Price range'))
+    const group = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field'
+    ) as HTMLElement
+    const labelEl = group.querySelector('.field__label')
+
+    expect(labelEl?.id).toBeTruthy()
+    expect(group.getAttribute('aria-labelledby')).toBe(labelEl?.id ?? '')
+
+    const [min, max] = inputsOf(fixture)
+    expect(min.id).toBe(`${labelEl?.id}-min`)
+    expect(max.id).toBe(`${labelEl?.id}-max`)
+    expect(min.getAttribute('aria-label')).toBe('Price range From')
+    expect(max.getAttribute('aria-label')).toBe('Price range To')
+  })
+
+  it('does not set aria-labelledby on the group when no visible label is given', () => {
+    const fixture = createDirect()
+    const group = (fixture.nativeElement as HTMLElement).querySelector('.field')
+    expect(group?.getAttribute('aria-labelledby')).toBeNull()
+  })
+
   it('honours custom minLabel / maxLabel / resetLabel overrides', () => {
     const fixture = createDirect(h => {
       h.value.set({ minimum: 1, maximum: 2 })
