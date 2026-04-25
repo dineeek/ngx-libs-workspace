@@ -14,10 +14,20 @@ import { FormValueControl, ValidationError } from '@angular/forms/signals'
 
 import { AutofocusFirstInputDirective } from '../directives/autofocus-first-input.directive'
 import { FocusNextPreviousInputDirective } from '../directives/focus-next-previous-input.directive'
-import { TransformInputValueDirective } from '../directives/transform-uppercase.directive'
+import { TransformInputValueDirective } from '../directives/transform-input-value.directive'
 
 type PassCodeType = 'text' | 'number' | 'password'
 type PassCodeValue = string | number | null
+type PassCodeInputMode =
+  | 'text'
+  | 'numeric'
+  | 'decimal'
+  | 'tel'
+  | 'search'
+  | 'email'
+  | 'url'
+  | 'none'
+  | ''
 
 @Component({
   selector: 'ngx-pass-code',
@@ -36,6 +46,8 @@ export class PassCodeComponent implements FormValueControl<PassCodeValue> {
   readonly uppercase = input(false)
   readonly autofocus = input(false)
   readonly autoblur = input(false)
+  readonly autocomplete = input<string>('')
+  readonly inputmode = input<PassCodeInputMode>('')
 
   readonly value = model<PassCodeValue>(null)
   readonly disabled = input(false)
@@ -170,5 +182,9 @@ export class PassCodeComponent implements FormValueControl<PassCodeValue> {
 
   protected onSlotBlur(): void {
     this.touched.set(true)
+  }
+
+  protected onSlotClick(event: MouseEvent): void {
+    ;(event.target as HTMLInputElement).select()
   }
 }

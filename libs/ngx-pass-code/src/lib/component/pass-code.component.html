@@ -11,12 +11,14 @@
       (input)="onSlotInput(i, $event)"
       (paste)="onSlotPaste($event)"
       (blur)="onSlotBlur()"
-      onclick="select()"
+      (click)="onSlotClick($event)"
       [autoblur]="autoblur()"
       [type]="type()"
       [uppercase]="uppercase()"
       [disabled]="disabled()"
       [class.invalid-input]="isInvalid()"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.inputmode]="inputmode() || null"
       maxlength="1"
       focusNextPreviousInput
       transformInputValue

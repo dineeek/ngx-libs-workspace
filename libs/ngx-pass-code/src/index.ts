@@ -1,5 +1,5 @@
 export { PassCodeComponent } from './lib/component/pass-code.component'
 export { AutofocusFirstInputDirective } from './lib/directives/autofocus-first-input.directive'
 export { FocusNextPreviousInputDirective } from './lib/directives/focus-next-previous-input.directive'
-export { TransformInputValueDirective } from './lib/directives/transform-uppercase.directive'
+export { TransformInputValueDirective } from './lib/directives/transform-input-value.directive'
 export { passCodeComplete } from './lib/validators/pass-code-complete'
