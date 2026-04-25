@@ -1,11 +1,11 @@
 # ngx-numeric-range-form-field
 
-A reactive Angular custom form control for a composite numeric range — two
+A reactive Angular custom form control for a composite **numeric range** — two
 number inputs (minimum, maximum) exposed as a single value. Built on **Angular
 21 Signal Forms** (`FormValueControl`) with no `ControlValueAccessor`, no
 Angular Material, no third-party runtime dependencies.
 
-![ngx-numeric-range-form-field](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/ngx-numeric-range-form-field-example.png)
+![ngx-numeric-range-form-field](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/screenshots/02-filled.png)
 
 <p align="start">
     <a href="https://www.npmjs.com/package/ngx-numeric-range-form-field"><img alt="weekly downloads from npm" src="https://img.shields.io/npm/dw/ngx-numeric-range-form-field.svg?style=flat-square"></a>
@@ -36,6 +36,13 @@ Angular Material, no third-party runtime dependencies.
 
 > `@angular/forms/signals` is marked `@experimental 21.0.0`. Consumers of
 > `ngx-numeric-range-form-field@5.x` adopt the same experimental surface.
+
+## At a glance
+
+|                                                                                                                                                      |                                                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Empty**<br/>![empty](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/screenshots/01-empty.png)           | **Filled**<br/>![filled](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/screenshots/02-filled.png)                      |
+| **Read-only**<br/>![readonly](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/screenshots/03-readonly.png) | **Invalid order**<br/>![invalid](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/screenshots/04-error-invalid-range.png) |
 
 ## Install
 
@@ -125,6 +132,8 @@ case — pair them with `required(p)` or `numericRangeBothFilled(p)` when
 
 Fails with `{ kind: 'invalidRange' }` when `maximum < minimum`.
 
+![invalid range](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/screenshots/04-error-invalid-range.png)
+
 ```typescript
 import { numericRangeOrderValid } from 'ngx-numeric-range-form-field'
 
@@ -139,6 +148,8 @@ Keeps both sides within consumer-supplied bounds. Emits
 `{ kind: 'min', message: 'Minimum must be at least …' }` when a side is below
 the floor and `{ kind: 'max', message: 'Maximum must not exceed …' }` when a
 side is above the ceiling. Pass `min` or `max` alone for one-sided bounds.
+
+![bounds error](https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-numeric-range-form-field/screenshots/05-error-bounds.png)
 
 ```typescript
 import { numericRangeBounds } from 'ngx-numeric-range-form-field'
