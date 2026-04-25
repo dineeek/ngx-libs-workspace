@@ -6,3 +6,4 @@ export { numericRangeBothFilled } from './lib/validators/numeric-range-both-fill
 export { numericRangeWidth } from './lib/validators/numeric-range-width'
 export type { NumericRangeWidthBounds } from './lib/validators/numeric-range-width'
 export type { INumericRange } from './lib/numeric-range.model'
+export { NumericRangeErrorKind } from './lib/error-kinds'
