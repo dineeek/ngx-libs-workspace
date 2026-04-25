@@ -27,8 +27,13 @@ Angular Material, no third-party runtime dependencies.
   (`[formField]`)
 - Ships four composable validator helpers — `numericRangeOrderValid`,
   `numericRangeBounds`, `numericRangeBothFilled`, `numericRangeWidth`
+- Typed `NumericRangeErrorKind` contract for error-key matching
 - Schema-driven validation (`required`, `readonly`, `disabled`, `validate`, …)
   owned by the consumer's `form()` definition
+- Accessible by default — visible label wires to the group via
+  `aria-labelledby`; per-input announcements compose `<group> <side>`
+- Native numeric-input attributes pass-through (`step`, `autocomplete`, per-side
+  `name` / `min` / `max`)
 - Custom outlined field styling — reskin via CSS custom properties without
   `::ng-deep`
 - Tree-shakable (`sideEffects: false`)
@@ -106,20 +111,28 @@ All inputs are signal inputs. Inputs marked **(schema-driven)** are
 automatically written by the `FormField` directive from the attached `form()`
 schema — bind them directly only when using the component without `[formField]`.
 
-| Input                      | Type                                               | Default  | Description                                                                          |
-| -------------------------- | -------------------------------------------------- | -------- | ------------------------------------------------------------------------------------ |
-| `label`                    | `string`                                           | `''`     | Label rendered above the field.                                                      |
-| `minPlaceholder`           | `string`                                           | `'From'` | Placeholder for the minimum input.                                                   |
-| `maxPlaceholder`           | `string`                                           | `'To'`   | Placeholder for the maximum input.                                                   |
-| `resettable`               | `boolean`                                          | `true`   | Show the reset (✕) button when a value is present.                                   |
-| `minReadonly`              | `boolean`                                          | `false`  | Make the minimum input read-only while the maximum remains editable.                 |
-| `maxReadonly`              | `boolean`                                          | `false`  | Mirror of `minReadonly` for the maximum input.                                       |
-| `value` (schema-driven)    | `INumericRange \| null`                            | `null`   | Composite value. Two-way via `[(value)]` or through `form()`.                        |
-| `disabled` (schema-driven) | `boolean`                                          | `false`  | Disable both inputs.                                                                 |
-| `readonly` (schema-driven) | `boolean`                                          | `false`  | Render both inputs read-only.                                                        |
-| `required` (schema-driven) | `boolean`                                          | `false`  | Show the required marker on the label.                                               |
-| `touched` (schema-driven)  | `boolean`                                          | `false`  | Marks the field as touched — flips the invalid styling on when paired with `errors`. |
-| `errors` (schema-driven)   | `readonly ValidationError.WithOptionalFieldTree[]` | `[]`     | Error list. Non-empty + touched paints the field red.                                |
+| Input                      | Type                                               | Default         | Description                                                                                                                                               |
+| -------------------------- | -------------------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`                    | `string`                                           | `''`            | Visible label rendered above the field. When set, becomes the group's `aria-labelledby` target.                                                           |
+| `minPlaceholder`           | `string`                                           | `'From'`        | Placeholder for the minimum input.                                                                                                                        |
+| `maxPlaceholder`           | `string`                                           | `'To'`          | Placeholder for the maximum input.                                                                                                                        |
+| `minLabel`                 | `string \| null`                                   | `null`          | Override the minimum input's accessible name. Defaults to `minPlaceholder` when `null`.                                                                   |
+| `maxLabel`                 | `string \| null`                                   | `null`          | Override the maximum input's accessible name. Defaults to `maxPlaceholder` when `null`.                                                                   |
+| `resetLabel`               | `string`                                           | `'Reset range'` | `aria-label` for the reset (✕) button.                                                                                                                    |
+| `resettable`               | `boolean`                                          | `true`          | Show the reset (✕) button when a value is present.                                                                                                        |
+| `minReadonly`              | `boolean`                                          | `false`         | Make the minimum input read-only while the maximum remains editable.                                                                                      |
+| `maxReadonly`              | `boolean`                                          | `false`         | Mirror of `minReadonly` for the maximum input.                                                                                                            |
+| `step`                     | `number \| string \| null`                         | `null`          | Native `step` attribute forwarded to both inputs (e.g. `0.5`).                                                                                            |
+| `autocomplete`             | `string \| null`                                   | `null`          | Native `autocomplete` attribute forwarded to both inputs (e.g. `'off'`).                                                                                  |
+| `minName` / `maxName`      | `string \| null`                                   | `null`          | Per-side native `name` attribute — useful inside a native `<form>`.                                                                                       |
+| `minMin` / `minMax`        | `number \| string \| null`                         | `null`          | Per-side native HTML `min` / `max` attributes for the **minimum** input. Steers the browser spinner only — schema validation remains the source of truth. |
+| `maxMin` / `maxMax`        | `number \| string \| null`                         | `null`          | Per-side native HTML `min` / `max` for the **maximum** input.                                                                                             |
+| `value` (schema-driven)    | `INumericRange \| null`                            | `null`          | Composite value. Two-way via `[(value)]` or through `form()`.                                                                                             |
+| `disabled` (schema-driven) | `boolean`                                          | `false`         | Disable both inputs.                                                                                                                                      |
+| `readonly` (schema-driven) | `boolean`                                          | `false`         | Render both inputs read-only.                                                                                                                             |
+| `required` (schema-driven) | `boolean`                                          | `false`         | Show the required marker on the label. Visual flag — the actual validity comes from your `form()` schema.                                                 |
+| `touched` (schema-driven)  | `boolean`                                          | `false`         | Marks the field as touched — flips the invalid styling on when paired with `errors`.                                                                      |
+| `errors` (schema-driven)   | `readonly ValidationError.WithOptionalFieldTree[]` | `[]`            | Error list. Non-empty + touched paints the field red.                                                                                                     |
 
 ## Schema validators
 
@@ -197,6 +210,39 @@ Reading errors in a template:
 <p class="error">{{ err.message || err.kind }}</p>
 }
 ```
+
+### Typed error-kind contract
+
+Filter errors by typed constants instead of duplicating string literals:
+
+```typescript
+import { NumericRangeErrorKind } from 'ngx-numeric-range-form-field'
+
+const hasOrderError = rangeForm()
+  .errors()
+  .some(e => e.kind === NumericRangeErrorKind.OutOfOrder)
+```
+
+| Constant                           | Emitted by                         | `kind` value     |
+| ---------------------------------- | ---------------------------------- | ---------------- |
+| `NumericRangeErrorKind.OutOfOrder` | `numericRangeOrderValid`           | `'invalidRange'` |
+| `NumericRangeErrorKind.BoundsMin`  | `numericRangeBounds` (lower bound) | `'min'`          |
+| `NumericRangeErrorKind.BoundsMax`  | `numericRangeBounds` (upper bound) | `'max'`          |
+| `NumericRangeErrorKind.Incomplete` | `numericRangeBothFilled`           | `'incomplete'`   |
+| `NumericRangeErrorKind.WidthMin`   | `numericRangeWidth` (lower span)   | `'minWidth'`     |
+| `NumericRangeErrorKind.WidthMax`   | `numericRangeWidth` (upper span)   | `'maxWidth'`     |
+
+The string values match the kinds the validators emit today, so existing
+comparisons against the raw strings keep working.
+
+## Accessibility
+
+When `label` is set the component wires the visible label to the `role="group"`
+via `aria-labelledby` using stable per-instance IDs, and each input's
+`aria-label` composes `<group label> <side label>` — a screen reader announces
+e.g. _"Price range From"_ and _"Price range To"_ instead of just _"From"_ /
+_"To"_. Override the per-side announcement with `minLabel` / `maxLabel`, or the
+reset button announcement with `resetLabel`.
 
 ## Styling
 
