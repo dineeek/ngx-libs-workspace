@@ -1,0 +1,164 @@
+<a class="back-link" routerLink="/">← Back to home</a>
+
+<header class="demo-header">
+  <h1 class="demo-header__title">ngx-time-range-form-field demo</h1>
+  <p class="demo-header__tagline">
+    Time range input built on Angular 21 <code>@angular/forms/signals</code>.
+    Two <code>&lt;input type="time"&gt;</code> fields share a composite
+    <code>&#123; start, end &#125;</code> value and plug into a parent
+    <code>form()</code> schema via <code>[formField]</code>. No
+    <code>ControlValueAccessor</code>, no Angular Material.
+  </p>
+</header>
+
+<section class="demo-grid">
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Basic range</h2>
+      <p class="demo-card__sub">
+        Defaulted value, reset affordance,
+        <code>timeRangeOrderValid</code> enforces end ≥ start.
+      </p>
+      <ul class="badges">
+        @for (b of basicBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-time-range-form-field
+        [formField]="basicForm"
+        label="Working hours"
+      ></ngx-time-range-form-field>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="basicForm().valid()"
+        [class.chip--err]="!basicForm().valid()"
+      >
+        {{ basicForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="basicForm().touched()"
+        [class.chip--muted]="!basicForm().touched()"
+      >
+        {{ basicForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ basicValue() | json }}</li>
+    </ul>
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetBasic()">Reset</button>
+      <button type="button" (click)="basicDisabled.set(!basicDisabled())">
+        {{ basicDisabled() ? 'Enable' : 'Disable' }}
+      </button>
+      <button type="button" (click)="patchBasic()">Set demo value</button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="basicSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Validated workday slot</h2>
+      <p class="demo-card__sub">
+        <code>required(p)</code> + <code>timeRangeBounds</code> +
+        <code>timeRangeWidth</code> + <code>timeRangeOrderValid</code>. Bounds
+        clamp the slot to <code>08:00..20:00</code>; the span must be at least
+        30 minutes and at most 8 hours.
+      </p>
+      <ul class="badges">
+        @for (b of validatedBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-time-range-form-field
+        [formField]="validatedForm"
+        label="Workday slot"
+      ></ngx-time-range-form-field>
+    </div>
+
+    <ul class="chips">
+      <li
+        class="chip"
+        [class.chip--ok]="validatedForm().valid()"
+        [class.chip--err]="!validatedForm().valid()"
+      >
+        {{ validatedForm().valid() ? 'Valid' : 'Invalid' }}
+      </li>
+      <li
+        class="chip"
+        [class.chip--ok]="validatedForm().touched()"
+        [class.chip--muted]="!validatedForm().touched()"
+      >
+        {{ validatedForm().touched() ? 'Touched' : 'Untouched' }}
+      </li>
+      <li class="chip chip--value">value: {{ validatedValue() | json }}</li>
+    </ul>
+
+    @if (validatedForm().touched() && validatedForm().errors().length) {
+      <ul class="error-list">
+        @for (err of validatedForm().errors(); track $index) {
+          <li>{{ err.message || err.kind }}</li>
+        }
+      </ul>
+    }
+
+    <div class="demo-card__actions">
+      <button type="button" (click)="resetValidated()">Reset</button>
+      <button type="button" (click)="patchValidated()">
+        Set 09:00 – 12:30
+      </button>
+      <button type="button" (click)="patchValidatedOutOfBounds()">
+        Set 06:00 – 22:00
+      </button>
+    </div>
+
+    <ngx-libs-workspace-code-block
+      [code]="validatedSnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+
+  <article class="demo-card">
+    <header class="demo-card__head">
+      <h2 class="demo-card__title">Read-only window</h2>
+      <p class="demo-card__sub">
+        Display-only. <code>readonly</code> locks input and hides the reset
+        button.
+      </p>
+      <ul class="badges">
+        @for (b of readonlyBadges; track b) {
+          <li class="badge">{{ b }}</li>
+        }
+      </ul>
+    </header>
+
+    <div class="demo-card__control">
+      <ngx-time-range-form-field
+        [formField]="readonlyForm"
+        label="Frozen window"
+        [resettable]="false"
+      ></ngx-time-range-form-field>
+    </div>
+
+    <ul class="chips">
+      <li class="chip chip--value">value: {{ readonlyValue() | json }}</li>
+    </ul>
+
+    <ngx-libs-workspace-code-block
+      [code]="readonlySnippet"
+      language="typescript"
+    ></ngx-libs-workspace-code-block>
+  </article>
+</section>

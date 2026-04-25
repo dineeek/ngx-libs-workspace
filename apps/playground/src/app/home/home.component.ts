@@ -57,6 +57,16 @@ export class HomeComponent {
       preview: 'assets/preview-phone.png',
       npmUrl: 'https://www.npmjs.com/package/ngx-phone-form-field',
       bullets: ['country picker', 'AsYouType format', 'phoneTypeIn validator']
+    },
+    {
+      name: 'ngx-time-range-form-field',
+      npm: 'ngx-time-range-form-field',
+      route: '/ngx-time-range-form-field',
+      tagline:
+        'Composite time range — two <input type="time"> fields, one value. Four composable validators for order, bounds, completeness and span.',
+      preview: 'assets/preview-time-range.png',
+      npmUrl: 'https://www.npmjs.com/package/ngx-time-range-form-field',
+      bullets: ['timeRangeOrderValid', 'timeRangeBounds', 'timeRangeWidth']
     }
   ]
 
