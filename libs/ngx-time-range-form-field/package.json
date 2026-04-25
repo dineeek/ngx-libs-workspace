@@ -1,0 +1,46 @@
+{
+  "name": "ngx-time-range-form-field",
+  "version": "0.1.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": ">=21.0.0 <22.0.0",
+    "@angular/core": ">=21.0.0 <22.0.0",
+    "@angular/forms": ">=21.0.0 <22.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "author": {
+    "name": "Dino Klicek",
+    "email": "dineeek@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dineeek/ngx-libs-workspace"
+  },
+  "description": "Angular Signal Forms time range input — two <input type=\"time\"> fields, one composite value, custom-styled and theme-friendly.",
+  "keywords": [
+    "ng",
+    "angular",
+    "time range",
+    "time input",
+    "time picker",
+    "range input",
+    "form",
+    "field",
+    "form field",
+    "signal forms",
+    "form value control",
+    "custom control",
+    "library",
+    "ngx"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-time-range-form-field/README.md",
+  "bugs": {
+    "url": "https://github.com/dineeek/ngx-libs-workspace/issues"
+  }
+}
