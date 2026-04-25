@@ -361,4 +361,95 @@ describe('OverflowTooltipDirective', () => {
       globalThis.ResizeObserver = previous
     }
   })
+
+  it('defaults mode to auto when the bare attribute form is used', async () => {
+    @Component({
+      standalone: true,
+      imports: [OverflowTooltipDirective],
+      template: ` <span ngxOverflowTooltip></span> `,
+      changeDetection: ChangeDetectionStrategy.OnPush
+    })
+    class BareHostComponent {
+      readonly directive = viewChild.required(OverflowTooltipDirective)
+    }
+
+    await TestBed.configureTestingModule({
+      imports: [BareHostComponent]
+    }).compileComponents()
+    const fixture = TestBed.createComponent(BareHostComponent)
+    fixture.detectChanges()
+    await fixture.whenStable()
+    fixture.detectChanges()
+
+    expect(fixture.componentInstance.directive().mode()).toBe('auto')
+  })
+
+  // The next two specs swap the synchronous rAF for a manual queue so we can
+  // observe coalescing and cancel-on-destroy behaviour that the synchronous
+  // shim in beforeEach intentionally papers over.
+  describe('with manually-flushed rAF', () => {
+    let queued: Map<number, FrameRequestCallback>
+    let nextRafId: number
+
+    beforeEach(() => {
+      queued = new Map()
+      nextRafId = 0
+      globalThis.requestAnimationFrame = ((cb: FrameRequestCallback) => {
+        nextRafId += 1
+        queued.set(nextRafId, cb)
+        return nextRafId
+      }) as typeof requestAnimationFrame
+      globalThis.cancelAnimationFrame = ((id: number) => {
+        queued.delete(id)
+      }) as typeof cancelAnimationFrame
+    })
+
+    function flushRaf(): void {
+      const callbacks = Array.from(queued.values())
+      queued.clear()
+      for (const cb of callbacks) cb(0)
+    }
+
+    it('coalesces a same-tick resize + mutation burst into one runCheck', async () => {
+      const fixture = await makeFixture()
+      const node = getHostElement(fixture)
+      // The initial runCheck inside startObserving runs synchronously — no
+      // entry in the rAF queue yet.
+      expect(queued.size).toBe(0)
+
+      setDims(node, {
+        scrollWidth: 250,
+        clientWidth: 100,
+        scrollHeight: 20,
+        clientHeight: 20
+      })
+      fireResize(node)
+      fireMutation(node)
+      // The second scheduleCheck cancels the first via cancelAnimationFrame
+      // and queues a fresh rAF — net one pending callback.
+      expect(queued.size).toBe(1)
+
+      flushRaf()
+      fixture.detectChanges()
+      expect(fixture.componentInstance.emissions).toEqual([true])
+    })
+
+    it('cancels a pending rAF on destroy', async () => {
+      const fixture = await makeFixture()
+      const node = getHostElement(fixture)
+      setDims(node, {
+        scrollWidth: 250,
+        clientWidth: 100,
+        scrollHeight: 20,
+        clientHeight: 20
+      })
+      fireResize(node)
+      expect(queued.size).toBe(1)
+
+      fixture.destroy()
+      // cancelAnimationFrame should have removed the queued callback —
+      // any later flush is a no-op so runCheck never re-fires after destroy.
+      expect(queued.size).toBe(0)
+    })
+  })
 })

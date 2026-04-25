@@ -233,13 +233,17 @@ template can read.
    including when the host's bound text expression changes — re-trigger a check
    too. The directive this lib was extracted from only reacted to resize, which
    missed the dynamic-content case.
-3. Both observers run **outside the Angular zone**. The callbacks coalesce into
-   a single `requestAnimationFrame` so a burst of mutations runs one
+3. Both observer callbacks fire **outside the Angular zone** — measurements
+   don't tick the change-detector unless they have to. The callbacks coalesce
+   into a single `requestAnimationFrame` so a burst of mutations runs one
    measurement.
 4. The measurement compares `scrollWidth` vs `clientWidth` and / or
    `scrollHeight` vs `clientHeight` based on `mode()`. Only when the result
-   actually flips does the signal `set` (and `truncatedChange` emit), which is
-   the one moment the work re-enters the Angular zone.
+   actually flips does the signal `set` (and `truncatedChange` emit) — so
+   downstream consumers don't get spammed by every observer fire. The initial
+   measurement (right after `afterNextRender`) and the re-check that follows a
+   `mode` input change run on the standard Angular schedule rather than
+   out-of-zone, since they're driven by render lifecycle and signal effects.
 5. On destroy, both observers disconnect and any pending rAF is cancelled.
 
 ## SSR / older browsers
