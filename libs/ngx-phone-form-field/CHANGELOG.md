@@ -6,6 +6,14 @@ entries are generated automatically by
 [release-please](https://github.com/googleapis/release-please) from
 [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [1.1.0](https://github.com/dineeek/ngx-libs-workspace/compare/ngx-phone-form-field@1.0.0...ngx-phone-form-field@1.1.0) (2026-04-25)
+
+
+### Features
+
+* **ngx-phone-form-field:** introduce phone form field lib at v1.0.0 ([a1c1242](https://github.com/dineeek/ngx-libs-workspace/commit/a1c12422fc083edda13f8ea9d34d03057c7fda80))
+* **ngx-phone-form-field:** quality-pass — fix active scroll, fix unparseable display, doc accuracy ([#47](https://github.com/dineeek/ngx-libs-workspace/issues/47)) ([496a579](https://github.com/dineeek/ngx-libs-workspace/commit/496a579f3c4313bbae5fe6f639786252b8831aef))
+
 ## [1.0.0] - 2026-04-25
 
 First release from the
