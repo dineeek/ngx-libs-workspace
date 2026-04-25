@@ -59,10 +59,14 @@ export type OverflowTooltipMode = 'auto' | 'single' | 'multi'
 export class OverflowTooltipDirective {
   /**
    * Truncation detection mode. Aliased so the directive can be configured
-   * inline: `[ngxOverflowTooltip]="'single'"`. Defaults to `auto`.
+   * inline: `[ngxOverflowTooltip]="'single'"`. The bare attribute form
+   * (`<span ngxOverflowTooltip>`) binds an empty string in `strictTemplates`
+   * mode — the transform normalises that to the `auto` default so the
+   * common case stays terse.
    */
-  readonly mode = input<OverflowTooltipMode>('auto', {
-    alias: 'ngxOverflowTooltip'
+  readonly mode = input('auto' as OverflowTooltipMode, {
+    alias: 'ngxOverflowTooltip',
+    transform: normaliseMode
   })
 
   /**
@@ -162,4 +166,10 @@ export class OverflowTooltipDirective {
     this.resizeObserver?.disconnect()
     this.mutationObserver?.disconnect()
   }
+}
+
+function normaliseMode(
+  value: OverflowTooltipMode | '' | null | undefined
+): OverflowTooltipMode {
+  return value === '' || value === null || value === undefined ? 'auto' : value
 }
