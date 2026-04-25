@@ -4,10 +4,10 @@
   [class.field--disabled]="disabled()"
   [class.field--readonly]="readonly()"
   role="group"
-  [attr.aria-label]="label() || null"
+  [attr.aria-labelledby]="label() ? labelId : null"
 >
   @if (label()) {
-    <span class="field__label">
+    <span class="field__label" [id]="labelId">
       {{ label() }}
       @if (required()) {
         <span class="field__required" aria-hidden="true">*</span>
@@ -21,10 +21,16 @@
       class="field__input"
       type="number"
       inputmode="numeric"
+      [id]="minInputId"
       [placeholder]="minPlaceholder()"
-      [attr.aria-label]="minPlaceholder()"
+      [attr.aria-label]="composedMinLabel()"
       [readonly]="readonly() || minReadonly()"
       [disabled]="disabled()"
+      [attr.name]="minName()"
+      [attr.autocomplete]="autocomplete()"
+      [attr.step]="step()"
+      [attr.min]="minMin()"
+      [attr.max]="minMax()"
       (input)="onMinInput($event)"
       (blur)="onBlur()"
     />
@@ -34,10 +40,16 @@
       class="field__input"
       type="number"
       inputmode="numeric"
+      [id]="maxInputId"
       [placeholder]="maxPlaceholder()"
-      [attr.aria-label]="maxPlaceholder()"
+      [attr.aria-label]="composedMaxLabel()"
       [readonly]="readonly() || maxReadonly()"
       [disabled]="disabled()"
+      [attr.name]="maxName()"
+      [attr.autocomplete]="autocomplete()"
+      [attr.step]="step()"
+      [attr.min]="maxMin()"
+      [attr.max]="maxMax()"
       (input)="onMaxInput($event)"
       (blur)="onBlur()"
     />
@@ -47,7 +59,7 @@
         type="button"
         class="field__reset"
         (click)="reset()"
-        aria-label="Reset range"
+        [attr.aria-label]="resetLabel()"
       >
         <svg
           viewBox="0 0 24 24"

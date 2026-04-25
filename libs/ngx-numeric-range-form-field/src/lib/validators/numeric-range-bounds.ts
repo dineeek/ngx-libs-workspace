@@ -31,34 +31,29 @@ export function numericRangeBounds<
       return null
     }
 
+    const sides: ReadonlyArray<{
+      label: 'Minimum' | 'Maximum'
+      value: number | null
+    }> = [
+      { label: 'Minimum', value: v.minimum },
+      { label: 'Maximum', value: v.maximum }
+    ]
     const errors: ValidationError.WithoutFieldTree[] = []
 
-    if (bounds.min !== undefined) {
-      if (v.minimum !== null && v.minimum < bounds.min) {
-        errors.push({
-          kind: 'min',
-          message: `Minimum must be at least ${bounds.min}`
-        } as ValidationError.WithoutFieldTree)
-      }
-      if (v.maximum !== null && v.maximum < bounds.min) {
-        errors.push({
-          kind: 'min',
-          message: `Maximum must be at least ${bounds.min}`
-        } as ValidationError.WithoutFieldTree)
-      }
-    }
+    for (const side of sides) {
+      if (side.value === null) continue
 
-    if (bounds.max !== undefined) {
-      if (v.minimum !== null && v.minimum > bounds.max) {
+      if (bounds.min !== undefined && side.value < bounds.min) {
         errors.push({
-          kind: 'max',
-          message: `Minimum must not exceed ${bounds.max}`
+          kind: 'min',
+          message: `${side.label} must be at least ${bounds.min}`
         } as ValidationError.WithoutFieldTree)
       }
-      if (v.maximum !== null && v.maximum > bounds.max) {
+
+      if (bounds.max !== undefined && side.value > bounds.max) {
         errors.push({
           kind: 'max',
-          message: `Maximum must not exceed ${bounds.max}`
+          message: `${side.label} must not exceed ${bounds.max}`
         } as ValidationError.WithoutFieldTree)
       }
     }

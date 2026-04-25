@@ -21,9 +21,14 @@ import { numericRangeOrderValid } from './validators/numeric-range-order'
       [label]="label()"
       [disabled]="disabled()"
       [readonly]="readonly()"
+      [minReadonly]="minReadonly()"
+      [maxReadonly]="maxReadonly()"
       [resettable]="resettable()"
       [required]="required()"
       [errors]="errors()"
+      [minLabel]="minLabel()"
+      [maxLabel]="maxLabel()"
+      [resetLabel]="resetLabel()"
       [(touched)]="touched"
     />
   `,
@@ -35,9 +40,14 @@ class DirectHostComponent {
   label = signal('')
   disabled = signal(false)
   readonly = signal(false)
+  minReadonly = signal(false)
+  maxReadonly = signal(false)
   resettable = signal(true)
   required = signal(false)
   errors = signal<readonly ValidationError.WithOptionalFieldTree[]>([])
+  minLabel = signal<string | null>(null)
+  maxLabel = signal<string | null>(null)
+  resetLabel = signal('Reset range')
 }
 
 @Component({
@@ -166,6 +176,22 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     })
   })
 
+  it('rejects Infinity as input — emits null for that side', () => {
+    const fixture = createDirect()
+    const [min] = inputsOf(fixture)
+    typeInto(min, 'Infinity')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toBeNull()
+  })
+
+  it('rejects -Infinity as input — emits null for that side', () => {
+    const fixture = createDirect()
+    const [, max] = inputsOf(fixture)
+    typeInto(max, '-Infinity')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toBeNull()
+  })
+
   it('emits null when both inputs are cleared', () => {
     const fixture = createDirect(h => h.value.set({ minimum: 1, maximum: 2 }))
     const [min, max] = inputsOf(fixture)
@@ -286,6 +312,173 @@ describe('NumericRangeFormFieldComponent — direct binding', () => {
     )
     const field = (fixture.nativeElement as HTMLElement).querySelector('.field')
     expect(field?.classList.contains('field--invalid')).toBe(false)
+  })
+
+  it('falls back to placeholders for input aria-labels by default', () => {
+    const fixture = createDirect()
+    const [min, max] = inputsOf(fixture)
+    expect(min.getAttribute('aria-label')).toBe('From')
+    expect(max.getAttribute('aria-label')).toBe('To')
+  })
+
+  it('uses resetLabel as the reset button aria-label', () => {
+    const fixture = createDirect(h => h.value.set({ minimum: 1, maximum: 2 }))
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset?.getAttribute('aria-label')).toBe('Reset range')
+  })
+
+  it('forwards step / autocomplete / per-side min,max,name attributes to the inputs', async () => {
+    @Component({
+      standalone: true,
+      imports: [NumericRangeFormFieldComponent],
+      template: `
+        <ngx-numeric-range-form-field
+          [step]="0.5"
+          autocomplete="off"
+          [minMin]="0"
+          [minMax]="100"
+          [maxMin]="0"
+          [maxMax]="100"
+          minName="rangeFrom"
+          maxName="rangeTo"
+        />
+      `,
+      changeDetection: ChangeDetectionStrategy.OnPush
+    })
+    class AttrHostComponent {}
+
+    await TestBed.configureTestingModule({
+      imports: [AttrHostComponent]
+    }).compileComponents()
+    const fixture = TestBed.createComponent(AttrHostComponent)
+    fixture.detectChanges()
+
+    const [min, max] = inputsOf(fixture)
+    expect(min.getAttribute('step')).toBe('0.5')
+    expect(min.getAttribute('autocomplete')).toBe('off')
+    expect(min.getAttribute('min')).toBe('0')
+    expect(min.getAttribute('max')).toBe('100')
+    expect(min.getAttribute('name')).toBe('rangeFrom')
+    expect(max.getAttribute('name')).toBe('rangeTo')
+  })
+
+  it('omits step / autocomplete / min / max / name attributes by default', () => {
+    const fixture = createDirect()
+    const [min, max] = inputsOf(fixture)
+    for (const attr of ['step', 'autocomplete', 'min', 'max', 'name']) {
+      expect(min.getAttribute(attr)).toBeNull()
+      expect(max.getAttribute(attr)).toBeNull()
+    }
+  })
+
+  it('associates the visible label with the group via aria-labelledby and composes per-input aria-labels', () => {
+    const fixture = createDirect(h => h.label.set('Price range'))
+    const group = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field'
+    ) as HTMLElement
+    const labelEl = group.querySelector('.field__label')
+
+    expect(labelEl?.id).toBeTruthy()
+    expect(group.getAttribute('aria-labelledby')).toBe(labelEl?.id ?? '')
+
+    const [min, max] = inputsOf(fixture)
+    expect(min.id).toBe(`${labelEl?.id}-min`)
+    expect(max.id).toBe(`${labelEl?.id}-max`)
+    expect(min.getAttribute('aria-label')).toBe('Price range From')
+    expect(max.getAttribute('aria-label')).toBe('Price range To')
+  })
+
+  it('does not set aria-labelledby on the group when no visible label is given', () => {
+    const fixture = createDirect()
+    const group = (fixture.nativeElement as HTMLElement).querySelector('.field')
+    expect(group?.getAttribute('aria-labelledby')).toBeNull()
+  })
+
+  it('minReadonly disables only the minimum input and hides the reset button', () => {
+    const fixture = createDirect(h => {
+      h.minReadonly.set(true)
+      h.value.set({ minimum: 1, maximum: 9 })
+    })
+    const [min, max] = inputsOf(fixture)
+    expect(min.readOnly).toBe(true)
+    expect(max.readOnly).toBe(false)
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).toBeNull()
+  })
+
+  it('maxReadonly disables only the maximum input and hides the reset button', () => {
+    const fixture = createDirect(h => {
+      h.maxReadonly.set(true)
+      h.value.set({ minimum: 1, maximum: 9 })
+    })
+    const [min, max] = inputsOf(fixture)
+    expect(min.readOnly).toBe(false)
+    expect(max.readOnly).toBe(true)
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).toBeNull()
+  })
+
+  it('reset button stays visible when neither side is readonly and a value exists', () => {
+    const fixture = createDirect(h => h.value.set({ minimum: 1, maximum: 9 }))
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).not.toBeNull()
+  })
+
+  it('hides the reset button when the field is disabled', () => {
+    const fixture = createDirect(h => {
+      h.value.set({ minimum: 1, maximum: 9 })
+      h.disabled.set(true)
+    })
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset).toBeNull()
+  })
+
+  it('parses scientific notation as a finite number', () => {
+    const fixture = createDirect()
+    const [min] = inputsOf(fixture)
+    typeInto(min, '1e3')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toEqual({
+      minimum: 1000,
+      maximum: null
+    })
+  })
+
+  it('parses decimal input', () => {
+    const fixture = createDirect()
+    const [, max] = inputsOf(fixture)
+    typeInto(max, '3.14')
+    fixture.detectChanges()
+    expect(fixture.componentInstance.value()).toEqual({
+      minimum: null,
+      maximum: 3.14
+    })
+  })
+
+  it('honours custom minLabel / maxLabel / resetLabel overrides', () => {
+    const fixture = createDirect(h => {
+      h.value.set({ minimum: 1, maximum: 2 })
+      h.minLabel.set('Lower bound')
+      h.maxLabel.set('Upper bound')
+      h.resetLabel.set('Clear range')
+    })
+    const [min, max] = inputsOf(fixture)
+    expect(min.getAttribute('aria-label')).toBe('Lower bound')
+    expect(max.getAttribute('aria-label')).toBe('Upper bound')
+    const reset = (fixture.nativeElement as HTMLElement).querySelector(
+      '.field__reset'
+    )
+    expect(reset?.getAttribute('aria-label')).toBe('Clear range')
   })
 })
 
