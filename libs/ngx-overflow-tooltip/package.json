@@ -1,0 +1,43 @@
+{
+  "name": "ngx-overflow-tooltip",
+  "version": "0.1.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": ">=21.0.0 <22.0.0",
+    "@angular/core": ">=21.0.0 <22.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "author": {
+    "name": "Dino Klicek",
+    "email": "dineeek@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dineeek/ngx-libs-workspace"
+  },
+  "description": "Angular standalone directive that detects when an element's text is ellipsized — exposes a reactive isTruncated signal so a tooltip (Material or anything else) only shows when the content actually overflows.",
+  "keywords": [
+    "ng",
+    "angular",
+    "directive",
+    "ellipsis",
+    "truncate",
+    "truncation",
+    "overflow",
+    "tooltip",
+    "resize observer",
+    "mutation observer",
+    "library",
+    "ngx"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dineeek/ngx-libs-workspace/blob/main/libs/ngx-overflow-tooltip/README.md",
+  "bugs": {
+    "url": "https://github.com/dineeek/ngx-libs-workspace/issues"
+  }
+}
