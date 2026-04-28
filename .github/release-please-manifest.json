@@ -3,5 +3,5 @@
   "libs/ngx-numeric-range-form-field": "5.1.0",
   "libs/ngx-phone-form-field": "1.1.0",
   "libs/ngx-time-range-form-field": "0.1.1",
-  "libs/ngx-overflow-tooltip": "0.1.1"
+  "libs/ngx-overflow-tooltip": "1.0.0"
 }
