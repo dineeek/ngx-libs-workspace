@@ -6,6 +6,13 @@ are generated automatically by
 [release-please](https://github.com/googleapis/release-please) from
 [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [1.0.0](https://github.com/dineeek/ngx-libs-workspace/compare/ngx-pass-code@2.1.0...ngx-pass-code@1.0.0) (2026-04-28)
+
+
+### Miscellaneous Chores
+
+* **ngx-time-range-form-field:** release 1.0.0 ([69ac096](https://github.com/dineeek/ngx-libs-workspace/commit/69ac096fbd574f73a67dd4d8b29e17a716419e04))
+
 ## [2.1.0](https://github.com/dineeek/ngx-libs-workspace/compare/ngx-pass-code@2.0.0...ngx-pass-code@2.1.0) (2026-04-25)
 
 Quality pass — adoption-focused additions plus a few internal cleanups
