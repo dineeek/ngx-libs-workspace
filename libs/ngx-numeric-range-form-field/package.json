@@ -1,6 +1,6 @@
 {
   "name": "ngx-numeric-range-form-field",
-  "version": "5.1.0",
+  "version": "1.0.0",
   "sideEffects": false,
   "peerDependencies": {
     "@angular/common": ">=21.0.0 <22.0.0",
