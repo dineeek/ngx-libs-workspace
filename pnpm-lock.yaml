@@ -6,7 +6,10 @@ settings:
 
 overrides:
   ajv@>=7.0.0-alpha.0 <8.18.0: ^8.18.0
-  axios@>=1.0.0 <1.15.0: ^1.15.0
+  axios@>=1.0.0 <1.15.2: ^1.15.2
+  fast-uri@<3.1.2: ^3.1.2
+  hono@<4.12.18: ^4.12.18
+  ip-address@<10.1.1: ^10.1.1
   lodash@<4.18.0: ^4.18.0
   minimatch@<3.1.3: ^3.1.3
   minimatch@>=7.0.0 <7.4.8: ^7.4.8
@@ -3170,7 +3173,7 @@ packages:
       }
     engines: { node: '>=18.14.1' }
     peerDependencies:
-      hono: ^4
+      hono: ^4.12.18
 
   '@humanfs/core@0.19.2':
     resolution:
@@ -7026,10 +7029,10 @@ packages:
         integrity: sha512-lHe62zvbTB5eEABUVi/AwVh0ZKY9rMMDhmm+eeyuuUQbQ3+J+fONVQOZyj+DdrvD4BY33uYniyRJ4UJIaSKAfw==
       }
 
-  axios@1.15.0:
+  axios@1.16.0:
     resolution:
       {
-        integrity: sha512-wWyJDlAatxk30ZJer+GeCWS209sA42X+N5jU2jy6oHTp7ufw8uzUTVFBX9+wTfAlhiJXGS0Bq7X6efruWjuK9Q==
+        integrity: sha512-6hp5CwvTPlN2A31g5dxnwAX0orzM7pmCRDLnZSX772mv8WDqICwFjowHuPs04Mc8deIld1+ejhtaMn5vp6b+1w==
       }
 
   axobject-query@4.1.0:
@@ -9149,10 +9152,10 @@ packages:
         integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
       }
 
-  fast-uri@3.1.0:
+  fast-uri@3.1.2:
     resolution:
       {
-        integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==
+        integrity: sha512-rVjf7ArG3LTk+FS6Yw81V1DLuZl1bRbNrev6Tmd/9RaroeeRRJhAt7jg/6YFxbvAQXUCavSoZhPPj6oOx+5KjQ==
       }
 
   faye-websocket@0.11.4:
@@ -9712,10 +9715,10 @@ packages:
       }
     engines: { node: '>=0.10.0' }
 
-  hono@4.12.14:
+  hono@4.12.18:
     resolution:
       {
-        integrity: sha512-am5zfg3yu6sqn5yjKBNqhnTX7Cv+m00ox+7jbaKkrLMRJ4rAdldd1xPd/JzbBWspqaQv6RSTrgFN95EsfhC+7w==
+        integrity: sha512-RWzP96k/yv0PQfyXnWjs6zot20TqfpfsNXhOnev8d1InAxubW93L11/oNUc3tQqn2G0bSdAOBpX+2uDFHV7kdQ==
       }
     engines: { node: '>=16.9.0' }
 
@@ -10070,10 +10073,10 @@ packages:
         integrity: sha512-dbR5bdhi7TWDoCye9cByZqeg/gAfamm8Vu3G1KZOTYkOif8WkuM8CD0oeDPtZYMzT5YH76JAFB7bkmyY9OJi2A==
       }
 
-  ip-address@10.1.0:
+  ip-address@10.2.0:
     resolution:
       {
-        integrity: sha512-XXADHxXmvT9+CRxhXg56LJovE+bmWnEWB78LB83VZTprKTmaC5QfruXocxzTZ2Kl0DNwKuBdlIhjL8LeY8Sf8Q==
+        integrity: sha512-/+S6j4E9AHvW9SWMSEY9Xfy66O5PWvVEJ08O0y5JGyEKQpojb0K0GKpz/v5HJ/G0vi3D2sjGK78119oXZeE0qA==
       }
     engines: { node: '>= 12' }
 
@@ -17805,9 +17808,9 @@ snapshots:
   '@harperfast/extended-iterable@1.0.3':
     optional: true
 
-  '@hono/node-server@1.19.14(hono@4.12.14)':
+  '@hono/node-server@1.19.14(hono@4.12.18)':
     dependencies:
-      hono: 4.12.14
+      hono: 4.12.18
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -18350,7 +18353,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.26.0(zod@4.3.6)':
     dependencies:
-      '@hono/node-server': 1.19.14(hono@4.12.14)
+      '@hono/node-server': 1.19.14(hono@4.12.18)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -18360,7 +18363,7 @@ snapshots:
       eventsource-parser: 3.0.7
       express: 5.2.1
       express-rate-limit: 8.3.2(express@5.2.1)
-      hono: 4.12.14
+      hono: 4.12.18
       jose: 6.2.2
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -20557,14 +20560,14 @@ snapshots:
   ajv@8.18.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.0
+      fast-uri: 3.1.2
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.0
+      fast-uri: 3.1.2
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -20697,7 +20700,7 @@ snapshots:
 
   aws4@1.13.2: {}
 
-  axios@1.15.0:
+  axios@1.16.0:
     dependencies:
       follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.5
@@ -22062,7 +22065,7 @@ snapshots:
   express-rate-limit@8.3.2(express@5.2.1):
     dependencies:
       express: 5.2.1
-      ip-address: 10.1.0
+      ip-address: 10.2.0
 
   express@4.22.1:
     dependencies:
@@ -22155,7 +22158,7 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fast-uri@3.1.0: {}
+  fast-uri@3.1.2: {}
 
   faye-websocket@0.11.4:
     dependencies:
@@ -22513,7 +22516,7 @@ snapshots:
     dependencies:
       parse-passwd: 1.0.0
 
-  hono@4.12.14: {}
+  hono@4.12.18: {}
 
   hosted-git-info@9.0.2:
     dependencies:
@@ -22741,7 +22744,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  ip-address@10.1.0: {}
+  ip-address@10.2.0: {}
 
   ipaddr.js@1.9.1: {}
 
@@ -24026,7 +24029,7 @@ snapshots:
 
   nx-cloud@19.1.3:
     dependencies:
-      axios: 1.15.0
+      axios: 1.16.0
       chalk: 4.1.2
       dotenv: 10.0.0
       fs-extra: 11.3.4
@@ -24047,7 +24050,7 @@ snapshots:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.2
       '@zkochan/js-yaml': 0.0.7
-      axios: 1.15.0
+      axios: 1.16.0
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
       cliui: 8.0.1
@@ -25586,7 +25589,7 @@ snapshots:
 
   socks@2.8.7:
     dependencies:
-      ip-address: 10.1.0
+      ip-address: 10.2.0
       smart-buffer: 4.2.0
 
   sonic-boom@3.8.1:
