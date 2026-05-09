@@ -101,7 +101,7 @@
     "ts-jest": "29.4.9",
     "ts-node": "10.9.2",
     "typescript": "5.9.3",
-    "typescript-eslint": "^8.40.0"
+    "typescript-eslint": "^8.59.2"
   },
   "lint-staged": {
     "**/*.{js,ts,html,css,scss,json,md,yml,yaml}": [
