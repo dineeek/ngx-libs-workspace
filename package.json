@@ -69,7 +69,7 @@
     "@nx/workspace": "22.7.1",
     "@schematics/angular": "21.2.9",
     "@swc-node/register": "~1.11.1",
-    "@swc/core": "~1.15.5",
+    "@swc/core": "~1.15.33",
     "@swc/helpers": "~0.5.18",
     "@types/jest": "30.0.0",
     "@types/node": "25.6.0",
