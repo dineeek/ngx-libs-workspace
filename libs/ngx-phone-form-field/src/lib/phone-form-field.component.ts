@@ -10,7 +10,7 @@ import {
   untracked,
   viewChild
 } from '@angular/core'
-import { FormValueControl, ValidationError } from '@angular/forms/signals'
+import type { FormValueControl, ValidationError } from '@angular/forms/signals'
 import {
   AsYouType,
   CountryCode,
