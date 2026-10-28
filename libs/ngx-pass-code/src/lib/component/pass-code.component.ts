@@ -10,7 +10,7 @@ import {
   signal,
   untracked
 } from '@angular/core'
-import { FormValueControl, ValidationError } from '@angular/forms/signals'
+import type { FormValueControl, ValidationError } from '@angular/forms/signals'
 
 import { AutofocusFirstInputDirective } from '../directives/autofocus-first-input.directive'
 import { FocusNextPreviousInputDirective } from '../directives/focus-next-previous-input.directive'
